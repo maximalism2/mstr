@@ -58,4 +58,35 @@ gulp.task('webpack', () => {
   })
 });
 
+gulp.task('webpack-dev-server', (cb) => {
+  let compiler = webpack(webpackConfig);
+
+  new webpackDevServer(compiler, (cb) => {
+    publicPath: config.output.publicPath,
+    contentBase: __dirname + '/public',
+    hot: true,
+    historyApiFallback: true,
+    stats: {
+      colors: true
+    },
+    proxy:
+      '/': {
+        secure: false,
+        bypass: function(req, res, proxyOptions) {
+          if (req.headers.accept.indexOf('html') !== -1) {
+            console.log('Skipping proxy for browser request.');
+            return '/html/home.html';
+          }
+        }
+      }
+    }
+  }).listen(8000, 'localhost', function (err, result) {
+    if (err) {
+      console.log(err);
+    }
+
+    console.log('Listening at localhost:8000');
+  });
+});
+
 gulp.task('default', ['build:css', 'webpack'])
