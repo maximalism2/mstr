@@ -1,15 +1,16 @@
 var path = require('path');
 var webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   context: __dirname,
   // devtool: 'source-map',
   devtool: 'eval',
   entry: {
-    home:['webpack-dev-server/client?http://localhost:8000',
+    app:['webpack-dev-server/client?http://localhost:8000',
     'webpack/hot/only-dev-server',
-    './app/home'],
+    './clients_source/'],
   },
   output: {
     path: path.join(__dirname, '/public/js'),
@@ -24,6 +25,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new ExtractTextPlugin('../styles/[name].css', { allChunks: true }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
@@ -37,12 +39,9 @@ module.exports = {
       include: path.join(__dirname, './app')
     }, {
         test: /(\.scss|\.css)$/,
-        loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass?sourceMap!toolbox')
-    }
-    ]
-  },
-  toolbox: {
-    theme: path.join(__dirname, 'app/toolbox-theme.scss')
+        loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&postcss!sass?sourceMap'),
+        include: path.join(__dirname, './public/styles')
+    }]
   },
   postcss: [autoprefixer]
 };
