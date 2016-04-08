@@ -4,10 +4,27 @@
   margin-top: 30px;
 }
 
-.center {
+.main-title {
   text-align: center;
+
+  small {
+    font-size: $size-5;
+    color: $grey-light;
+  }
 }
 
 .npm-code {
   font-size: 2rem;
+}
+
+.login-input {
+  margin: $size-6 0;
+}
+
+.sign-up-link {
+  background: transparent;
+}
+
+.footer {
+  text-align: center;
 }
