@@ -61,21 +61,21 @@ gulp.task('webpack', () => {
 gulp.task('webpack-dev-server', (cb) => {
   let compiler = webpack(webpackConfig);
 
-  new webpackDevServer(compiler, (cb) => {
-    publicPath: config.output.publicPath,
+  new webpackDevServer(compiler, {
+    publicPath: webpackConfig.output.publicPath,
     contentBase: __dirname + '/public',
     hot: true,
     historyApiFallback: true,
     stats: {
       colors: true
     },
-    proxy:
+    proxy: {
       '/': {
         secure: false,
         bypass: function(req, res, proxyOptions) {
           if (req.headers.accept.indexOf('html') !== -1) {
             console.log('Skipping proxy for browser request.');
-            return '/html/home.html';
+            return '/index.html';
           }
         }
       }

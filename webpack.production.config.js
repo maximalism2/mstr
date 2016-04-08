@@ -29,7 +29,7 @@ var config = {
     }]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin("commons.js"),
+    new webpack.optimize.CommonsChunkPlugin("common.js"),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     })

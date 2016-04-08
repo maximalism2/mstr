@@ -8,7 +8,7 @@ module.exports = {
   // devtool: 'source-map',
   devtool: 'eval',
   entry: {
-    app:['webpack-dev-server/client?http://localhost:8000',
+    app: ['webpack-dev-server/client?http://localhost:8000',
     'webpack/hot/only-dev-server',
     './clients_source/'],
   },
@@ -35,13 +35,12 @@ module.exports = {
   module: {
     loaders: [{
       test: /(\.js|\.jsx)$/,
-      loaders: ['react-hot', 'babel'],
-      include: path.join(__dirname, './app')
+      loaders: ['react-hot', 'babel?presets[]=es2015&presets[]=react'],
+      include: path.join(__dirname, 'clients_source')
     }, {
         test: /(\.scss|\.css)$/,
         loader: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&postcss!sass?sourceMap'),
         include: path.join(__dirname, './public/styles')
     }]
-  },
-  postcss: [autoprefixer]
+  }
 };
