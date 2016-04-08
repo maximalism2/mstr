@@ -4,7 +4,15 @@ import { render } from 'react-dom';
 class App extends Component {
   render() {
     return (
-      <h1 className="title is-1">Hello world!</h1>
+      <div className="center main-container">
+        <h1 className="title is-1">Need to run</h1>
+        <code className="npm-code">
+          npm i --save
+            history
+            babel-polyfill
+            moment
+        </code>
+      </div>
     );
   }
 }
