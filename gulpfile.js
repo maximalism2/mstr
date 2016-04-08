@@ -1,12 +1,19 @@
 'use strict';
 
 const gulp = require('gulp');
+const gutil = require('gulp-util');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const minifyCss = require('gulp-minify-css');
 const rename = require('gulp-rename');
 const scsslint = require('gulp-scss-lint');
+const webpack = require('webpack');
+const webpackDevServer = require('webpack-dev-server');
+
+const webpackConfig = require('./webpack.config');
+const webpackProductionConfig = require('./webpack.production.config');
+
 
 const lintScss = [
   './public/styles/scss/site/*.scss',
@@ -42,4 +49,13 @@ gulp.task('sass:watch', () => {
   gulp.watch('./public/styles/**/*.scss', ['build:css']);
 });
 
-gulp.task('default', ['build:css'])
+gulp.task('webpack', () => {
+  webpack(webpackProductionConfig, (err, stats) => {
+    if (err) throw new gutil.PluginError('webpack', err);
+    gutil.log("[webpack]", stats.toString({
+      colors: true
+    }));
+  })
+});
+
+gulp.task('default', ['build:css', 'webpack'])
