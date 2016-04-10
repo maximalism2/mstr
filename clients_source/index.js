@@ -1,11 +1,46 @@
 import React, { Component } from 'react';
+import 'babel-polyfill';
 import { render } from 'react-dom';
 
+function fetchB() {
+  let url = `/getpricesnumber`;
+  const response = fetch(url, { method: 'post' });
+
+  return response
+    .then(data => {
+      if (data.ok) {
+        const details = data.json();
+        return details;
+      }
+      else {
+        return null;
+      }
+    });
+}
+
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      priceCount: -1
+    }
+  }
+
+  componentDidMount() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('POST', '/getpricesnumber', false);
+    xmlhttp.send(null);
+    if(xmlhttp.status == 200) {
+      var data = JSON.parse(xmlhttp.responseText);
+      console.log(data);
+    }
+  }
+
   render() {
     return (
       <div className="container main-container">
         <h1 className="title is-3 main-title">Maestro <small>(Alpha)</small></h1>
+        <h1 className="title is-3 main-title">Price number: {this.state.priceCount}</h1>
         <div className="column is-4 is-offset-4 form-wrapper">
           <p className="login-input">
             <input
