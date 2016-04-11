@@ -22,41 +22,50 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      priceCount: -1
+      data: {}
     }
+
+    this.sendReq = this.sendReq.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
   }
 
-  componentDidMount() {
+  sendReq() {
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('POST', '/getpricesnumber', false);
+    console.log(this);
+    let { path } = this.state;
+    console.log('path', path);
+    xmlhttp.open('POST', `http://localhost:3000/${path}`, false);
     xmlhttp.send(null);
     if(xmlhttp.status == 200) {
       var data = JSON.parse(xmlhttp.responseText);
-      console.log(data);
+      this.setState({ data });
     }
+  }
+
+  changeHandler(e) {
+    this.setState({
+      path: e.target.value
+    })
   }
 
   render() {
     return (
       <div className="container main-container">
-        <h1 className="title is-3 main-title">Maestro <small>(Alpha)</small></h1>
-        <h1 className="title is-3 main-title">Price number: {this.state.priceCount}</h1>
+        {/*}<h1 className="title is-3 main-title">Maestro <small>(Alpha)</small></h1>*/}
+        <h1 className="title is-3 main-title">Data: {this.state.data.url}</h1>
         <div className="column is-4 is-offset-4 form-wrapper">
           <p className="login-input">
             <input
               className="input"
+              onChange={e => this.changeHandler(e)}
               type="text"
               placeholder="email or username"
             />
           </p>
-          <p className="login-input">
-            <input
-              className="input"
-              type="password"
-              placeholder="password"
-            />
-          </p>
-          <button className="button is-primary">Login</button>
+          <button
+            className="button is-primary"
+            onClick={() => this.sendReq()}
+          >Send</button>
           {" "}
           <a className="button is-link sign-up-link">Sign up</a>
         </div>
