@@ -4,12 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var pathToRegexp = require('path-to-regexp');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var price = require('./routes/price');
 
-var initdb = require('./db/initdb');
-var models = initdb();
+// var initdb = require('./db/initdb');
+// var models = initdb();
 
 var app = express();
 
@@ -34,17 +36,7 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 
 app.use('/', routes);
 app.use('/users', users);
-
-app.post('/getpricesnumber', (req, res) => {
-  console.log('I have a request');
-  var Price = models.Price;
-  Price.findOne()
-    .then(item => {
-      console.log('number: ', item);
-      res.writeHead(200, { 'content-type': 'text/plain'});
-      res.end( JSON.stringify({ data: item }));
-    });
-})
+app.use('/price', price);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
