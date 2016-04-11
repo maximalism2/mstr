@@ -17,8 +17,7 @@ function create(instance) {
     // If parameters are not passed
     throw new Error('Method expects a parameter, but no one was passed');
     return false;
-  }
-  if (!(instance instanceof Object)) {
+  } else if (!(instance instanceof Object)) {
     // If instance is not object
     throw new Error('Instance must be an Object');
     return false;
