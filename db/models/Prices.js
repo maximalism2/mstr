@@ -64,6 +64,12 @@ function create(instance) {
   return copy.save();
 }
 
+function read(id) {
+  if (id === undefined) {
+
+  }
+}
+
 const Interface = {
   create: create
 };
