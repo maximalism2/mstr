@@ -8,7 +8,6 @@ const template = {
   cost: Number,                    // How much cost this product
   priceOrigin: Number,             // From which catalog this product is
   unitOfMeasurment: String,        // Unit of measurment
-  productId: Schema.Types.ObjectId // Id of specific product
 };
 
 module.exports = template;
