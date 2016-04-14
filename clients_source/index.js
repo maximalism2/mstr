@@ -1,22 +1,7 @@
 import React, { Component } from 'react';
-import 'babel-polyfill';
 import { render } from 'react-dom';
-
-function fetchB() {
-  let url = `/getpricesnumber`;
-  const response = fetch(url, { method: 'post' });
-
-  return response
-    .then(data => {
-      if (data.ok) {
-        const details = data.json();
-        return details;
-      }
-      else {
-        return null;
-      }
-    });
-}
+import origin from './common/origin';
+import 'babel-polyfill';
 
 class App extends Component {
   constructor() {
@@ -31,13 +16,16 @@ class App extends Component {
 
   sendReq() {
     var xmlhttp = new XMLHttpRequest();
-    console.log(this);
     let { path } = this.state;
-    console.log('path', path);
-    xmlhttp.open('POST', `http://localhost:3000/${path}`, false);
-    xmlhttp.send(null);
-    if(xmlhttp.status == 200) {
+    console.log('path', 'http://' + origin + '/' + path);
+    xmlhttp.open('POST', `http://${origin}/${path}`, false);
+    xmlhttp.send(JSON.stringify({
+      id: "32434",
+      query: {}
+    }));
+    if(xmlhttp.status >= 200 && xmlhttp.status < 300) {
       var data = JSON.parse(xmlhttp.responseText);
+      console.log(data)
       this.setState({ data });
     }
   }
