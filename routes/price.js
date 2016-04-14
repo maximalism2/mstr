@@ -8,7 +8,8 @@ router.post('/', function(req, res, next) {
   var body = "";
   req.on('error', function(err) {
     console.error(err);
-  }).on('data', function(chunk) {
+  }).on('data', function(chunk, we, fe) {
+    console.log('is geting', JSON.parse(chunk.toString()));
     body += chunk;
   }).on('end', function() {
     res.end();
