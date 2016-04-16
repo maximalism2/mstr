@@ -94,7 +94,7 @@ function create(instance) {
   var copy = new Price(instance);
 
   // Save it async and return promise of result
-  return copy.save();
+  return copy.save().then(data => data);
 }
 
 function readById(id) {
