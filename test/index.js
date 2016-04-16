@@ -1,11 +1,17 @@
 var assert = require('assert');
 
+var Price = require('../db/models/Prices');
+
 // describe('Database', function() {
 //   describe('Price', function() {
 //     describe('.create()', function() {
-//       it('should return false when passed {} (empty object)', function() {
-//         assert.equal(false, )
-//       });
+//       try {
+//         Price.create({});
+//       } catch(e) {
+//         it('should return false when passed {} (empty object)', function() {
+//           assert.equal(false, e.)
+//         });
+//       }
 //     });
 //   });
 // });
