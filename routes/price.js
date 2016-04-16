@@ -1,18 +1,24 @@
+'use strict';
 var express = require('express');
 var router = express.Router();
 var Price = require('../db/models/Prices');
 
-router.post('/', function(req, res, next) {
-  console.log(req, req.body);
+router.post('/', (req, res, next) => {
+  req.on('error', err => { console.error(err); });
 
-  var body = "";
-  req.on('error', function(err) {
-    console.error(err);
-  }).on('data', function(chunk, we, fe) {
-    console.log('is geting', JSON.parse(chunk.toString()));
-    body += chunk;
-  }).on('end', function() {
-    res.end();
+  req.on('data', (chunk, we, fe) => {
+    let template = JSON.parse(chunk.toString());
+    console.log('TEMPLATE => ', template);
+    let result = Price.create(template);
+    if (result.error) {
+      res.json(JSON.stringify(result));
+      res.end();
+    } else {
+      result.then(createdPrice => {
+        res.json(JSON.stringify(createdPrice));
+        res.end();
+      })
+    }
   });
 });
 
