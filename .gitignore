@@ -36,3 +36,4 @@ node_modules
 # Bundled css & js
 public/styles/css/
 public/js
+public/components/
