@@ -35,7 +35,6 @@
  *
  *  TODO
  *    - 'findWhere' method, which will expect an object with vanilla mongodb query
- *    - 'createOf' method, which will expect an array of objects of Products (multiple creating)
  */
 'use strict';
 
@@ -401,6 +400,7 @@ function remove(id) {
 
 const Interface = {
   create: create,
+  createOf: createOf,
   readById: readById,
   update: update,
   read: read,
