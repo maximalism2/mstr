@@ -25,7 +25,8 @@
  *    returned promise with result;
  *
  *  TODO
- *    - findWhere method, which will expect an object with vanilla mongodb query
+ *    - 'readWhere' method, which will expect an object with vanilla mongodb query
+ *    - 'createOf' method, which will expect an array of objects of Prices (multiple creating)
  */
 'use strict';
 
