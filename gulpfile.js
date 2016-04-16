@@ -74,8 +74,17 @@ gulp.task('webpack-dev-server', (cb) => {
         secure: false,
         bypass: function(req, res, proxyOptions) {
           if (req.headers.accept.indexOf('html') !== -1) {
-            console.log('Skipping proxy for browser request.');
+            console.log('Skipping proxy for browser request. /*');
             return '/index.html';
+          }
+        }
+      },
+      '/home*': {
+        secure: false,
+        bypass: function(req, res, proxyOptions) {
+          if (req.headers.accept.indexOf('html') !== -1) {
+            console.log('Skipping proxy for browser request. /home*');
+            return '/home.html';
           }
         }
       }
