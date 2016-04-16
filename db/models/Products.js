@@ -3,10 +3,19 @@
  * The interface includes methods:
  *
  * - 'create', which expects an object consists of:
- *      name - String. Product name. Is required.
- *      discount - Number. Value of discount for created Product. Option.
- *      products - Array of ObjectId. Array which consists of product's id. Option.
+ *      name - String. Product name. Required.
+ *      cost - Number. Value of cost of Product. Required.
+ *      priceOrigin - String (ObjectId) of Price which include this product. Required.
+ *      unitOfMeasurment - String. Value of unit of measurment of product. Required.
  *    returned promise with result if success, and false if creating fail;
+ *
+ * - 'createOf', which expects an array of objects, objects must consist of:
+ *      name - String. Product name. Required.
+ *      cost - Number. Value of cost of Product. Required.
+ *      priceOrigin - String (ObjectId) of Price which include this product. Required.
+ *      unitOfMeasurment - String. Value of unit of measurment of product. Required.
+ *    !! IMPORTANT
+ *    createOf returns Object as { ok: Boolean }
  *
  * - 'read', which does not expect any parameters.
  *    returned promise with result;
@@ -25,7 +34,8 @@
  *    returned promise with result;
  *
  *  TODO
- *    - findWhere method, which will expect an object with vanilla mongodb query
+ *    - 'findWhere' method, which will expect an object with vanilla mongodb query
+ *    - 'createOf' method, which will expect an array of objects of Products (multiple creating)
  */
 'use strict';
 
@@ -100,7 +110,7 @@ function create(instance) {
     let message = '\'instance.priceOrigin\' must be a string';
     throw new Error(message);
     return { error: message };
-  } else if (instante.priceOrigin.length === 0) {
+  } else if (instance.priceOrigin.length === 0) {
     // If priceOrigin is empty string
     let message = '\'instance.priceOrigin\' cannot be empty string';
     throw new Error(message);
@@ -117,7 +127,7 @@ function create(instance) {
     let message = '\'instance.unitOfMeasurment\' must be a string';
     throw new Error(message);
     return { error: message };
-  } else if (instante.unitOfMeasurment.length === 0) {
+  } else if (instance.unitOfMeasurment.length === 0) {
     // If unitOfMeasurment is empty string
     let message = '\'instance.unitOfMeasurment\' cannot be empty string';
     throw new Error(message);
@@ -129,6 +139,127 @@ function create(instance) {
 
   // Save it async and return promise of result
   return copy.save();
+}
+
+function createOf(pluralOfProducts) {
+  if (pluralOfProducts === undefined) {
+    // If parameter is not passed
+    let message = 'Method \'createOf\' expects a parameter, but no one was passed';
+    throw new Error(message);
+    return { error: message }
+  } else if (!Array.isArray(pluralOfProducts)) {
+    // If pluralOfProducts is not array
+    let message = 'Method \'createOf\' expects an array';
+    throw new Error(message);
+    return { error: message }
+  } else if (pluralOfProducts.length === 0) {
+    // If there is passed an empty array
+    let message = 'Passed array cannot be empty';
+    throw new Error(message);
+    return { error: message };
+  }
+
+  // Checking instance in array
+
+  // TODO make how to find and catch an error in array
+  let checkingResult = pluralOfProducts.forEach((instance, index) => {
+    if (!(instance instanceof Object)) {
+      // If instance is not object
+      let message = 'Method expects an array of objects';
+      throw new Error(message);
+      return { error: message };
+    } else if (Object.keys(instance).length === 0) {
+      // If instance object has no propertys
+      let message = `'argument[${index}]' is the empty object`;
+      throw new Error(message);
+      return { error: message };
+    } else if (!instance.hasOwnProperty('name')) {
+      // If instance has no property name
+      let message = `'argument[${index}] must have the 'name' property`;
+      throw new Error(message);
+      return { error: message };
+    } else if (typeof instance.name !== 'string') {
+      // If name is not a string
+      let message = `'argument[${index}].name' must be a string`;
+      throw new Error(message);
+      return { error: message };
+    } else if (instance.name.length === 0) {
+      // If instance.name is empty string
+      let message = `'argument[${index}].name' cannot be ""`;
+      throw new Error(message);
+      return { error: message };
+    } else if (instance.name.length > 300) {
+      // If instance.name is longer than 300 characters
+      let message = `'argument[${index}].name' cannot be longer than 300 characters`;
+      throw new Error(message);
+      return { error: message };
+    } else if (!instance.hasOwnProperty('cost')) {
+      // If instance has no property cost
+      let message = `'argument[${index}]' must have the 'cost' property`;
+      throw new Error(message);
+      return { error: message };
+    } else if(!instance.cost instanceof Number) {
+      // If instance.cost is not number
+      let message = `'argument[' + index + '].cost' must be a number`;
+      throw new Error(message);
+      return { error: message };
+    } else if (instance.cost < 0) {
+      // If cost is less then 0
+      let message = `'argument[${index}].cost' must be bigger or equal 0`;
+      throw new Error(message);
+      return { error: message };
+    } else if (!instance.hasOwnProperty('priceOrigin')) {
+      // If instance has no property priceOrigin (link to parents price)
+      let message = `'argument[${index}]' must have the 'priceOrigin' property`;
+      throw new Error(message);
+      return { error: message };
+    } else if (!instance.priceOrigin instanceof String) {
+      // If priceOrigin is not a string
+      let message = `'argument[${index}].priceOrigin' must be a string`;
+      throw new Error(message);
+      return { error: message };
+    } else if (instance.priceOrigin.length === 0) {
+      // If priceOrigin is empty string
+      let message = `'argument[${index}].priceOrigin' cannot be empty string`;
+      throw new Error(message);
+      return { error: message };
+    } else if (!instance.hasOwnProperty('unitOfMeasurment')) {
+      // If instance has no property unitOfMeasurment
+      let message = `'argument[${index}]' must have the 'unitOfMeasurment' property`;
+      throw new Error(message);
+      return { error: message };
+    } else if (!instance.unitOfMeasurment instanceof String) {
+      // If unitOfMeasurment is not a string
+      let message = `'argument[${index}].unitOfMeasurment' must be a string`;
+      throw new Error(message);
+      return { error: message };
+    } else if (instance.unitOfMeasurment.length === 0) {
+      // If unitOfMeasurment is empty string
+      let message = `'argument[${index}].unitOfMeasurment' cannot be empty string`;
+      throw new Error(message);
+      return { error: message };
+    }
+  });
+
+  if (checkingResult.error) {
+    return checkingResult;
+  }
+
+  // Save instances in array
+  let result = {
+    ok: true
+  };
+  pluralOfProducts.forEach(instance => {
+    let copy = new Product(instance);
+    copy.save();
+
+    /* TODO check .getLastErrorObj method in Mongoose */
+    if (!Product.getLastErrorObj().ok) {
+      result.ok = false;
+    }
+  });
+
+  return result;
 }
 
 function readById(id) {
@@ -184,7 +315,10 @@ function update(id, query) {
     let message = '\'query\' cannot be empty object';
     throw new Error(message);
     return { error: message };
-  } else if (Object.keys(query).length > 0) {
+  }
+
+  // Checking query object
+  if (Object.keys(query).length > 0) {
     // If query consists some field, but they are not specified in Product model
     let message = "";
     let notExistingField = false;
@@ -198,7 +332,8 @@ function update(id, query) {
     if (notExistingField) {
       return { error: message };
     }
-  } else if (query.priceOrigin) {
+  }
+  if (query.priceOrigin) {
     // If expected priceOrigin in query throw error, we cannot change origin
     let message = 'Cannot change priceOrigin in any product';
     throw new Error(message);
@@ -208,7 +343,7 @@ function update(id, query) {
     let message = '\'qeury.name\' must be a string';
     throw new Error(message);
     return { error: message };
-  } else if (query.name.length === 0) {
+  } else if (query.name && query.name.length === 0) {
     // If query.name is an empty string
     let message = '\'query.name\' cannot be empty string';
     throw new Error(message);
@@ -223,7 +358,7 @@ function update(id, query) {
     let message = '\'qeury.unitOfMeasurment\' must be a string';
     throw new Error(message);
     return { error: message };
-  } else if (query.unitOfMeasurment.length === 0) {
+  } else if (query.unitOfMeasurment && query.unitOfMeasurment.length === 0) {
     // If query.unitOfMeasurment is an empty string
     let message = '\'query.unitOfMeasurment\' cannot be empty string';
     throw new Error(message);
