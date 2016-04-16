@@ -20,8 +20,8 @@ class App extends Component {
     console.log('path', 'http://' + origin + '/' + path);
     xmlhttp.open('POST', `http://${origin}/${path}`, false);
     xmlhttp.send(JSON.stringify({
-      id: "32434",
-      query: {}
+      name: 'Price from web',
+      discount: 33
     }));
     if(xmlhttp.status >= 200 && xmlhttp.status < 300) {
       var data = JSON.parse(xmlhttp.responseText);
