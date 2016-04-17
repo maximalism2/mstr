@@ -405,6 +405,7 @@ const Interface = {
   create: create,
   createOf: createOf,
   readById: readById,
+  readWhere: readWhere,
   update: update,
   read: read,
   remove: remove
