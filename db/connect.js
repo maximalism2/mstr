@@ -2,6 +2,7 @@
  * Module exports function, which returns connection
  * to app's database;
  */
+'use scrict';
 
 var mongoose = require('mongoose');
 const origin = 'localhost';

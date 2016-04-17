@@ -2,6 +2,7 @@
  * Module exports function, which return database's
  * models prepared to using;
  */
+'use strict';
 
 const mongoose = require('mongoose');
 const origin = 'localhost';
