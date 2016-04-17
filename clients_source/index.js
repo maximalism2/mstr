@@ -10,21 +10,24 @@ import 'babel-polyfill';
 import configureStore from './store/'
 
 const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store)
+const history = syncHistoryWithStore(browserHistory, store);
 
 var routes = {
     childRoutes: [{
       path: '/',
       component: AppContainer,
-      getChildRoutes(location, callback) {
-        console.log('require', require('./routes/prices'));
-        require.ensure([], require => {
-          callback(null, [
-            require('./routes/prices'),
-            // And so one
-          ])
-        });
-      }
+      // Temp
+      childRoutes: [
+        require('./routes/prices/')
+      ]
+      // getChildRoutes(location, callback) {
+      //   require.ensure([], function(require) {
+      //     callback(null, [
+      //       require('./routes/prices'),
+      //       // And so one
+      //     ])
+      //   });
+      // }
     },]
 }
 

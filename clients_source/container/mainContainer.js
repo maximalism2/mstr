@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 class AppContainer extends Component {
@@ -10,12 +11,12 @@ class AppContainer extends Component {
     let { children, location } = this.props;
     let isRoot = location.pathname === '/';
     if (!children && isRoot) {
-      this.context.router.push('prices/')
+      // this.context.router.push('prices/')
     }
-    console.log(this)
   }
 
   render() {
+    console.log(this);
     return (
       <div className="app">
         <header className="header">
@@ -27,9 +28,9 @@ class AppContainer extends Component {
               <a className="header-tab is-active" href="#">
                 Каталоги
               </a>
-              <a className="header-tab" href="#">
+              <Link to="prices/" className="header-tab">
                 Розрахунки
-              </a>
+              </Link>
             </div>
 
             <span className="header-toggle">
@@ -62,6 +63,7 @@ AppContainer.propTypes = {
 function select(state) {
   return {
     routing: state.routing,
+    prices: state.prices
   }
 }
 
