@@ -34,8 +34,7 @@
  *    returned promise with result;
  *
  *  TODO
- *    - 'findWhere' method, which will expect an object with vanilla mongodb query
- *    write the docs for 'findWhere' method, add there chenking
+ *    write the docs for 'readWhere' method, add there chenking
  */
 'use strict';
 
