@@ -1,7 +1,22 @@
 @import '../../../node_modules/bulma/bulma.sass';
+$bg-color: #FCFCFF;
+
+html {
+  background: $bg-color;
+}
+
+.container {
+  max-width: 1200px !important;
+}
 
 .main-container {
   margin-top: 30px;
+}
+
+.app {
+  .header {
+    // background: #FbFcFF;
+  }
 }
 
 .main-title {
@@ -28,5 +43,27 @@
 .signing-controlls {
   .header-item:first-child {
     padding-right: 0;
+  }
+}
+
+.prices {
+  &.content {
+    padding:1rem 0;
+  }
+
+  .left-aside,
+  .right-asign {
+    // padding: 0;
+  }
+
+  .price-item {
+    width: 100%;
+    padding: .3rem .7rem;
+    margin-bottom: 1rem;
+    transition: .3s;
+
+    &:hover {
+      background: $bg-color;
+    }
   }
 }
