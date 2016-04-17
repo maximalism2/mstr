@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var CommonsChunkPlugin = require('common-chunk-plugin');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
