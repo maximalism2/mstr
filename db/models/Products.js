@@ -114,8 +114,6 @@ function create(instance) {
     let message = '\'instance.priceOrigin\' cannot be empty string';
     throw new Error(message);
     return { error: message };
-  }
-    return { error: message };
   } else if (!instance.hasOwnProperty('unitOfMeasurment')) {
     // If instance has no property unitOfMeasurment
     let message = 'Instance must have the \'unitOfMeasurment\' property';
