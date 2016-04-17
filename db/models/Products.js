@@ -35,6 +35,7 @@
  *
  *  TODO
  *    - 'findWhere' method, which will expect an object with vanilla mongodb query
+ *    write the docs for 'findWhere' method, add there chenking
  */
 'use strict';
 
@@ -285,6 +286,11 @@ function readById(id) {
 
 function read() {
   var result = Product.find();
+  return result;
+}
+
+function readWhere(query) {
+  var result = Product.find(query);
   return result;
 }
 
