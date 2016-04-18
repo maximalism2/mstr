@@ -1,6 +1,6 @@
 var assert = require('assert');
 
-var Price = require('../db/models/Prices');
+// var Price = require('../db/models/Prices');
 
 // describe('Database', function() {
 //   describe('Price', function() {
