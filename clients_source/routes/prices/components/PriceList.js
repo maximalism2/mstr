@@ -42,6 +42,14 @@ class PriceList extends Component {
         <div className="center column is-6">
           {this.renderList()}
         </div>
+        <div className="right-aside column is-3">
+          <div className="card">
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+          </div>
+        </div>
       </div>
     );
   }

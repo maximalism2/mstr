@@ -6,7 +6,7 @@ html {
 }
 
 .container {
-  max-width: 1200px !important;
+  // max-width: 1200px !important;
 }
 
 .main-container {
@@ -15,7 +15,7 @@ html {
 
 .app {
   .header {
-    // background: #FbFcFF;
+    background: darken($bg-color, 2%);
   }
 }
 
@@ -60,7 +60,8 @@ html {
     width: 100%;
     padding: .3rem .7rem;
     margin-bottom: 1rem;
-    transition: .3s;
+    transition: .15s;
+    cursor: pointer;
 
     &:hover {
       background: $bg-color;

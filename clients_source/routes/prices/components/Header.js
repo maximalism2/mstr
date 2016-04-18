@@ -1,13 +1,14 @@
 import React, { Component, PropTypes} from 'react';
+import { Link } from 'react-router';
 
 export default class Header extends Component {
   render() {
     return (
       <header className="columns">
         <div className="left-aside column is-3">
-          <a href="#" className="button is-primary is-medium ">
-          + Створити каталог
-          </a>
+          <Link to="/prices/new/" className="button is-primary is-medium">
+            + Створити каталог
+          </Link>
         </div>
         <div className="center column is-6">
           <input type="text" className="input is-medium" placeholder="Пошук..." />

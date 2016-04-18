@@ -20,21 +20,29 @@ class PricesContainer extends Component {
   }
 
   render() {
-    let { prices } = this.props;
+    let { prices, location, children } = this.props;
     let actionsForComponents = {
       fetchPriceById: this.fetchPriceById
     }
 
-    return (
-      <div className="container prices content">
-        <Header />
-        <PriceList
-          data={prices.data}
-          view={prices.view}
-          actions={actionsForComponents}
-        />
-      </div>
-    );
+    if (location.pathname === '/prices/' && children === null) {
+      return (
+        <div className="container prices content">
+          <Header />
+          <PriceList
+            data={prices.data}
+            view={prices.view}
+            actions={actionsForComponents}
+          />
+        </div>
+      );
+    } else if (location.pathname === '/prices/new/' && children) {
+      return (
+        <div className="container prices content">
+          {children}
+        </div>
+      );
+    }
   }
 }
 

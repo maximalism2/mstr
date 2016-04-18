@@ -8,7 +8,6 @@ export function fetchPrices() {
   return async dispatch => {
     let url = origin + '/price/'
     const response = await read(url);
-    console.log('response simple', response);
     if (response.ok) {
       let responseBody = await response.json();
       const data = JSON.parse(responseBody);
@@ -25,7 +24,6 @@ export function fetchPriceById(id) {
   return async dispatch => {
     let url = `${origin}/price/${id}/`;
     const response = await read(url);
-    console.log('response by id');
     if (response.ok) {
       console.log('data by id', JSON.parse(await response.json()));
     }

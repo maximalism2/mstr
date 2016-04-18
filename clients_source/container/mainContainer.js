@@ -16,7 +16,6 @@ class AppContainer extends Component {
   }
 
   render() {
-    console.log(this);
     return (
       <div className="app">
         <header className="header">
