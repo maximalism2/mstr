@@ -31,24 +31,8 @@ class PriceList extends Component {
   render() {
     return (
       <div className="columns">
-        <div className="left-aside column is-3">
-          <div className="card">
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-          </div>
-        </div>
-        <div className="center column is-6">
+        <div className="center column is-8 is-offset-2">
           {this.renderList()}
-        </div>
-        <div className="right-aside column is-3">
-          <div className="card">
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-          </div>
         </div>
       </div>
     );

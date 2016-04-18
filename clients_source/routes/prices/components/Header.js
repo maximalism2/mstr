@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 export default class Header extends Component {
   render() {
     return (
-      <header className="columns">
+      <header className="columns price-list-header">
         <div className="left-aside column is-3">
           <Link to="/prices/new/" className="button is-primary is-medium">
             + Створити каталог

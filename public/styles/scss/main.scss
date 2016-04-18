@@ -15,7 +15,21 @@ html {
 
 .app {
   .header {
-    background: darken($bg-color, 2%);
+    margin-top: 5px;
+    &::before {
+      content: '';
+      display: block;
+      height: 5px;
+      width: 100%;
+      position: absolute;
+      top: -5px;
+      background: #d9eaf9; /* Old browsers */
+      background: -moz-linear-gradient(left,  #d9eaf9 0%, #1fc8db 30%, #24E6AC 70%, #eaf7ff 100%); /* FF3.6-15 */
+      background: -webkit-linear-gradient(left,  #d9eaf9 0%,#1fc8db 30%,#24E6AC 70%,#eaf7ff 100%); /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to right,  #d9eaf9 0%,#1fc8db 30%,#24E6AC 70%,#eaf7ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9eaf9', endColorstr='#eaf7ff',GradientType=1 ); /* IE6-9 */
+    }
+
   }
 }
 
@@ -47,6 +61,10 @@ html {
 }
 
 .prices {
+  // .price-list-header {
+  //   background-color: $bg-color;
+  // }
+
   &.content {
     padding:1rem 0;
   }
