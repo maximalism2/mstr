@@ -2,7 +2,7 @@
 $bg-color: #FCFCFF;
 
 html {
-  background: $bg-color;
+  background: lighten($bg-color, 1%);
 }
 
 .container {
@@ -16,6 +16,7 @@ html {
 .app {
   .header {
     margin-top: 5px;
+
     &::before {
       content: '';
       display: block;
@@ -23,11 +24,10 @@ html {
       width: 100%;
       position: absolute;
       top: -5px;
-      background: #d9eaf9; /* Old browsers */
-      background: -moz-linear-gradient(left,  #d9eaf9 0%, #1fc8db 30%, #24E6AC 70%, #eaf7ff 100%); /* FF3.6-15 */
-      background: -webkit-linear-gradient(left,  #d9eaf9 0%,#1fc8db 30%,#24E6AC 70%,#eaf7ff 100%); /* Chrome10-25,Safari5.1-6 */
-      background: linear-gradient(to right,  #d9eaf9 0%,#1fc8db 30%,#24E6AC 70%,#eaf7ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9eaf9', endColorstr='#eaf7ff',GradientType=1 ); /* IE6-9 */
+      background: #d9eaf9;
+      background: -moz-linear-gradient(left,  #d9eaf9 0%, #1fc8db 30%, #24e6ac 70%, #eaf7ff 100%);
+      background: -webkit-linear-gradient(left,  #d9eaf9 0%,#1fc8db 30%,#24e6ac 70%,#eaf7ff 100%);
+      background: linear-gradient(to right,  #d9eaf9 0%,#1fc8db 30%,#24e6ac 70%,#eaf7ff 100%);
     }
 
   }
@@ -50,10 +50,6 @@ html {
   background: transparent;
 }
 
-.footer {
-  // text-align: center;
-}
-
 .signing-controlls {
   .header-item:first-child {
     padding-right: 0;
@@ -61,28 +57,54 @@ html {
 }
 
 .prices {
-  // .price-list-header {
-  //   background-color: $bg-color;
-  // }
+  .header-wrapper {
+    background-color: $bg-color;
+  }
+
+  .price-list-header {
+    max-width: 960px;
+    margin: auto;
+
+    .search-input-icon {
+      top: 12px;
+      right: 12px;
+      font-size: 19px;
+    }
+  }
 
   &.content {
-    padding:1rem 0;
+    padding: 0 0 1rem;
   }
 
-  .left-aside,
-  .right-asign {
-    // padding: 0;
+  .price-list-content {
+    width: 85%;
+    margin-top: 1rem;
+    box-shadow: none;
   }
+
+$trans-dur: .05s;
 
   .price-item {
     width: 100%;
-    padding: .3rem .7rem;
-    margin-bottom: 1rem;
-    transition: .15s;
-    cursor: pointer;
+    padding: .7rem .7rem;
+    margin: 0;
+    transition: $trans-dur;
+    border-bottom: 1px solid rgba(220, 220, 220, .8);
 
     &:hover {
-      background: $bg-color;
+      background: #fefefe;
+    }
+
+    .title.link {
+      display: inline-block;
+      margin-bottom: .7rem;
+      color: #1fc8db;
+      transition: $trans-dur;
+      cursor: pointer;
+
+      &:hover {
+        color: darken(#1fc8db, 5%);
+      }
     }
   }
 }
