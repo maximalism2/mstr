@@ -25,9 +25,13 @@ class PricesContainer extends Component {
       fetchPriceById: this.fetchPriceById
     }
 
-    if (location.pathname === '/prices/' && children === null) {
+    console.log('this in price container', this);
+
+
+    let pn = location.pathname;
+    if ((pn === '/prices/' || pn === 'prices/')  && children === null) {
       return (
-        <div className="container prices content">
+        <div className="prices content">
           <Header />
           <PriceList
             data={prices.data}
@@ -36,11 +40,17 @@ class PricesContainer extends Component {
           />
         </div>
       );
-    } else if (location.pathname === '/prices/new/' && children) {
+    } else if ((pn === '/prices/new/' || pn === 'prices/new/') && children) {
       return (
-        <div className="container prices content">
+        <div className="prices content">
           {children}
         </div>
+      );
+    } else {
+      return (
+        <p style={{textAlign: 'center'}}>
+          some error
+        </p>
       );
     }
   }

@@ -4,21 +4,36 @@ import { Link } from 'react-router';
 class PriceItem extends Component {
   render() {
     return (
-      // <Link to={`/`/*`${this.props._id}/`*/}>
-        <div className="card price-item">
-          <p
-            className="title link"
-            onClick={() => this.props.actions.fetchPriceById(this.props._id)}
-          >{this.props.name}</p>
+      <div className="price-item">
+        <p
+          className="title link"
+          onClick={() => this.props.actions.fetchPriceById(this.props._id)}
+        >
+        {
+          // <Link to={`/`/*`${this.props._id}/`*/}>
+        }
+          {this.props.name}
+        {
+          // </Link>
+        }
+        </p>
+        <p className="count">
+          {this.props.count} позицій
+        </p>
+        <div className="updated-at">
+          Оновлено: {this.props.updatedAt.toLocaleDateString()}
         </div>
-      // </Link>
+      </div>
     );
   }
 }
 
 PriceItem.propTypes = {
   name: PropTypes.string.isRequired,
-  _id: PropTypes.string.isRequired
+  _id: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+  actions: PropTypes.object.isRequired,
+  updatedAt: PropTypes.any.isRequired // Date object
 }
 
 export default PriceItem;

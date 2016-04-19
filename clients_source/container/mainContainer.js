@@ -11,7 +11,7 @@ class AppContainer extends Component {
     let { children, location } = this.props;
     let isRoot = location.pathname === '/';
     if (!children && isRoot) {
-      // this.context.router.push('prices/')
+      this.context.router.push('prices/')
     }
   }
 

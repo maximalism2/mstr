@@ -14,16 +14,22 @@ class PriceList extends Component {
       );
     } else {
       if (data) {
-        return data.map((item, index) => {
-          return (
-            <PriceItem
-              key={index}
-              name={item.name}
-              _id={item._id}
-              actions={actions}
-            />
-          );
-        });
+        return (
+          <div className="container price-list-content">
+            {data.map((item, index) => {
+              return (
+                <PriceItem
+                  key={index}
+                  name={item.name}
+                  _id={item._id}
+                  count={item.products.length}
+                  updatedAt={new Date(item.updatedAt)}
+                  actions={actions}
+                />
+              );
+            })}
+          </div>
+        )
       }
     }
   }
