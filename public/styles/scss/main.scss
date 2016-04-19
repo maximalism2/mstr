@@ -5,10 +5,6 @@ html {
   background: lighten($bg-color, 1%);
 }
 
-.container {
-  // max-width: 1200px !important;
-}
-
 .main-container {
   margin-top: 30px;
 }
@@ -34,8 +30,6 @@ html {
 }
 
 .main-title {
-  // text-align: center;
-
   small {
     font-size: $size-5;
     color: $grey-light;
@@ -65,6 +59,19 @@ html {
     max-width: 960px;
     margin: auto;
 
+    .left-aside {
+      padding-left: 0;
+    }
+
+    .center {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .control.has-icon .input:focus+.fa {
+      color: #1fc8db;
+    }
+
     .search-input-icon {
       top: 12px;
       right: 12px;
@@ -89,7 +96,12 @@ $trans-dur: .05s;
     padding: .7rem .7rem;
     margin: 0;
     transition: $trans-dur;
-    border-bottom: 1px solid rgba(220, 220, 220, .8);
+    border-bottom: 1px solid rgba(230, 230, 230, .8);
+    position: relative;
+
+    &:last-child {
+      border: 0;
+    }
 
     &:hover {
       background: #fefefe;
@@ -103,8 +115,18 @@ $trans-dur: .05s;
       cursor: pointer;
 
       &:hover {
-        color: darken(#1fc8db, 5%);
+        color: darken(#1fc8db, 10%);
       }
+    }
+
+    .count {
+      margin-bottom: 0;
+    }
+
+    .updated-at {
+      position: absolute;
+      top: 0.7rem;
+      right: 0.7rem;
     }
   }
 }
