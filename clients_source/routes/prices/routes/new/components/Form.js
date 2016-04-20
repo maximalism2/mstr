@@ -47,4 +47,9 @@ class Form extends Component {
   }
 }
 
+Form.propTypes = {
+  data: PropTypes.object.isRequired,
+  actions: PropTypes.objectOf(PropTypes.func).isRequired
+}
+
 export default Form;
