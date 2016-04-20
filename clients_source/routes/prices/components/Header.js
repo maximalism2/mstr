@@ -7,8 +7,9 @@ export default class Header extends Component {
       <div className="header-wrapper">
         <header className="columns price-list-header">
           <div className="left-aside column is-3">
-            <Link to="/prices/new/" className="button is-primary is-medium">
-            + Створити каталог
+            <Link to="/prices/new/" className="button is-primary create-new-button">
+            <i className="fa fa-plus-circle"></i>
+            Створити каталог
             </Link>
           </div>
           <div className="center column is-6">

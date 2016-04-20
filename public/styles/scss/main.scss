@@ -68,6 +68,14 @@ html {
       padding-right: 0;
     }
 
+    .create-new-button {
+      margin-top: 4px;
+      .fa {
+        font-size: 14px;
+        margin-right: 6px;
+      }
+    }
+
     .control.has-icon .input:focus+.fa {
       color: #1fc8db;
     }
@@ -127,6 +135,89 @@ $trans-dur: .05s;
       position: absolute;
       top: 0.7rem;
       right: 0.7rem;
+    }
+  }
+
+  .new-header {
+    padding: 10px;
+    padding-left: 0;
+
+    .button.is-primary {
+      margin: 0 2%;
+
+      .fa {
+        font-size: 14px;
+        margin-right: 6px;
+      }
+    }
+
+    .icon-link {
+      background: transparent;
+      text-decoration: none;
+
+      &:hover,
+      &:active {
+        background: rgba(230,230,230,.8);
+      }
+
+      .fa {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+.button.is-primary.is-medium {
+  .fa {
+    font-size: 18px;
+    margin-right: 6px;
+  }
+}
+
+.new-price-form {
+  padding: 1rem 0;
+
+  .title {
+    margin-bottom: 0;
+    text-align: center;
+    color: #999;
+  }
+
+  .content-container {
+    max-width: 700px;
+    margin: auto;
+  }
+
+  .title.product-form-title {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .columns.labels-row {
+    margin-bottom: 8px;
+  }
+
+  .input-row {
+    padding: 0 10px;
+
+    .input {
+      border-radius: 0;
+    }
+
+    .column {
+      &:first-child {
+        .input {
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+        }
+      }
+
+      &:last-child {
+        .input {
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
+      }
     }
   }
 }

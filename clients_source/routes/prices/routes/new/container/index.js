@@ -1,10 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Header, Form } from '../components';
 
 class NewPriceContainer extends Component {
   render() {
     return (
-      <h1 className="title">New price</h1>
+      <div>
+        <Header />
+        <Form />
+      </div>
     );
   }
 }
