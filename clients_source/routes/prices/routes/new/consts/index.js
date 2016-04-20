@@ -5,3 +5,5 @@ export const NEW_PRICE_LOADING = 'NEW_PRICE_LOADING';
 
 // To change row view
 export const MAKE_INPUT = 'MAKE_INPUT';
+
+/*  */

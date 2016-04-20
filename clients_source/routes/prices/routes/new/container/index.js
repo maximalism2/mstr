@@ -44,7 +44,8 @@ class NewPriceContainer extends Component {
           actions={actionsForComponents}
         />
         <Form
-          data={newPrice}
+          data={newPrice.data}
+          view={newPrice.view}
           actions={actionsForComponents}
         />
       </div>

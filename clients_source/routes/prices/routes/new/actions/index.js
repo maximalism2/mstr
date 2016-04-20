@@ -10,9 +10,10 @@ export function changeField(field) {
   }
 }
 
-export function addRow() {
+export function addRow(row) {
   return {
-    type: ADD_ROW
+    type: ADD_ROW,
+    row
   }
 }
 

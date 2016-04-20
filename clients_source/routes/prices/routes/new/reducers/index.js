@@ -21,13 +21,28 @@ function view(state = initialView, action) {
         loading: action.flag
       });
     }
+    default: {
+      return state;
+    }
   }
 }
 
 const initialData = {
   name: '',
   discount: Number(''),
-  products: []
+  products: [{
+    name: 'werw',
+    unitOfMesurment: 'm',
+    price: 23
+  },{
+    name: 'werw',
+    unitOfMesurment: 'm',
+    price: 23
+  },{
+    name: 'werw',
+    unitOfMesurment: 'm',
+    price: 23
+  },]
 };
 
 const initialProductModel = {
@@ -43,10 +58,7 @@ function data(state = initialData, action) {
     }
     case ADD_ROW: {
       let newProductsList = state.products;
-      const inserted = newProductsList[0]
-                     ? newProductsList[0]
-                     : initialProductModel;
-      newProductsList.unshift(inserted);
+      newProductsList.unshift(action.row);
       return Object.assign({}, state, {
         products: newProductsList
       });
