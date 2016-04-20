@@ -78,7 +78,7 @@ class Form extends Component {
   }
 
   render() {
-    let { data } = this.props;
+    let { data, view, actions } = this.props;
     let { products } = data;
     return (
       <div className="container new-price-form">
@@ -86,11 +86,21 @@ class Form extends Component {
         <div className="columns content-container">
           <div className="column is-9">
             <span className="label">Назва каталогу</span>
-            <input type="text" placeholder="Труби фірми Vaillant..." className="input price-name-input"/>
+            <input
+              type="text"
+              placeholder="Труби фірми Vaillant..."
+              className="input price-name-input"
+              onChange={e => actions.changeField({ name: e.target.value })}
+            />
           </div>
           <div className="column is-3">
             <span className="label">Знижка, %</span>
-            <input type="text" placeholder="0" className="input price-discount-input"/>
+            <input
+              type="text"
+              placeholder="0"
+              className="input price-discount-input"
+              onChange={e => actions.changeField({ discount: e.target.value })}
+            />
           </div>
         </div>
         {this.renderProducts()}

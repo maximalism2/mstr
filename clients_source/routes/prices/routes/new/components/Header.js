@@ -21,4 +21,8 @@ class Header extends Component {
   }
 }
 
+Header.propTypes = {
+  actions: PropTypes.objectOf(PropTypes.func).isRequired
+}
+
 export default Header;

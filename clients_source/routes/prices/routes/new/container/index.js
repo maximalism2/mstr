@@ -13,7 +13,7 @@ class NewPriceContainer extends Component {
     this.removeRow = this.removeRow.bind(this);
   }
 
-  changeField(filed) {
+  changeField(field) {
     this.props.dispatch(actions.changeField(field));
   }
 
