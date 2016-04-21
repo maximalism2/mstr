@@ -1,6 +1,7 @@
 function readCookie(name) {
     return (name = new RegExp('(?:^|;\\s*)' + ('' + name).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&') + '=([^;]*)').exec(document.cookie)) && name[1];
 }
+import 'whatwg-fetch';
 
 let isProduction = process.env.NODE_ENV === 'production';
 
@@ -46,6 +47,7 @@ export function read(url) {
  * @return {Promise}
  */
 export function create(url, body = {}) {
+  console.log('body', body);
   return fetch(url, {
     ...defaultParams,
     method: 'post',

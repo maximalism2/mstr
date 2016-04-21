@@ -11,6 +11,7 @@ class NewPriceContainer extends Component {
     this.makeInput = this.makeInput.bind(this);
     this.addRow = this.addRow.bind(this);
     this.removeRow = this.removeRow.bind(this);
+    this.createPrice = this.createPrice.bind(this);
   }
 
   changeField(field) {
@@ -29,13 +30,20 @@ class NewPriceContainer extends Component {
     this.props.dispatch(actions.removeRow(index));
   }
 
+  createPrice() {
+    let { dispatch, newPrice } = this.props;
+    console.log('create price => ', newPrice.data);
+    dispatch(actions.createPrice(newPrice.data));
+  }
+
   render() {
     let { newPrice } = this.props;
     let actionsForComponents = {
       changeField: this.changeField,
       makeInput: this.makeInput,
       addRow: this.addRow,
-      removeRow: this.removeRow
+      removeRow: this.removeRow,
+      createPrice: this.createPrice
     }
 
     return (

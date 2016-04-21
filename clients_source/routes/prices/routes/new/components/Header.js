@@ -9,7 +9,10 @@ class Header extends Component {
             <Link to="/prices/" className="button is-link icon-link">
               <i className="fa fa-arrow-left"></i>
             </Link>
-            <button className="button is-primary">
+            <button
+              className="button is-primary"
+              onClick={() => this.props.actions.createPrice()}
+            >
               <i className="fa fa-floppy-o"></i>
               <span>
                 Створити

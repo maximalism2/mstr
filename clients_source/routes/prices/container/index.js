@@ -25,9 +25,6 @@ class PricesContainer extends Component {
       fetchPriceById: this.fetchPriceById
     }
 
-    console.log('this in price container', this);
-
-
     let pn = location.pathname;
     if ((pn === '/prices/' || pn === 'prices/')  && children === null) {
       return (
