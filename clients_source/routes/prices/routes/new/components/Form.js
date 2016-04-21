@@ -46,7 +46,7 @@ class Form extends Component {
                   <input
                     type="text"
                     className="input"
-                    defaultValue={row.price}
+                    defaultValue={row.cost}
                   />
                 </div>
               </div>
@@ -66,7 +66,7 @@ class Form extends Component {
                   <p>{row.unitOfMesurment}</p>
                 </div>
                 <div className="column is-2">
-                  <p>{row.price}</p>
+                  <p>{row.cost}</p>
                 </div>
               </div>
             );

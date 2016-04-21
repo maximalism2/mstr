@@ -47,7 +47,11 @@ export function createPrice(priceTemplate) {
 
     console.log('response', response);
     if (response.ok) {
-      console.log('result', await response.json());
+      const result = await response.json();
+      if (typeof result === 'string') {
+        let textResult = JSON.parse(result);
+        console.log('result', textResult);
+      }
     }
   }
 }

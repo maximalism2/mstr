@@ -31,24 +31,24 @@ const initialData = {
   name: '',
   discount: Number(''),
   products: [{
-    name: 'werw',
-    unitOfMesurment: 'm',
-    price: 23
+    name: 'труба пупік',
+    unitOfMeasurement: 'm',
+    cost: 233
   },{
-    name: 'werw',
-    unitOfMesurment: 'm',
-    price: 23
+    name: 'труба секонд хенд',
+    unitOfMeasurement: 'm',
+    cost: 120
   },{
-    name: 'werw',
-    unitOfMesurment: 'm',
-    price: 23
+    name: 'труба валмарт',
+    unitOfMeasurement: 'm',
+    cost: 32.4
   },]
 };
 
 const initialProductModel = {
   name: '',
-  unitOfMesurment: '',
-  price: ''
+  unitOfMeasurement: '',
+  cost: ''
 }
 
 function data(state = initialData, action) {
