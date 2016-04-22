@@ -63,7 +63,7 @@ class Form extends Component {
                   <p>{row.name}</p>
                 </div>
                 <div className="column is-3">
-                  <p>{row.unitOfMesurment}</p>
+                  <p>{row.unitOfMeasurement}</p>
                 </div>
                 <div className="column is-2">
                   <p>{row.cost}</p>

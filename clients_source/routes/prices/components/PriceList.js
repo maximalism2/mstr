@@ -17,6 +17,7 @@ class PriceList extends Component {
         return (
           <div className="container price-list-content">
             {data.map((item, index) => {
+              console.log('item', item.products.length, item.products, item);
               return (
                 <PriceItem
                   key={index}
