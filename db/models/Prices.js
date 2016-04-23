@@ -76,7 +76,7 @@ function create(instance) {
       // If discount is existed, but it is not a number
       let message = 'instance.discount must be a number';
       return { error: message };
-    } else if (!(instance.discount => 0 && instance.discount <= 100)) {
+    } else if (!(instance.discount >= 0 && instance.discount <= 100)) {
       // If valut of discount is not between 0 and 100
       let message = 'instance.discount must be from 0 to 100';
       return { error: message };
