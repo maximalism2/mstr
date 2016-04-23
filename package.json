@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "debug": "DEBUG=maestro:* npm start",
     "dev-client": "NODE_ENV=development gulp hot",
-    "test": "mocha"
+    "test": "mocha test/*.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
