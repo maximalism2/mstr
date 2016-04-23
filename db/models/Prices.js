@@ -71,11 +71,22 @@ function create(instance) {
     return { error: message };
   }
 
-  if (!instance.discount) {
+  if (instance.hasOwnProperty('discount')) {
+    if (!(instance.discount instanceof Number)) {
+      // If discount is existed, but it is not a number
+      let message = 'instance.discount must be a number';
+      return { error: message };
+    } else if (!(instance.discount => 0 && instance.discount <= 100)) {
+      // If valut of discount is not between 0 and 100
+      let message = 'instance.discount must be from 0 to 100';
+      return { error: message };
+    }
+  } else {
     // If discount is undefined, let it be 0
     instance.discount = 0;
   }
-  if (instance.products && instance.products.length > 0) {
+
+  if (instance.hasOwnProperty('products') && instance.products.length > 0) {
     // Clear the array of products, if it is exist
     instance.products = [];
   }
@@ -95,7 +106,7 @@ function readById(id) {
     // If id is not passed
     let message = 'Methor read() expects a parameter, but no one was passed.';
     return { error: message };
-  } else if (!id instanceof String) {
+  } else if (!(id instanceof String)) {
     // If id is not a string
     let message = '\'id\' must be a string.';
     return { error: message };
@@ -119,7 +130,7 @@ function update(id, query) {
     // If method update called without parameters
     let message = 'Methor read() expects two parameters, but there was passed ' + arguments.length;
     return { error: message };
-  } else if (!id instanceof String) {
+  } else if (!(id instanceof String)) {
     // If id is not a string
     let message = '\'id\' must be a string.';
     return { error: message };
@@ -127,7 +138,7 @@ function update(id, query) {
     // If id equal empty string
     let message = '\'id\' cannot be empty string.';
     return { error: message };
-  } else if (!query instanceof Object) {
+  } else if (!(query instanceof Object)) {
     // If query is not an object
     let message = '\'query\' must be an object.';
     return { error: message };
@@ -135,12 +146,15 @@ function update(id, query) {
     // If query object has no propertys
     let message = '\'query\' cannot be empty object';
     return { error: message };
-  } else if (Object.keys(query).length > 0) {
+  }
+
+  // Testing the query object
+  if (Object.keys(query).length > 0) {
     // If query consists some field, but they are not specified in Price model
     let message = "";
     let notExistingField = false;
     Object.keys(query).forEach(key => {
-      if (key !== 'name' && key !== 'discount' && key !== 'products') {
+      if (key !== 'name' || key !== 'discount' || key !== 'products') {
         message = 'In model \'Price\' field ' + key + ' is not specified.';
         notExistingField = true;
       }
@@ -148,26 +162,73 @@ function update(id, query) {
     if (notExistingField) {
       return { error: message };
     }
-  } else if (query.products && !Array.isArray(query)) {
-    // If field 'products' is existed, but it is not an array
-    let message = '\'query.products\' must be an array';
-    return { error: message };
-  } else if (query.products.length === 0) {
-    // IF query.products is an empty array
-    let message = '\'query.products\' cannot be empty array';
-    return { error: message };
-  } else if (query.name && !query.name instanceof String) {
-    // If field 'name' is existed, but it is not a string
-    let message = '\'qeury.name\' must be a string';
-    return { error: message };
-  } else if (query.name.length === 0) {
-    // If query.name is an empty string
-    let message = '\'query.name\' cannot be empty string';
-    return { error: message };
-  } else if (query.discount && !query.discount instanceof Number) {
-    // If field 'discount' is existed, but it is not a Number
-    let message = '\'query.discount\' must be a number';
-    return { error: message };
+  }
+
+  if (query.hasOwnProperty('name')) {
+    if (!(query.name instanceof String)) {
+      // If field 'name' is existed, but it is not a stringify
+      let message = '\'qeury.name\' must be a string';
+      return { error: message };
+    } else if (query.name.length === 0) {
+      // If field name is an empty stringify
+      let message = '\'query.name\' cannot be an empty string';
+      return { error: message };
+    } else if (query.name.length > 200) {
+      // if field 'name' has more than 200 characters
+      let message = '\'query.name\' cannot be bigger than 200 characters';
+      return { error: message }
+    }
+  }
+
+  if (query.hasOwnProperty('discount')) {
+    if (!(query.discount instanceof Number)) {
+      // If field 'discount' exosted, but it is not a number
+      let message = '\'query.dicount\' must be a number';
+      return { error: message };
+    } else if (!(query.discount >= 0 && query.discount <= 100)) {
+      // If value of field 'discount' isn't between 0 and 100
+      let message = 'Value of \'query.discount\' must be from 0 to 100';
+      return { error: message };
+    }
+  }
+
+  if (qeury.hasOwnProperty('products')) {
+    if (!Array.isArray(query)) {
+      // If field 'products' is existed, but it is not an array
+      let message = '\'query.products\' must be an array';
+      return { error: message };
+    } else if (query.products.length === 0) {
+      // IF query.products is an empty array
+      let message = '\'query.products\' cannot be empty array';
+      return { error: message };
+    } else {
+      // Checking types of array items
+      let message = '';
+      let errorExists = false;
+      query.products.forEash((item, index) => {
+        if (errorExists) {
+          // If error is already exists - return
+          return;
+        }
+        if (!(item instanceof String)) {
+          // If some item is not a string
+          message  = `All items in query.products should be a strings,`;
+          message += ` but query.products[${index}] is not a string`;
+          errorExists = true;
+          return;
+        } else if (item.length === 0) {
+          // If some item is an empty string
+          message  = `All items in query.products cannot be an empty string,`;
+          message += ` but query.product[${index}] is empty`;
+          errorExists = true;
+          return;
+        }
+      });
+
+      if (errorExists) {
+        return { error: message };
+      }
+    }
   }
 
   var result = Price.update({
@@ -184,7 +245,7 @@ function remove(id) {
     // If id is not passed
     let message = 'Methor remove() expects a parameter, but no one was passed.';
     return { error: message };
-  } else if (!id instanceof String) {
+  } else if (!(id instanceof String)) {
     // If id is not a string
     let message = '\'id\' must be a string.';
     return { error: message };
