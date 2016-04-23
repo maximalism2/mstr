@@ -1,7 +1,7 @@
 labguage: node_js
 
 before_script:
-  - sudo apt-get install puthon g++ make
+  - sudo apt-get install python g++ make
   - wget https://nodejs.org/dist/v5.6.0/node-v5.6.0-linux-x64.tar.gz
   - tar xvfvz node-v5.6.0-linux-x64.tar.gz
   - cd node-v5.6.0-linux-x64
