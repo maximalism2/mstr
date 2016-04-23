@@ -193,15 +193,11 @@ function update(id, query) {
   }
 
   if (qeury.hasOwnProperty('products')) {
-    if (!Array.isArray(query)) {
+    if (!Array.isArray(query.products)) {
       // If field 'products' is existed, but it is not an array
       let message = '\'query.products\' must be an array';
       return { error: message };
-    } else if (query.products.length === 0) {
-      // IF query.products is an empty array
-      let message = '\'query.products\' cannot be empty array';
-      return { error: message };
-    } else {
+    } else if (query.products.length > 0) {
       // Checking types of array items
       let message = '';
       let errorExists = false;
