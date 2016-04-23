@@ -1,6 +1,6 @@
 labguage: node_js
 
-nvm: 5.x
+nvm: 5.6.0
 
 before_script:
   - npm install -g mocha
