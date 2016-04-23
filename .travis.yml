@@ -1,17 +1,10 @@
 labguage: node_js
+node_js:
+  - "5"
 
 before_script:
-  - sudo apt-get install python g++ make
-  - wget https://nodejs.org/dist/v5.6.0/node-v5.6.0-linux-x64.tar.gz
-  - tar xvfvz node-v5.6.0-linux-x64.tar.gz
-  - cd node-v5.6.0-linux-x64
-  - ./configure
-  - make
-  - sudo make install
   - npm cache clean -f
   - npm i -g npm@next
-  # - npm install -g n
-  # - n stable
   - node -v
   - npm -v
   - npm i -g mocha
