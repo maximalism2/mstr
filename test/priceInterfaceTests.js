@@ -120,7 +120,7 @@ describe('Model interface', () => {
 
       it('passed query, where name exists, but it is not a string', () => {
         let id = 'some id';
-        let qeury = {
+        let query = {
           name: 123
         }
         let res = Price.update(id, query);
@@ -141,7 +141,7 @@ describe('Model interface', () => {
         let query = {
           name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga recusandae laudantium ipsum reprehenderit totam obcaecati repellat dolores, veniam minima. Quidem officia quae itaque blanditiis sed quos nulla quia. Placeat, veritatis!'
         }
-        let req = Price.update(id, query);
+        let res = Price.update(id, query);
         assert.equal(true, isErrorObject(res));
       });
 
@@ -160,7 +160,7 @@ describe('Model interface', () => {
           discount: -1
         }
         let res = Price.update(id, query);
-        assert.equal(trie, isErrorObject(res));
+        assert.equal(true, isErrorObject(res));
       });
 
       it('passed qeury, where products exists, but it is not an array', () => {
