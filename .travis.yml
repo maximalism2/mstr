@@ -5,8 +5,8 @@ sudo: required
 before_script:
   - npm cache clean -f
   - npm i -g npm@next
-  - sudo npm install -g n
-  - sudo n stable
+  # - npm install -g n
+  # - n stable
   - node -v
   - npm -v
   - npm i -g mocha
