@@ -31,7 +31,12 @@ router.post('/', (req, res, next) => {
       if (Array.isArray(resultOfProducts)) {
         let newPrice = JSON.parse(JSON.stringify(data));
         newPrice.products = resultOfProducts;
+        let productsIds = resultOfProducts.map(product => product._id);
+        Price.update(newPrice._id, { products: productsIds });
         res.json(JSON.stringify(newPrice));
+        res.end();
+      }  else if (resultOfProducts instanceof Object && resultOfProducts.error) {
+        res.json(JSON.stringify(resultOfProducts));
         res.end();
       }
     });
