@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "debug": "DEBUG=maestro:* npm start",
     "dev-client": "NODE_ENV=development gulp hot",
-    "test": "mocha test/*.js"
+    "test": "mocha test/*.js",
+    "coverage": "NODE_ENV=test  istanbul cover mocha test/*.js --report lcovonly -- -R spec -t 30000"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -50,6 +51,7 @@
     "gulp-scss-lint": "^0.3.9",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
+    "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
     "mocha-lcov-reporter": "^1.2.0",
     "node-sass": "^3.4.2",
