@@ -3,6 +3,7 @@ node_js:
   - "5"
 
 before_script:
+  - sudo apt-get install mongodb mondodb-server
   - node -v
   - npm -v
   - npm i -g mocha
