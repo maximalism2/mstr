@@ -31,6 +31,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var Types = mongoose.Types;
 var Schema = mongoose.Schema;
 var connect = require('../connect');
 var template = require('../templates/priceModelTemplate');
@@ -72,11 +73,12 @@ function create(instance) {
   }
 
   if (instance.hasOwnProperty('discount')) {
-    if (!(instance.discount instanceof Number)) {
+    let discount = Number(instance.discount);
+    if (isNaN(discount)) {
       // If discount is existed, but it is not a number
       let message = 'instance.discount must be a number';
       return { error: message };
-    } else if (!(instance.discount >= 0 && instance.discount <= 100)) {
+    } else if (!(discount >= 0 && discount <= 100)) {
       // If valut of discount is not between 0 and 100
       let message = 'instance.discount must be from 0 to 100';
       return { error: message };
@@ -102,11 +104,12 @@ function create(instance) {
 }
 
 function readById(id) {
+  console.log('interface:', id, typeof id === 'string');
   if (id === undefined) {
     // If id is not passed
     let message = 'Methor read() expects a parameter, but no one was passed.';
     return { error: message };
-  } else if (!(id instanceof String)) {
+  } else if (!(typeof id === 'string')) {
     // If id is not a string
     let message = '\'id\' must be a string.';
     return { error: message };
@@ -130,7 +133,7 @@ function update(id, query) {
     // If method update called without parameters
     let message = 'Methor read() expects two parameters, but there was passed ' + arguments.length;
     return { error: message };
-  } else if (!(id instanceof String)) {
+  } else if (!(typeof id === 'string')) {
     // If id is not a string
     let message = '\'id\' must be a string.';
     return { error: message };
@@ -154,7 +157,7 @@ function update(id, query) {
     let message = "";
     let notExistingField = false;
     Object.keys(query).forEach(key => {
-      if (key !== 'name' || key !== 'discount' || key !== 'products') {
+      if (key !== 'name' && key !== 'discount' && key !== 'products') {
         message = 'In model \'Price\' field ' + key + ' is not specified.';
         notExistingField = true;
       }
@@ -165,7 +168,7 @@ function update(id, query) {
   }
 
   if (query.hasOwnProperty('name')) {
-    if (!(query.name instanceof String)) {
+    if (!(typeof query.name === 'string')) {
       // If field 'name' is existed, but it is not a stringify
       let message = '\'qeury.name\' must be a string';
       return { error: message };
@@ -181,18 +184,19 @@ function update(id, query) {
   }
 
   if (query.hasOwnProperty('discount')) {
-    if (!(query.discount instanceof Number)) {
+    let discount = Number(query.discount);
+    if (isNaN(discount)) {
       // If field 'discount' exosted, but it is not a number
       let message = '\'query.dicount\' must be a number';
       return { error: message };
-    } else if (!(query.discount >= 0 && query.discount <= 100)) {
+    } else if (!(discount >= 0 && discount <= 100)) {
       // If value of field 'discount' isn't between 0 and 100
       let message = 'Value of \'query.discount\' must be from 0 to 100';
       return { error: message };
     }
   }
 
-  if (qeury.hasOwnProperty('products')) {
+  if (query.hasOwnProperty('products')) {
     if (!Array.isArray(query.products)) {
       // If field 'products' is existed, but it is not an array
       let message = '\'query.products\' must be an array';
@@ -201,12 +205,12 @@ function update(id, query) {
       // Checking types of array items
       let message = '';
       let errorExists = false;
-      query.products.forEash((item, index) => {
+      query.products.forEach((item, index) => {
         if (errorExists) {
           // If error is already exists - return
           return;
         }
-        if (!(item instanceof String)) {
+        if (!(typeof item === 'string')) {
           // If some item is not a string
           message  = `All items in query.products should be a strings,`;
           message += ` but query.products[${index}] is not a string`;
@@ -225,6 +229,8 @@ function update(id, query) {
         return { error: message };
       }
     }
+
+    query.products = query.products.map(idString => Types.ObjectId(idString));
   }
 
   var result = Price.update({
@@ -241,7 +247,7 @@ function remove(id) {
     // If id is not passed
     let message = 'Methor remove() expects a parameter, but no one was passed.';
     return { error: message };
-  } else if (!(id instanceof String)) {
+  } else if (!(typeof id === 'string')) {
     // If id is not a string
     let message = '\'id\' must be a string.';
     return { error: message };
