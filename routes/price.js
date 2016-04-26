@@ -9,7 +9,7 @@ router.post('/', (req, res, next) => {
   const template = JSON.parse(JSON.stringify(req.body));
   // Make copy of products (in the future they can be deleted)
   const copyOfProductsTemplates = JSON.parse(JSON.stringify(template.products));
-
+  console.log('template', typeof template.discount);
   const result = Price.create(template);
 
   if (result.error) {
@@ -19,20 +19,29 @@ router.post('/', (req, res, next) => {
 
     result.then(data => {
       // Make the new array of products, but now we add the required property
-      // originPrice, which is _id of created price
       let productsTemplates = copyOfProductsTemplates.map(item => {
+        // originPrice, which is _id of created price
         return Object.assign({}, item, {
           priceOrigin: data._id
         });
       });
 
       const resultOfProducts = Product.createOf(productsTemplates);
+      console.log(Array.isArray(resultOfProducts));
 
       if (Array.isArray(resultOfProducts)) {
         let newPrice = JSON.parse(JSON.stringify(data));
         newPrice.products = resultOfProducts;
         let productsIds = resultOfProducts.map(product => product._id);
-        Price.update(newPrice._id, { products: productsIds });
+        console.log('products id', productsIds);
+        let updatingResult = Price.update(newPrice._id, { products: productsIds });
+        if (updatingResult.error) {
+          console.log('\n\nerror\n\n', updatingResult);
+        } else {
+          updatingResult.then(someRes => {
+            console.log('some res', someRes);
+          })
+        }
         res.json(JSON.stringify(newPrice));
         res.end();
       }  else if (resultOfProducts instanceof Object && resultOfProducts.error) {
@@ -46,6 +55,7 @@ router.post('/', (req, res, next) => {
 router.get('/', (req, res, next) => {
   Price.read()
     .then(result => {
+      console.log('result', result);
       res.json(JSON.stringify(result));
       res.end();
     })
@@ -54,10 +64,15 @@ router.get('/', (req, res, next) => {
 router.get('/:id/', (req, res, next) => {
   //  Search the price, then looks for products, this links to this price,
   //  get them and put to product property in price object
-  Price.readById(req.params.id)
-    .then(result => {
-      if (result) {
-        let price = result;
+  console.log(typeof req.params.id);
+  let result = Price.readById(req.params.id);
+  console.log(result);
+  if (result.error) {
+    res.json(JSON.stringify(result));
+    res.end();
+  } else {
+    result.then(price => {
+      if (price) {
         let query = {
           priceOrigin: req.params.id
         }
@@ -74,6 +89,7 @@ router.get('/:id/', (req, res, next) => {
         res.end();
       }
     });
+  }
 });
 
 module.exports = router;

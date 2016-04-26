@@ -104,7 +104,6 @@ function create(instance) {
 }
 
 function readById(id) {
-  console.log('interface:', id, typeof id === 'string');
   if (id === undefined) {
     // If id is not passed
     let message = 'Methor read() expects a parameter, but no one was passed.';
@@ -124,7 +123,11 @@ function readById(id) {
 }
 
 function read() {
-  var result = Price.find();
+  var result = Price.find({}, '', {
+    sort: {
+      updatedAt: -1
+    }
+  });
   return result;
 }
 
@@ -206,20 +209,15 @@ function update(id, query) {
       let message = '';
       let errorExists = false;
       query.products.forEach((item, index) => {
+        item = String(item);
         if (errorExists) {
           // If error is already exists - return
           return;
         }
-        if (!(typeof item === 'string')) {
-          // If some item is not a string
-          message  = `All items in query.products should be a strings,`;
-          message += ` but query.products[${index}] is not a string`;
-          errorExists = true;
-          return;
-        } else if (item.length === 0) {
-          // If some item is an empty string
-          message  = `All items in query.products cannot be an empty string,`;
-          message += ` but query.product[${index}] is empty`;
+        if (item.length !== 24) {
+          // If some item is not a string of 24 hex symbols
+          message  = `All items in query.products should be a strings of 24 symbols,`;
+          message += ` but query.products[${index}] has ${item.length}`;
           errorExists = true;
           return;
         }
@@ -229,12 +227,12 @@ function update(id, query) {
         return { error: message };
       }
     }
-
-    query.products = query.products.map(idString => Types.ObjectId(idString));
   }
 
+  console.log('updating', id, query);
+
   var result = Price.update({
-    _id: id
+    _id: Types.ObjectId(id)
   }, {
     $set: query
   })
