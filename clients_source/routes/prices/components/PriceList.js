@@ -2,8 +2,29 @@ import React, { Component, PropTypes } from 'react';
 import PriceItem from './pricelist/PriceItem';
 
 class PriceList extends Component {
+  constructor(props, context) {
+    super();
+    this.state = {
+      mounted: false
+    };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        mounted: true
+      });
+    }, 100);
+  }
+
   renderList() {
     let { data, view, actions } = this.props;
+
+    let className = "container price-list-content";
+    if (this.state.mounted) {
+      className += " showed";
+    }
+
     if (view.error) {
       return (
         <p className="title size-4">
@@ -15,7 +36,7 @@ class PriceList extends Component {
     } else {
       if (data) {
         return (
-          <div className="container price-list-content">
+          <div className={className}>
             {data.map((item, index) => {
               return (
                 <PriceItem
