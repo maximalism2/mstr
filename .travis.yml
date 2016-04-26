@@ -10,4 +10,4 @@ before_script:
   - npm i
 
 script:
-  - npm run test-travis-2
+  - npm run test-travis
