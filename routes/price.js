@@ -73,16 +73,15 @@ router.get('/:id/', (req, res, next) => {
   } else {
     result.then(price => {
       if (price) {
+        let priceCopy = JSON.parse(JSON.stringify(price));
         let query = {
           priceOrigin: req.params.id
         }
-        console.log(`\n Price => `, JSON.stringify(price), query);
 
         Product.readWhere(query)
         .then(result => {
-          console.log('result =>', result);
-          price.products = result;
-          res.json(JSON.stringify(price));
+          priceCopy.products = result;
+          res.json(JSON.stringify(priceCopy));
           res.end();
         });
       } else {

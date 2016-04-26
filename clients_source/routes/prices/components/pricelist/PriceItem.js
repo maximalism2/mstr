@@ -3,11 +3,12 @@ import { Link } from 'react-router';
 
 class PriceItem extends Component {
   render() {
+    let { actions, _id } = this.props;
     return (
       <div className="price-item">
         <p
           className="title link"
-          onClick={() => this.props.actions.fetchPriceById(this.props._id)}
+          onClick={() => actions.fetchPriceById(_id)}
         >
         {
           // <Link to={`/`/*`${this.props._id}/`*/}>

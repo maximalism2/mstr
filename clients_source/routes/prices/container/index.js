@@ -15,7 +15,6 @@ class PricesContainer extends Component {
   }
 
   fetchPriceById(id) {
-    console.log('_id', id);
     this.props.dispatch(actions.fetchPriceById(id));
   }
 
