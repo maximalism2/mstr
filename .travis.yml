@@ -6,7 +6,6 @@ services:
   - mongodb
 
 before_script:
-  - npm i -g mocha
   - npm i
 
 script:

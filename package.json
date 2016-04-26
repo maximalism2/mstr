@@ -8,7 +8,6 @@
     "dev-client": "NODE_ENV=development gulp hot",
     "test": "./node_modules/mocha/bin/_mocha ./test/*.js",
     "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec ./test/* && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "coverage": "NODE_ENV=test  istanbul cover mocha test/*.js --report lcovonly -- -R spec -t 30000"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
