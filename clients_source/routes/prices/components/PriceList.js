@@ -9,7 +9,13 @@ class PriceList extends Component {
     };
   }
 
+  componentWillMount() {
+    console.log('willMount');
+    this.props.actions.fetchPrices();
+  }
+
   componentDidMount() {
+    console.log('mounted');
     setTimeout(() => {
       this.setState({
         mounted: true

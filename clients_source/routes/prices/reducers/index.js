@@ -13,9 +13,7 @@ const initialData = {
 function data(state = initialData.data, action) {
   switch (action.type) {
     case FETCH_PRICES: {
-      return Object.assign({}, state, {
-        data: action.data
-      });
+      return action.data;
     }
     default: {
       return state;

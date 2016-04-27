@@ -7,10 +7,11 @@ class PricesContainer extends Component {
   constructor() {
     super();
 
+    this.fetchPrices = this.fetchPrices.bind(this);
     this.fetchPriceById = this.fetchPriceById.bind(this);
   }
 
-  componentWillMount() {
+  fetchPrices() {
     this.props.dispatch(actions.fetchPrices());
   }
 
@@ -21,6 +22,7 @@ class PricesContainer extends Component {
   render() {
     let { prices, location, children } = this.props;
     let actionsForComponents = {
+      fetchPrices: this.fetchPrices,
       fetchPriceById: this.fetchPriceById
     }
 

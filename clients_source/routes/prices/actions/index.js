@@ -6,7 +6,7 @@ import origin from '../../../common/origin';
 
 export function fetchPrices() {
   return async dispatch => {
-    let url = origin + '/price/'
+    let url = origin + '/price/';
     const response = await read(url);
     if (response.ok) {
       let responseBody = await response.json();
