@@ -2,10 +2,12 @@
 import { createStore, applyMiddleware } from 'redux';
 import { combineReducers } from 'redux';
 import rootReducer from '../reducers';
+import { CHANGE_FIELD } from '../routes/prices/routes/new/consts/';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 
 const loggerMiddleware = createLogger({
+  predicate: (getState, action) => action.type !== CHANGE_FIELD,
   collapsed: true,
   duration: true,
 });
