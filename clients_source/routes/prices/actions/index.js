@@ -1,5 +1,5 @@
 import {
-  FETCH_PRICES, FETCH_PRICE_BY_ID
+  FETCH_PRICES, FETCH_PRICE_BY_ID, ERROR_FPM
 } from '../consts';
 import { read } from '../../../common/fetch';
 import origin from '../../../common/origin';
@@ -16,6 +16,10 @@ export function fetchPrices() {
         type: FETCH_PRICES,
         data
       })
+    } else {
+      dispatch({
+        type: ERROR_FPM
+      });
     }
   }
 }
