@@ -39,7 +39,7 @@ class Form extends Component {
                   <input
                     type="text"
                     className="input"
-                    defaultValue={row.unitOfMesurment}
+                    defaultValue={row.unitOfMeasurement}
                   />
                 </div>
                 <div className="column is-2">
