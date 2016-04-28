@@ -81,9 +81,8 @@ function create(instance) {
   } else if (!instance.hasOwnProperty('cost')) {
     // If instance has no property cost
     let message = 'Instance must have the \'cost\' property';
-
     return { error: message };
-  } else if(!instance.cost instanceof Number) {
+  } else if(typeof instance.cost !== 'number') {
     // If instance.cost is not number
     let message = '\'instance.cost\' must be a number';
     return { error: message };
@@ -95,7 +94,7 @@ function create(instance) {
     // If instance has no property priceOrigin (link to parents price)
     let message = 'Instance must have the \'priceOrigin\' property';
     return { error: message };
-  } else if (!instance.priceOrigin instanceof String) {
+  } else if (typeof instance.priceOrigin !== 'string') {
     // If priceOrigin is not a string
     let message = '\'instance.priceOrigin\' must be a string';
     return { error: message };
@@ -107,7 +106,7 @@ function create(instance) {
     // If instance has no property unitOfMeasurement
     let message = 'Instance must have the \'unitOfMeasurement\' property';
     return { error: message };
-  } else if (!instance.unitOfMeasurement instanceof String) {
+  } else if (typeof instance.unitOfMeasurement !== 'string') {
     // If unitOfMeasurement is not a string
     let message = '\'instance.unitOfMeasurement\' must be a string';
     return { error: message };
