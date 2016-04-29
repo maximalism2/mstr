@@ -397,6 +397,15 @@ describe('Model interface', () => {
         let res = Product.update(id, query);
         assert.equal(true, isErrorObject(res));
       });
+      it('passed object, which include priceOrigin field', () => {
+        let id = Types.ObjectId('57236095cbe7c2ce0e11bee5');
+        let query = {
+          unitOfMeasurement: '',
+          priceOrigin: 'some value'
+        };
+        let res = Product.update(id, query);
+        assert.equal(true, isErrorObject(res));
+      });
     });
     describe('.update(), usually:', () => {
       it('should return something', () => {
