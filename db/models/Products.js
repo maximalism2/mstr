@@ -268,13 +268,9 @@ function update(id, query) {
     // If method update called without parameters
     let message = 'Methor read() expects two parameters, but there was passed ' + arguments.length;
     return { error: message };
-  } else if (!id instanceof String) {
-    // If id is not a string
-    let message = '\'id\' must be a string.';
-    return { error: message };
-  } else if (id.length === 0) {
-    // If id equal empty string
-    let message = '\'id\' cannot be empty string.';
+  } else if (!(id instanceof Types.ObjectId)) {
+    // If id is not an ObjectId
+    let message = '\'id\' must be an ObjectId.';
     return { error: message };
   } else if (!query instanceof Object) {
     // If query is not an object
@@ -300,11 +296,54 @@ function update(id, query) {
     if (notExistingField) {
       return { error: message };
     }
+
+    if (query.hasOwnProperty('name')) {
+      let name = query.name;
+      if (typeof name !== 'string') {
+        // If name is not a string
+        let message = 'The name field in query must be a string';
+        return { error: message };
+      } else if (name.length === 0) {
+        // If name is an empty string
+        let message = 'The name field in query cannot be an empty string';
+        return { error: message };
+      } else if (name.length > 300) {
+        // If name is longer than 300 characters
+        let message = 'The name field in query must be less than 300 characters';
+        return { error: message };
+      }
+    }
+
+    if (query.hasOwnProperty('cost')) {
+      let cost = query.cost;
+      if (typeof cost !== 'number') {
+        // If cost field is not a Number
+        let message = 'The cost field in the query must be a number';
+        return { error: message };
+      } else if (cost < 0) {
+        // If cost value is less than 0
+        let message = 'The cost field in the query must be bigger than 0';
+        return { error: message };
+      }
+    }
+
+    if (query.hasOwnProperty('unitOfMeasurement')) {
+      let unitOfMeasurement = query.unitOfMeasurement;
+      if (typeof unitOfMeasurement !== 'string') {
+        // If unitOfMeasurement is not a string
+        let message = 'The unitOfMeasurement field in query must be a string';
+        return { error: message };
+      } else if (unitOfMeasurement.length === 0) {
+        // If unitOfMeasurement is an empty string
+        let message = 'The unitOfMeasurement field in query cannot be an empty string';
+        return { error: message };
+      }
+    }
   }
-  if (query.priceOrigin) {
+  if (query.hasOwnProperty('priceOrigin')) {
     // If expected priceOrigin in query throw error, we cannot change origin
     let message = 'Cannot change priceOrigin in any product';
-    return { error: message }
+    return { error: message };
   } else if (query.name && !query.name instanceof String) {
     // If field 'name' is existed, but it is not a string
     let message = '\'qeury.name\' must be a string';
@@ -331,7 +370,7 @@ function update(id, query) {
     _id: id
   }, {
     $set: query
-  })
+  });
 
   return result;
 }
@@ -341,15 +380,10 @@ function remove(id) {
     // If id is not passed
     let message = 'Methor remove() expects a parameter, but no one was passed.';
     return { error: message };
-  } else if (!id instanceof String) {
+  } else if (!(id instanceof Types.ObjectId)) {
     // If id is not a string
     let message = '\'id\' must be a string.';
     return { error: message };
-  } else if (id === '') {
-    // If id equal empty string
-    let message = '\'id\' cannot be empty string.';
-    return { error: message };
-  }
 
   var result = Product.remove({
     _id: id
