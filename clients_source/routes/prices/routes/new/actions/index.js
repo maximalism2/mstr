@@ -42,7 +42,7 @@ export function makeInput(index) {
 
 export function createPrice(priceTemplate) {
   return async dispatch => {
-    let url = origin + '/price/';
+    let url = origin + '/api/price/';
     const response = await create(url, priceTemplate);
 
     console.log('response', response);

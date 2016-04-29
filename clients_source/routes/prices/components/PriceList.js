@@ -31,14 +31,14 @@ class PriceList extends Component {
 
     if (view.error) {
       return (
-        <p className="title size-4">
+        <p className="title size-4 empty-title">
           Виникли технічні проблеми...
           <br />
           будь ласка, спробуйте пізніше
         </p>
       );
     } else {
-      if (data) {
+      if (data.length) {
         return (
           <div className={className}>
             {data.map((item, index) => {
@@ -55,6 +55,10 @@ class PriceList extends Component {
             })}
           </div>
         )
+      } else {
+        return (
+          <p className="title size-4 empty-title">Ще не створено жодного каталогу</p>
+        );
       }
     }
   }

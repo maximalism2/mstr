@@ -18,7 +18,8 @@ var routes = {
       component: AppContainer,
       // Temp
       childRoutes: [
-        require('./routes/prices/')
+        require('./routes/prices/'),
+        require('./routes/price/')
       ]
       // getChildRoutes(location, callback) {
       //   require.ensure([], function(require) {
