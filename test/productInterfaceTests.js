@@ -103,7 +103,7 @@ describe('Model interface', () => {
         let instance = {
           name: 'some name',
           cost: 123,
-          priceOrigin: '571fe8433d9f5ffc2bcea743',
+          priceOrigin: Types.ObjectId('571fe8433d9f5ffc2bcea743'),
         }
         let res = Product.create(instance);
         assert.equal(true, isErrorObject(res));
@@ -153,7 +153,7 @@ describe('Model interface', () => {
         assert.equal(true, isErrorObject(res));
       });
       it('passed an empty array', () => {
-        let res = Product.createOf();
+        let res = Product.createOf([]);
         assert.equal(true, isErrorObject(res));
       });
       it('passed an array, which consists not only of objects', () => {
@@ -301,5 +301,6 @@ describe('Model interface', () => {
         assert(true, Array.isArray(res));
       });
     });
+    describe('')
   });
 });
