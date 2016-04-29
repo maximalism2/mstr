@@ -1,5 +1,5 @@
 @import '../../../node_modules/bulma/bulma.sass';
-$bg-color: #FCFCFF;
+$bg-color: #fcfcff;
 
 html {
   background: lighten($bg-color, 1%);
@@ -20,10 +20,7 @@ html {
       width: 100%;
       position: absolute;
       top: -5px;
-      background: #d9eaf9;
-      background: -moz-linear-gradient(left,  #d9eaf9 0%, #1fc8db 30%, #24e6ac 70%, #eaf7ff 100%);
-      background: -webkit-linear-gradient(left,  #d9eaf9 0%,#1fc8db 30%,#24e6ac 70%,#eaf7ff 100%);
-      background: linear-gradient(to right,  #d9eaf9 0%,#1fc8db 30%,#24e6ac 70%,#eaf7ff 100%);
+      background: linear-gradient(to right, #d9eaf9 0%, #1fc8db 30%, #24e6ac 70%, #eaf7ff 100%);
     }
 
   }
@@ -70,6 +67,7 @@ html {
 
     .create-new-button {
       margin-top: 4px;
+
       .fa {
         font-size: 14px;
         margin-right: 6px;
@@ -109,11 +107,11 @@ html {
     }
   }
 
-$trans-dur: .05s;
+  $trans-dur: .05s;
 
   .price-item {
     width: 100%;
-    padding: .7rem .7rem;
+    padding: .7rem;
     margin: 0;
     transition: $trans-dur;
     border-bottom: 1px solid rgba(230, 230, 230, .8);
@@ -145,8 +143,8 @@ $trans-dur: .05s;
 
     .updated-at {
       position: absolute;
-      top: 0.7rem;
-      right: 0.7rem;
+      top: .7rem;
+      right: .7rem;
     }
   }
 
@@ -169,7 +167,7 @@ $trans-dur: .05s;
 
       &:hover,
       &:active {
-        background: rgba(230,230,230,.8);
+        background: rgba(230, 230, 230, .8);
       }
 
       .fa {
@@ -200,7 +198,7 @@ $trans-dur: .05s;
     margin: auto;
   }
 
-  .title.product-form-title {
+  .product-form-title {
     margin-top: 10px;
     margin-bottom: 5px;
   }
