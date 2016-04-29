@@ -241,15 +241,11 @@ function createOf(pluralOfProducts) {
 function readById(id) {
   if (id === undefined) {
     // If id is not passed
-    let message = 'Methor read() expects a parameter, but no one was passed.';
+    let message = 'Methor readById() expects a parameter, but no one was passed.';
     return { error: message };
-  } else if (!id instanceof String) {
+  } else if (!(id instanceof Types.ObjectId)) {
     // If id is not a string
-    let message = '\'id\' must be a string.';
-    return { error: message };
-  } else if (id === '') {
-    // If id equal empty string
-    let message = '\'id\' cannot be empty string.';
+    let message = '\'id\' must be an ObjectId.';
     return { error: message };
   }
 
