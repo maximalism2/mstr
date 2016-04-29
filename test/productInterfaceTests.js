@@ -81,20 +81,11 @@ describe('Model interface', () => {
         let res = Product.create(instance);
         assert.equal(true, isErrorObject(res));
       });
-      it('passed an object, where the priceOrigin is not a string', () => {
+      it('passed an object, where the priceOrigin is not an ObjectId', () => {
         let instance = {
           name: 'some name',
           cost: 123,
           priceOrigin: 123
-        }
-        let res = Product.create(instance);
-        assert.equal(true, isErrorObject(res));
-      });
-      it('passed an object, where the priceOrigin is a string of some number of hex symbols, not 24', () => {
-        let instance = {
-          name: 'some name',
-          cost: 123,
-          priceOrigin: 'fc254fa2d25efd'
         }
         let res = Product.create(instance);
         assert.equal(true, isErrorObject(res));
@@ -112,7 +103,7 @@ describe('Model interface', () => {
         let instance = {
           name: 'some name',
           cost: 123,
-          priceOrigin: '571fe8433d9f5ffc2bcea743',
+          priceOrigin: Types.ObjectId('571fe8433d9f5ffc2bcea743'),
           unitOfMeasurement: 123
         }
         let res = Product.create(instance);
@@ -122,7 +113,7 @@ describe('Model interface', () => {
         let instance = {
           name: 'some name',
           cost: 123,
-          priceOrigin: '571fe8433d9f5ffc2bcea743',
+          priceOrigin: Types.ObjectId('571fe8433d9f5ffc2bcea743'),
           unitOfMeasurement: ''
         }
         let res = Product.create(instance);
@@ -231,7 +222,7 @@ describe('Model interface', () => {
         let res = Product.createOf();
         assert.equal(true, isErrorObject(res));
       });
-      it('passed an array, where objects have the priceOrigin field, but it is not a string', () => {
+      it('passed an array, where objects have the priceOrigin field, but it is not an ObjectId', () => {
         let objectTemplate = {
           name: 'some name',
           cost: 123,
@@ -241,21 +232,11 @@ describe('Model interface', () => {
         let res = Product.createOf();
         assert.equal(true, isErrorObject(res));
       });
-      it('passed an array, where objects have the priceOrigin, but it is not a 24 hex symbols string', () => {
-        let objectTemplate = {
-          name: 'some name',
-          cost: 123,
-          priceOrigin: '123abc',
-        }
-        let instance = [objectTemplate, objectTemplate, objectTemplate];
-        let res = Product.createOf();
-        assert.equal(true, isErrorObject(res));
-      });
       it('passed an array, where objects have no unitOfMeasurement field', () => {
         let objectTemplate = {
           name: 'some name',
           cost: 123,
-          priceOrigin: '571fe8433d9f5ffc2bcea743'
+          priceOrigin: Types.ObjectId('571fe8433d9f5ffc2bcea743')
         }
         let instance = [objectTemplate, objectTemplate, objectTemplate];
         let res = Product.createOf();
@@ -265,7 +246,7 @@ describe('Model interface', () => {
         let objectTemplate = {
           name: 'some name',
           price: 123,
-          priceOrigin: '571fe8433d9f5ffc2bcea743',
+          priceOrigin: Types.ObjectId('571fe8433d9f5ffc2bcea743'),
           unitOfMeasurement: 123
         }
         let instance = [objectTemplate, objectTemplate, objectTemplate];
@@ -276,7 +257,7 @@ describe('Model interface', () => {
         let objectTemplate = {
           name: 'some name',
           price: 123,
-          priceOrigin: '571fe8433d9f5ffc2bcea743',
+          priceOrigin: Types.ObjectId('571fe8433d9f5ffc2bcea743'),
           unitOfMeasurement: ''
         }
         let instance = [objectTemplate, objectTemplate, objectTemplate];
@@ -301,6 +282,6 @@ describe('Model interface', () => {
         assert(true, Array.isArray(res));
       });
     });
-    describe('')
+
   });
 });
