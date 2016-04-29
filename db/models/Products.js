@@ -208,7 +208,7 @@ function createOf(pluralOfProducts) {
       let message = `'argument[${index}]' must have the 'unitOfMeasurement' property`;
       checkingResult = { error: message };
       return;
-    } else if (!instance.unitOfMeasurement instanceof String) {
+    } else if (typeof instance.unitOfMeasurement !== 'string') {
       // If unitOfMeasurement is not a string
       let message = `'argument[${index}].unitOfMeasurement' must be a string`;
       checkingResult = { error: message };
