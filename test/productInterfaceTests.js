@@ -32,28 +32,28 @@ describe('Model interface', () => {
         let instance = {
           name: 123
         }
-        ler res = Product.create(instance);
+        let res = Product.create(instance);
         assert.equal(true, isErrorObject(res));
       });
       it('passed an object where the name is an empty string', () => {
         let instance = {
           name: ''
         }
-        ler res = Product.create(instance);
+        let res = Product.create(instance);
         assert.equal(true, isErrorObject(res));
       });
       it('passed an object where the name has more then 300 characters', () => {
         let instance = {
           name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
         }
-        ler res = Product.create(instance);
+        let res = Product.create(instance);
         assert.equal(true, isErrorObject(res));
       });
       it('passed an object which has a valid name property, but without the cost', () => {
         let instance = {
           name: 'some name',
         }
-        ler res = Product.create(instance);
+        let res = Product.create(instance);
         assert.equal(true, isErrorObject(res));
       });
       it('passed an object which has the cost property, but it is not a number', () => {
@@ -61,24 +61,72 @@ describe('Model interface', () => {
           name: 'some name',
           cost: 'some string'
         }
-        ler res = Product.create(instance);
+        let res = Product.create(instance);
         assert.equal(true, isErrorObject(res));
       });
-      it('passed an object which has the cost property, but it is little then 0', () => {
+      it('passed an object which has the cost property, but it is smaller than 0', () => {
         let instance = {
           name: 'some name',
           cost: -1
         }
-        ler res = Product.create(instance);
+        let res = Product.create(instance);
         assert.equal(true, isErrorObject(res));
       });
-      it('passed an object which has the cost peoperty, but without ')
+      it('passed an object which has the cost peoperty, but without priceOrigin', () => {
+        let instance = {
+          name: 'some name',
+          cost: 123
+        }
+        let res = Product.create(instance);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('passed an object, where the priceOrigin is not a string', () => {
+        let instance = {
+          name: 'some name',
+          cost: 123,
+          priceOrigin: 123
+        }
+        let res = Product.create(instance);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('passed an object, where the priceOrigin is a string of some number of hex symbols, not 24', () => {
+        let instance = {
+          name: 'some name',
+          cost: 123,
+          priceOrigin: 'fc254fa2d25efd'
+        }
+        let res = Product.create(instance);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('passed an object, where the unitOfMeasurement is not define', () => {
+        let instance = {
+          name: 'some name',
+          cost: 123,
+          priceOrigin: '571fe8433d9f5ffc2bcea743',
+        }
+        let res = Product.create(instance);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('passed an object, where unitOfMeasurement is not a string', () => {
+        let instance = {
+          name: 'some name',
+          cost: 123,
+          priceOrigin: '571fe8433d9f5ffc2bcea743',
+          unitOfMeasurement: 123
+        }
+        let res = Product.create(instance);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('passed an object. where unitOfMeasurement is an empty string', () => {
+        let instance = {
+          name: 'some name',
+          cost: 123,
+          priceOrigin: '571fe8433d9f5ffc2bcea743',
+          unitOfMeasurement: ''
+        }
+        let res = Product.create(instance);
+        assert.equal(true, isErrorObject(res));
+      });
     });
-  });
-  it('test to test', () => {
-    assert.equal(1, 1);
-  });
-  it('test to test', () => {
-    assert.equal(2, 2);
   });
 });
