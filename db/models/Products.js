@@ -94,13 +94,9 @@ function create(instance) {
     // If instance has no property priceOrigin (link to parents price)
     let message = 'Instance must have the \'priceOrigin\' property';
     return { error: message };
-  } else if (typeof instance.priceOrigin !== 'string') {
-    // If priceOrigin is not a string
-    let message = '\'instance.priceOrigin\' must be a string';
-    return { error: message };
-  } else if (instance.priceOrigin.length !== 24) {
-    // If priceOrigin is empty string
-    let message = '\'instance.priceOrigin\' must be a string of 24 hex symbols';
+  } else if (!(instance.priceOrigin instanceof Types.ObjectId)) {
+    // If priceOrigin is not a ObjectId
+    let message = '\'instance.priceOrigin\' must be an instance of ObjectId';
     return { error: message };
   } else if (!instance.hasOwnProperty('unitOfMeasurement')) {
     // If instance has no property unitOfMeasurement
