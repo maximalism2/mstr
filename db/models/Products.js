@@ -384,6 +384,7 @@ function remove(id) {
     // If id is not a string
     let message = '\'id\' must be a string.';
     return { error: message };
+  }
 
   var result = Product.remove({
     _id: id
