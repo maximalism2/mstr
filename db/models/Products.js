@@ -40,6 +40,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Types = mongoose.Types;
 var connect = require('../connect');
 var template = require('../templates/productModelTemplate');
 
@@ -76,7 +77,6 @@ function create(instance) {
   } else if (instance.name.length > 300) {
     // If instance.name is longer than 300 characters
     let message = 'instance.name cannot be longer than 300 characters';
-
     return { error: message };
   } else if (!instance.hasOwnProperty('cost')) {
     // If instance has no property cost
@@ -98,9 +98,9 @@ function create(instance) {
     // If priceOrigin is not a string
     let message = '\'instance.priceOrigin\' must be a string';
     return { error: message };
-  } else if (instance.priceOrigin.length === 0) {
+  } else if (instance.priceOrigin.length !== 24) {
     // If priceOrigin is empty string
-    let message = '\'instance.priceOrigin\' cannot be empty string';
+    let message = '\'instance.priceOrigin\' must be a string of 24 hex symbols';
     return { error: message };
   } else if (!instance.hasOwnProperty('unitOfMeasurement')) {
     // If instance has no property unitOfMeasurement
@@ -140,7 +140,7 @@ function createOf(pluralOfProducts) {
 
   // Checking instance in array
 
-  // TODO make how to find and catch an error in array
+  // TODO make how to find and catch an error in array DONE!
   let checkingResult;
   pluralOfProducts.forEach((instance, index) => {
     if (checkingResult instanceof Object && checkingResult.hasOwnProperty('error')) {
@@ -150,6 +150,7 @@ function createOf(pluralOfProducts) {
     if (!(instance instanceof Object)) {
       // If instance is not object
       let message = 'Method expects an array of objects';
+      message += ` but instance[${index}] is ${typeof instance[index]}`;
       checkingResult = { error: message };
       return;
     } else if (Object.keys(instance).length === 0) {
@@ -182,7 +183,7 @@ function createOf(pluralOfProducts) {
       let message = `'argument[${index}]' must have the 'cost' property`;
       checkingResult = { error: message };
       return;
-    } else if(!instance.cost instanceof Number) {
+    } else if(typeof instance.cost !== 'number') {
       // If instance.cost is not number
       let message = `'argument[' + index + '].cost' must be a number`;
       checkingResult = { error: message };
@@ -197,14 +198,9 @@ function createOf(pluralOfProducts) {
       let message = `'argument[${index}]' must have the 'priceOrigin' property`;
       checkingResult = { error: message };
       return;
-    } else if (!instance.priceOrigin instanceof String) {
-      // If priceOrigin is not a string
-      let message = `'argument[${index}].priceOrigin' must be a string`;
-      checkingResult = { error: message };
-      return;
-    } else if (instance.priceOrigin.length === 0) {
-      // If priceOrigin is empty string
-      let message = `'argument[${index}].priceOrigin' cannot be empty string`;
+    } else if (!(instance.priceOrigin instanceof Types.ObjectId)) {
+      // If priceOrigin is not an ObjectId
+      let message = `'argument[${index}].priceOrigin' must be an ObjectId`;
       checkingResult = { error: message };
       return;
     } else if (!instance.hasOwnProperty('unitOfMeasurement')) {
