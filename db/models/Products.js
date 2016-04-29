@@ -138,7 +138,7 @@ function createOf(pluralOfProducts) {
 
   // TODO make how to find and catch an error in array DONE!
   for (let index = 0; index < pluralOfProducts.length; index++) {
-    let instance = pluralOfProducts[i];
+    let instance = pluralOfProducts[index];
     if (!(instance instanceof Object)) {
       // If instance is not object
       let message = 'Method expects an array of objects';
