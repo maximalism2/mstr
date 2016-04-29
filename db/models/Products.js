@@ -137,89 +137,66 @@ function createOf(pluralOfProducts) {
   // Checking instance in array
 
   // TODO make how to find and catch an error in array DONE!
-  let checkingResult;
-  pluralOfProducts.forEach((instance, index) => {
-    if (checkingResult instanceof Object && checkingResult.hasOwnProperty('error')) {
-      // if error is already detecter
-      return;
-    }
+  for (let index = 0; index < pluralOfProducts.length; index++) {
+    let instance = pluralOfProducts[i];
     if (!(instance instanceof Object)) {
       // If instance is not object
       let message = 'Method expects an array of objects';
       message += ` but instance[${index}] is ${typeof instance[index]}`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (Object.keys(instance).length === 0) {
       // If instance object has no propertys
       let message = `'argument[${index}]' is the empty object`;
-      checkingResult = { error: message };
-      return;
+      return  { error: message };
     } else if (!instance.hasOwnProperty('name')) {
       // If instance has no property name
       let message = `'argument[${index}] must have the 'name' property`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (typeof instance.name !== 'string') {
       // If name is not a string
       let message = `'argument[${index}].name' must be a string`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (instance.name.length === 0) {
       // If instance.name is empty string
       let message = `'argument[${index}].name' cannot be ""`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (instance.name.length > 300) {
       // If instance.name is longer than 300 characters
       let message = `'argument[${index}].name' cannot be longer than 300 characters`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (!instance.hasOwnProperty('cost')) {
       // If instance has no property cost
       let message = `'argument[${index}]' must have the 'cost' property`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if(typeof instance.cost !== 'number') {
       // If instance.cost is not number
       let message = `'argument[' + index + '].cost' must be a number`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (instance.cost < 0) {
       // If cost is less then 0
       let message = `'argument[${index}].cost' must be bigger or equal 0`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (!instance.hasOwnProperty('priceOrigin')) {
       // If instance has no property priceOrigin (link to parents price)
       let message = `'argument[${index}]' must have the 'priceOrigin' property`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (!(instance.priceOrigin instanceof Types.ObjectId)) {
       // If priceOrigin is not an ObjectId
       let message = `'argument[${index}].priceOrigin' must be an ObjectId`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (!instance.hasOwnProperty('unitOfMeasurement')) {
       // If instance has no property unitOfMeasurement
       let message = `'argument[${index}]' must have the 'unitOfMeasurement' property`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (typeof instance.unitOfMeasurement !== 'string') {
       // If unitOfMeasurement is not a string
       let message = `'argument[${index}].unitOfMeasurement' must be a string`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     } else if (instance.unitOfMeasurement.length === 0) {
       // If unitOfMeasurement is empty string
       let message = `'argument[${index}].unitOfMeasurement' cannot be empty string`;
-      checkingResult = { error: message };
-      return;
+      return { error: message };
     }
-  });
-
-
-  if (checkingResult instanceof Object && checkingResult.hasOwnProperty('error')) {
-    return checkingResult;
   }
 
   // Save instances in array
@@ -272,7 +249,7 @@ function update(id, query) {
     // If id is not an ObjectId
     let message = '\'id\' must be an ObjectId.';
     return { error: message };
-  } else if (!query instanceof Object) {
+  } else if (!(query instanceof Object)) {
     // If query is not an object
     let message = '\'query\' must be an object.';
     return { error: message };
@@ -343,26 +320,6 @@ function update(id, query) {
   if (query.hasOwnProperty('priceOrigin')) {
     // If expected priceOrigin in query throw error, we cannot change origin
     let message = 'Cannot change priceOrigin in any product';
-    return { error: message };
-  } else if (query.name && !query.name instanceof String) {
-    // If field 'name' is existed, but it is not a string
-    let message = '\'qeury.name\' must be a string';
-    return { error: message };
-  } else if (query.name && query.name.length === 0) {
-    // If query.name is an empty string
-    let message = '\'query.name\' cannot be empty string';
-    return { error: message };
-  } else if (query.cost && !query.cost instanceof Number) {
-    // If field 'cost' is existed, but it is not a Number
-    let message = '\'query.cost\' must be a number';
-    return { error: message };
-  } else if (query.unitOfMeasurement && !query.unitOfMeasurement instanceof String) {
-    // If field 'unitOfMeasurement' is existed, but it is not a string
-    let message = '\'qeury.unitOfMeasurement\' must be a string';
-    return { error: message };
-  } else if (query.unitOfMeasurement && query.unitOfMeasurement.length === 0) {
-    // If query.unitOfMeasurement is an empty string
-    let message = '\'query.unitOfMeasurement\' cannot be empty string';
     return { error: message };
   }
 
