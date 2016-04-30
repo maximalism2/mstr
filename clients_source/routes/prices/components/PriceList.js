@@ -37,6 +37,10 @@ class PriceList extends Component {
           будь ласка, спробуйте пізніше
         </p>
       );
+    } else if (true) {
+      return (
+        <div className="spinner"></div>
+      );
     } else {
       if (data.length) {
         return (
@@ -57,7 +61,9 @@ class PriceList extends Component {
         )
       } else {
         return (
-          <p className="title size-4 empty-title">Ще не створено жодного каталогу</p>
+          <p className="title size-4 empty-title">
+            Ще не створено жодного каталогу
+          </p>
         );
       }
     }
