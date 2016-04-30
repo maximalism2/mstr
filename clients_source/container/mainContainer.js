@@ -3,10 +3,6 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 class AppContainer extends Component {
-  constructor(props, context) {
-    super(props);
-  }
-
   componentDidMount() {
     let { children, location } = this.props;
     let isRoot = location.pathname === '/';
@@ -16,7 +12,6 @@ class AppContainer extends Component {
   }
 
   render() {
-    console.log(PropTypes);
     return (
       <div className="app">
         <header className="header">

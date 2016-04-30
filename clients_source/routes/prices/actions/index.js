@@ -13,7 +13,6 @@ function loading(flag, dispatch) {
 
 export function fetchPrices(needToShowLoader = false) {
   return async dispatch => {
-    console.log(needToShowLoader);
     if (needToShowLoader) {
       loading(true, dispatch);
     }

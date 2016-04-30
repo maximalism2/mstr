@@ -11,7 +11,6 @@ class PriceList extends Component {
 
   componentWillMount() {
     let needToShowLoader = this.props.data.length === 0;
-    console.log('needToShowLoader', needToShowLoader);
     this.props.actions.fetchPrices(needToShowLoader);
   }
 
