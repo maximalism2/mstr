@@ -17,18 +17,19 @@ var routes = {
       path: '/',
       component: AppContainer,
       // Temp
-      childRoutes: [
-        require('./routes/prices/'),
-        require('./routes/price/')
-      ]
-      // getChildRoutes(location, callback) {
-      //   require.ensure([], function(require) {
-      //     callback(null, [
-      //       require('./routes/prices'),
-      //       // And so one
-      //     ])
-      //   });
-      // }
+      // childRoutes: [
+      //   require('./routes/prices/'),
+      //   require('./routes/price/')
+      // ]
+      getChildRoutes(location, callback) {
+        require.ensure([], function(require) {
+          callback(null, [
+            require('./routes/prices/'),
+            require('./routes/price/')
+            // And so on
+          ])
+        });
+      }
     },]
 }
 

@@ -41,7 +41,7 @@ class AppContainer extends Component {
             </div>
           </div>
         </header>
-        {this.props.children ? this.props.children : 'empty'}
+        {this.props.children ? this.props.children : <div className="spinner"></div>}
       </div>
     );
   }
@@ -52,7 +52,7 @@ AppContainer.contextTypes = {
 }
 
 AppContainer.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element
 }
 
 function select(state) {
