@@ -4,14 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Maestro | mstr.ws</title>
-  <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/styles/css/main.min.css">
+  <style>
+    .sp {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(to right, #1fc8db 0%, #24e6ac 100%);
+      margin: 30px auto;
+      animation: sk-rotateplane 3s infinite ease-in-out;
+    }
+
+    @keyframes sk-rotateplane {
+      0%   { transform: perspective(90px) rotateX(0deg) rotateY(0deg); }
+      25%  { transform: perspective(90px) rotateX(-180deg) rotateY(0deg); }
+      50%  { transform: perspective(90px) rotateX(-180deg) rotateY(-180deg); }
+      75%  { transform: perspective(90px) rotateX(-360deg) rotateY(-180deg); }
+      100% { transform: perspective(90px) rotateX(-360deg) rotateY(0deg); }
+    }
+  </style>
 </head>
 <body>
   <div id="root">
-    <div class="spinner" style="margin-top: 15vh"></div>
+    <div style="text-align: center;">
+      <h1>Maestro</h1>
+      <div class="sp" style="margin-top: 15vh"></div>
+    </div>
   </div>
-  <script src="/js/common.js"></script>
-  <script src="/js/app.js"></script>
+  <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css" lazyload>
+  <link rel="stylesheet" href="/styles/css/main.min.css" lazyload>
+  <script src="/js/common.js" async></script>
+  <script src="/js/app.js" async></script>
 </body>
 </html>
