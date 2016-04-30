@@ -1,6 +1,7 @@
 'use strict';
 var assert = require('assert');
 var Price = require('../db/models/Prices');
+var Types = require('mongoose').Types;
 
 function isErrorObject(o) {
   return o instanceof Object && o.hasOwnProperty('error') && typeof o.error === 'string';
@@ -56,20 +57,37 @@ describe('Model interface', function() {
         assert.equal(true, isErrorObject(res));
       });
     });
+    describe('.create(), usually:', () => {
+      it('should returns an object with created price', () => {
+        let instance = {
+          name: 'Test price',
+          discount: 12,
+          products: ['some product 1', 'some product 2']
+        }
+        let res = Price.create(instance);
+        res.then(price => {
+          assert.equal(true, price instanceof Object);
+        });
+      });
+    });
     describe('.readById(), must returns an object with error when:', function() {
       it('passed any arguments', function() {
         var res = Price.readById();
         assert.equal(true, isErrorObject(res));
       });
 
-      it('passed some id, but it is not a string', function() {
+      it('passed some id, but it is not an ObjectId', function() {
         var res = Price.readById(123);
         assert.equal(true, isErrorObject(res));
       });
-
-      it('passed an empty id string', function() {
-        var res = Price.readById('');
-        assert.equal(true, isErrorObject(res));
+    });
+    describe('.readById(), usually:', () => {
+      it('should returns an object with price or null', () => {
+        let id = Types.ObjectId('5723c11dfd18d2a84edcaf5e');
+        let res = Price.readById(id);
+        res.then(price => {
+          assert.equal(true, (price instanceof Object || price === null));
+        })
       });
     });
     describe('.update(), must returns an object with error when:', function() {
