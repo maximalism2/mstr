@@ -7,7 +7,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import AppContainer from './container/mainContainer';
 import 'babel-polyfill';
 
-import configureStore from './store/'
+import configureStore from './store/';
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);

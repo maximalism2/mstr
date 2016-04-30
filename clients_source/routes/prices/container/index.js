@@ -11,8 +11,8 @@ class PricesContainer extends Component {
     this.fetchPriceById = this.fetchPriceById.bind(this);
   }
 
-  fetchPrices() {
-    this.props.dispatch(actions.fetchPrices());
+  fetchPrices(flag) {
+    this.props.dispatch(actions.fetchPrices(flag));
   }
 
   fetchPriceById(id) {

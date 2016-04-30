@@ -5,27 +5,31 @@ class PriceList extends Component {
   constructor(props, context) {
     super();
     this.state = {
-      mounted: false
+      loaded: false
     };
   }
 
   componentWillMount() {
-    this.props.actions.fetchPrices();
+    let needToShowLoader = this.props.data.length === 0;
+    console.log('needToShowLoader', needToShowLoader);
+    this.props.actions.fetchPrices(needToShowLoader);
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        mounted: true
-      });
-    }, 100);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data.length) {
+      setTimeout(() => {
+        this.setState({
+          loaded: true
+        });
+      }, 50);
+    }
   }
 
   renderList() {
     let { data, view, actions } = this.props;
 
     let className = "container price-list-content";
-    if (this.state.mounted) {
+    if (this.state.loaded) {
       className += " showed";
     }
 
@@ -37,7 +41,7 @@ class PriceList extends Component {
           будь ласка, спробуйте пізніше
         </p>
       );
-    } else if (true) {
+    } else if (view.loading) {
       return (
         <div className="spinner"></div>
       );

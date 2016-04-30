@@ -1,12 +1,13 @@
 import { combineReducers } from 'redux';
 import {
-  FETCH_PRICES, FETCH_PRICE_BY_ID, ERROR_FPM
+  FETCH_PRICES, FETCH_PRICE_BY_ID, ERROR_FPM, FETCHING_LOADING
 } from '../consts';
 
 const initialData = {
   data: [],
   view: {
-    error: false
+    error: false,
+    loading: false
   }
 }
 
@@ -26,6 +27,11 @@ function view(state = initialData.view, action) {
     case ERROR_FPM: {
       return Object.assign({}, state, {
         error: true
+      });
+    }
+    case FETCHING_LOADING: {
+      return Object.assign({}, state, {
+        loading: action.flag
       });
     }
     default: {
