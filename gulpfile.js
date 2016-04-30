@@ -31,18 +31,33 @@ gulp.task('lint:scss', () => {
 });
 
 gulp.task('build:css', ['lint:scss'], () => {
-  return gulp.src('./public/styles/scss/**/*.scss')
-    .pipe(sourcemaps.init())
-    .pipe(sass().on('error', sass.logError))
-    .pipe(autoprefixer({
-      browsers: ['last 4 versions'],
-      cascade: false
-    }))
-    .pipe(gulp.dest('./public/styles/css'))
-    .pipe(minifyCss())
-    .pipe(sourcemaps.write())
-    .pipe(rename({ suffix: ".min" }))
-    .pipe(gulp.dest('./public/styles/css'))
+  let penv = process.env;
+  let NODE_ENV = penv.NODE_ENV ? penv.NODE_ENV : 'development';
+  if (NODE_ENV === 'production') {
+    return gulp.src('./public/styles/scss/**/*.scss')
+      .pipe(sass().on('error', sass.logError))
+      .pipe(autoprefixer({
+        browsers: ['last 4 versions'],
+        cascade: false
+      }))
+      .pipe(gulp.dest('./public/styles/css'))
+      .pipe(minifyCss())
+      .pipe(rename({ suffix: ".min" }))
+      .pipe(gulp.dest('./public/styles/css'))
+  } else {
+    return gulp.src('./public/styles/scss/**/*.scss')
+      .pipe(sourcemaps.init())
+      .pipe(sass().on('error', sass.logError))
+      .pipe(autoprefixer({
+        browsers: ['last 4 versions'],
+        cascade: false
+      }))
+      .pipe(gulp.dest('./public/styles/css'))
+      .pipe(minifyCss())
+      .pipe(sourcemaps.write())
+      .pipe(rename({ suffix: ".min" }))
+      .pipe(gulp.dest('./public/styles/css'))
+  }
 });
 
 gulp.task('sass:watch', () => {
