@@ -108,13 +108,9 @@ function readById(id) {
     // If id is not passed
     let message = 'Methor read() expects a parameter, but no one was passed.';
     return { error: message };
-  } else if (!(typeof id === 'string')) {
-    // If id is not a string
-    let message = '\'id\' must be a string.';
-    return { error: message };
-  } else if (id === '') {
-    // If id equal empty string
-    let message = '\'id\' cannot be empty string.';
+  } else if (!(id instanceof Types.ObjectId)) {
+    // If id is not an ObjectId
+    let message = '\'id\' must be an ObjectId.';
     return { error: message };
   }
 
