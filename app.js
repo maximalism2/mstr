@@ -1,3 +1,4 @@
+'use strict';
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -25,14 +26,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
+app.use('/api/price*', price);
 app.use('/', routes);
-app.use('/api/price', price);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+
+  // var err = new Error('Not Found');
+  // err.status = 404;
+  // next(err);
+  let pathToIndex = path.resolve(__dirname, '../public/index.html');
+  res.sendFile(pathToIndex);
 });
 
 // development error handler
