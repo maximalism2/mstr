@@ -9,4 +9,10 @@ class PriceContainer extends Component {
   }
 }
 
+function select(state) {
+  return {
+    price: state.price
+  }
+}
+
 export default PriceContainer;
