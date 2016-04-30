@@ -75,7 +75,6 @@ gulp.task('webpack', () => {
 
 gulp.task('webpack-dev-server', (cb) => {
   let compiler = webpack(webpackConfig);
-
   new webpackDevServer(compiler, {
     publicPath: webpackConfig.output.publicPath,
     contentBase: __dirname + '/public',
