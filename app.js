@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
-app.use('/api/price*', price);
+app.use('/api/price', price);
 app.use('/', routes);
 
 // catch 404 and forward to error handler

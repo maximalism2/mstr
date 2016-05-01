@@ -8,17 +8,12 @@
 module.exports = {
   path: 'prices',
   component: PricesContainer,
-  // childRoutes: [
-  //   require('./routes/new/')
-  // ]
-  getChildRoutes(location, cb) {
-    require.ensure([], require => {
-      cb(null, require('./routes/new/'));
-    })
-  },
-  getComponent(location, cb) {
-    require.ensure([], require => {
-      cb(null, require('./container/'));
-    })
-  }
+  childRoutes: [
+    require('./routes/new/')
+  ]
+  // getComponent(location, cb) {
+  //   require.ensure([], require => {
+  //     cb(null, require('./container/'));
+  //   })
+  // }
 }

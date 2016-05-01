@@ -3,6 +3,10 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 class AppContainer extends Component {
+  constructor(props, context) {
+    super(props);
+  }
+
   componentDidMount() {
     let { children, location } = this.props;
     let isRoot = location.pathname === '/';
@@ -41,7 +45,7 @@ class AppContainer extends Component {
             </div>
           </div>
         </header>
-        {this.props.children ? this.props.children : <div className="spinner"></div>}
+        {this.props.children ? this.props.children : 'empty'}
       </div>
     );
   }
@@ -52,7 +56,7 @@ AppContainer.contextTypes = {
 }
 
 AppContainer.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.element.isRequired
 }
 
 function select(state) {

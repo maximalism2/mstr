@@ -3,42 +3,7 @@ var express = require('express');
 var router = express.Router();
 var Price = require('../db/models/Prices');
 var Product = require('../db/models/Products');
-
-router.get('/', (req, res, next) => {
-  Price.read()
-    .then(result => {
-        res.json(JSON.stringify(result));
-        res.end();
-    })
-});
-
-router.get('/:id/', (req, res, next) => {
-  //  Search the price, then looks for products, this links to this price,
-  //  get them and put to product property in price object
-  let result = Price.readById(req.params.id);
-  if (result.error) {
-    res.json(JSON.stringify(result));
-    res.end();
-  } else {
-    result.then(price => {
-      if (price) {
-        let priceCopy = JSON.parse(JSON.stringify(price));
-        let query = {
-          priceOrigin: req.params.id
-        }
-
-        Product.readWhere(query)
-        .then(result => {
-          priceCopy.products = result;
-          res.json(JSON.stringify(priceCopy));
-          res.end();
-        });
-      } else {
-        res.end();
-      }
-    });
-  }
-});
+var Types = require('mongoose').Types;
 
 router.post('/', (req, res, next) => {
   // Make copy of request body
@@ -83,6 +48,44 @@ router.post('/', (req, res, next) => {
       }
     });
   }
+});
+
+router.get('/:id/', (req, res, next) => {
+  //  Search the price, then looks for products, this links to this price,
+  //  get them and put to product property in price object
+  let id = Types.ObjectId(req.params.id);
+
+  let result = Price.readById(id);
+  if (result.error) {
+    res.json(JSON.stringify(result));
+    res.end();
+  } else {
+    result.then(price => {
+      if (price) {
+        let priceCopy = JSON.parse(JSON.stringify(price));
+        let query = {
+          priceOrigin: id
+        }
+
+        Product.readWhere(query)
+        .then(result => {
+          priceCopy.products = result;
+          res.json(JSON.stringify(priceCopy));
+          res.end();
+        });
+      } else {
+        res.end();
+      }
+    });
+  }
+});
+
+router.get('/', (req, res, next) => {
+  Price.read()
+    .then(result => {
+        res.json(JSON.stringify(result));
+        res.end();
+    })
 });
 
 module.exports = router;
