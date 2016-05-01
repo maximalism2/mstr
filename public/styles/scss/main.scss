@@ -96,14 +96,16 @@ html {
 
     border: 1px solid #fafafa;
     background: #fefeff;
-    transition: .5s;
-    transform: translateY(50px);
-    opacity: 0;
+    // transition: .5s;
+    // transform: translateY(50px);
+    // opacity: 0;
     padding: .5rem;
 
     &.showed {
-      transform: none;
-      opacity: 1;
+      .price-item {
+        transform: none;
+        opacity: 1;
+      }
     }
   }
 
@@ -113,13 +115,15 @@ html {
     color: #bbb;
   }
 
-  $trans-dur: .05s;
+  $trans-dur: .5s;
 
   .price-item {
     width: 100%;
     padding: .7rem;
     margin: 0;
     transition: $trans-dur;
+    transform: translateY(50px);
+    opacity: 0;
     border-bottom: 1px solid rgba(230, 230, 230, .8);
     position: relative;
 
