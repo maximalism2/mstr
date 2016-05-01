@@ -3,20 +3,15 @@
  * to app's database;
  */
 'use scrict';
+
 var mongoose = require('mongoose');
+const origin = 'localhost';
+const dbName = 'maestro';
 
-var dbusername = 'mstradmin';
-var dbpassword = 'chillozzie199max';
-var origin = `mongodb://${dbusername}:${dbpassword}@ds011912.mlab.com:11912/maestro`;
-
-var nenv = process.env.NODE_ENV;
-// if (nenv && (nenv === 'development' || nenv === 'test')) {
-//   origin = 'localhost'
-// }
-
-function connect(uri) {
-  if (!uri) uri = origin;
-  return mongoose.createConnection(uri);
+function connect(url, name) {
+  if (!url) url = origin;
+  if (!name) name = dbName;
+  return mongoose.createConnection(url, name);
 }
 
 module.exports = connect;
