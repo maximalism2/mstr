@@ -103,7 +103,7 @@ gulp.task('webpack-dev-server', (cb) => {
         }
       }
     }
-  }).listen(8000, 'localhost', function (err, result) {
+  }).listen((process.env.PORT || 8000), 'localhost', function (err, result) {
     if (err) {
       console.log(err);
     }
