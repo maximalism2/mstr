@@ -20,6 +20,19 @@
       75%  { transform: perspective(90px) rotateX(-360deg) rotateY(-180deg); }
       100% { transform: perspective(90px) rotateX(-360deg) rotateY(0deg); }
     }
+
+    .error-box {
+      display: inline-block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding: .4rem 1.5rem .6rem;
+      width: auto;
+      background: white;
+      border: 1px solid #ed6c63;
+      border-bottom-right-radius: 5px;
+      color: #ed6c63;
+    }
   </style>
 </head>
 <body>
@@ -31,6 +44,14 @@
   </div>
   <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css" lazyload>
   <link rel="stylesheet" href="/styles/css/main.min.css" lazyload>
+  <script>
+    window.addEventListener('error', function(event) {
+      var errorBox = document.createElement('div');
+      errorBox.className = "error-box";
+      errorBox.textContent = event.message;
+      document.body.appendChild(errorBox);
+    }, false);
+  </script>
   <script src="/js/common.js" async></script>
   <script src="/js/app.js" async></script>
 </body>

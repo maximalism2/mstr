@@ -139,7 +139,10 @@ html {
       cursor: pointer;
 
       &:hover {
-        color: darken(#1fc8db, 10%);
+        a {
+          color: #24e6ac;
+          border: 0;
+        }
       }
     }
 
