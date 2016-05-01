@@ -8,7 +8,6 @@ class PriceItem extends Component {
       <div className="price-item" style={this.props.style}>
         <p
           className="title link"
-          onClick={() => actions.fetchPriceById(_id)}
         >
           <Link to={`/price/${this.props._id}/`} className="link-to-price">
             {this.props.name}

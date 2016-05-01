@@ -1,7 +1,7 @@
 import React, { Component, PropTypes} from 'react';
 import { Link } from 'react-router';
 
-export default class Header extends Component {
+class Header extends Component {
   render() {
     return (
       <div className="header-wrapper">
@@ -24,3 +24,5 @@ export default class Header extends Component {
     );
   }
 }
+
+export default Header;
