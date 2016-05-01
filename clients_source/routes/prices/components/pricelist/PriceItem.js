@@ -5,18 +5,14 @@ class PriceItem extends Component {
   render() {
     let { actions, _id } = this.props;
     return (
-      <div className="price-item">
+      <div className="price-item" style={this.props.style}>
         <p
           className="title link"
           onClick={() => actions.fetchPriceById(_id)}
         >
-        {
-          // <Link to={`/`/*`${this.props._id}/`*/}>
-        }
-          {this.props.name}
-        {
-          // </Link>
-        }
+          <Link to={`/price/${this.props._id}/`} className="link-to-price">
+            {this.props.name}
+          </Link>
         </p>
         <p className="count">
           {this.props.count} позицій
@@ -34,6 +30,7 @@ PriceItem.propTypes = {
   _id: PropTypes.string.isRequired,
   count: PropTypes.number.isRequired,
   actions: PropTypes.object.isRequired,
+  style: PropTypes.object.isRequired,
   updatedAt: PropTypes.any.isRequired // Date object
 }
 

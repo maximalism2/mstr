@@ -39,13 +39,3 @@ export function fetchPrices(needToShowLoader = false) {
     }
   }
 }
-
-export function fetchPriceById(id) {
-  return async dispatch => {
-    let url = `${origin}/api/price/${id}/`;
-    const response = await read(url);
-    if (response.ok) {
-      console.log('data by id', JSON.parse(await response.json()));
-    }
-  }
-}

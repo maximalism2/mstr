@@ -1,0 +1,4 @@
+export const FETCH_PRICE_BY_ID = 'FETCH_PRICE_BY_ID';
+export const FETCHING_LOADING = 'FETCHING_LOADING';
+
+export const FBI_ERROR = 'FBI_ERROR';

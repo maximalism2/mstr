@@ -56,7 +56,7 @@ AppContainer.contextTypes = {
 }
 
 AppContainer.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element
 }
 
 function select(state) {

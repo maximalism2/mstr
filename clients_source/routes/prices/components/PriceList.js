@@ -53,6 +53,9 @@ class PriceList extends Component {
                 <PriceItem
                   key={index}
                   name={item.name}
+                  style={{
+                    transitionDelay: `${0.05 * index}s`
+                  }}
                   _id={item._id}
                   count={item.products.length}
                   updatedAt={new Date(item.updatedAt)}
@@ -86,7 +89,7 @@ class PriceList extends Component {
 PriceList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   view: PropTypes.object.isRequired,
-  // actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired
 }
 
 export default PriceList;
