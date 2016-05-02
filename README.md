@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/necinc/maestro.svg?branch=master)](https://travis-ci.org/necinc/maestro)
 [![Coverage Status](https://coveralls.io/repos/github/necinc/maestro/badge.svg?branch=master)](https://coveralls.io/github/necinc/maestro?branch=master)
 
-Yo deploy the project on your machine do items below:
+To deploy the project on your machine do items below:
 
 - `$ git clone http://github.com/necinc/maestro.git`
 
