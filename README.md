@@ -6,7 +6,9 @@
 
 To deploy the project on your machine do items below:
 
-- `$ git clone http://github.com/necinc/maestro.git`
+- You need to have Node version 5 or higher, the fastest way to do this [via npm](https://davidwalsh.name/upgrade-nodejs)
+
+- `$ git clone http://github.com/necinc/maestro.git && cd maestro`
 
 - `$ sudo apt-get install mongodb-client mongodb-server`
 
