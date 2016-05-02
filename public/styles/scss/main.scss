@@ -90,7 +90,7 @@ html {
   }
 
   .price-list-content {
-    max-width: 700px;
+    max-width: 770px;
     margin-top: 1rem;
     box-shadow: none;
 
@@ -164,6 +164,7 @@ html {
   .new-header {
     padding: 10px;
     padding-left: 0;
+    padding-right: 0;
 
     .button.is-primary {
       margin: 0 2%;
@@ -197,6 +198,12 @@ html {
   }
 }
 
+
+.content-container {
+  max-width: 770px;
+  margin: auto;
+}
+
 .new-price-form {
   padding: 1rem 0;
 
@@ -204,11 +211,6 @@ html {
     margin-bottom: 0;
     text-align: center;
     color: #999;
-  }
-
-  .content-container {
-    max-width: 700px;
-    margin: auto;
   }
 
   .product-form-title {
@@ -242,6 +244,20 @@ html {
         }
       }
     }
+  }
+}
+
+.right-side {
+  float: right;
+}
+
+.price-content {
+  .price-title {
+    padding: 3rem 0;
+    font-size: 2.05rem;
+    letter-spacing: 0.043rem;
+    color: #555;
+    border-bottom: 1px solid rgba(0,0,0,.12);
   }
 }
 

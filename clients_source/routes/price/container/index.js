@@ -11,9 +11,17 @@ class PriceContainer extends Component {
   }
 
   render() {
+    let { price } = this.props;
+    let actionsForComponents = {}
     return (
       <div className="prices content">
-        <Header />
+        <Header
+          actions={actionsForComponents}
+        />
+        <Content
+          data={price.data}
+          view={price.view}
+        />
       </div>
     );
   }

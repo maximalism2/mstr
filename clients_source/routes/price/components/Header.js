@@ -9,6 +9,21 @@ class Header extends Component {
           <Link to="/prices/" className="button is-link icon-link">
             <i className="fa fa-arrow-left"></i>
           </Link>
+          <div className="right-side">
+            <a className="button is-warning is-outlined">
+              <span className="icon">
+                <span className="fa fa-edit"></span>
+              </span>
+              <span>Редагувати</span>
+            </a>
+            {" "}
+            <a className="button is-danger is-outlined">
+              <span className="icon">
+                <span className="fa fa-times"></span>
+              </span>
+              <span>Видалити</span>
+            </a>
+          </div>
         </header>
       </div>
     );
