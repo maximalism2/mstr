@@ -10,7 +10,7 @@ Yo deploy the project on your machine do items below:
 
 - `$ sudo apt-get install mongodb-client mongodb-server`
 
-- `$ npm i -g gulp && npm i`
+- `$ sudo npm i -g gulp && npm i`
 
 - `$ npm run build && npm start`
 
