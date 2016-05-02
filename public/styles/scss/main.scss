@@ -26,6 +26,36 @@ html {
   }
 }
 
+.header-logo {
+  width: 110px;
+  padding: 0;
+  margin-right: 10px;
+
+  .logo-title {
+    margin: 0;
+    text-align: center;
+    color: #888;
+    letter-spacing: 0.1rem;
+  }
+
+  .main-logo {
+    display: none;
+    margin: auto;
+  }
+
+  &:hover {
+    background: #fefefe;
+
+    .logo-title {
+      display: none;
+    }
+
+    .main-logo {
+      display: block;
+    }
+  }
+}
+
 .main-title {
   small {
     font-size: $size-5;
