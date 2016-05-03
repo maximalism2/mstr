@@ -1,0 +1,167 @@
+.scrolled {
+  padding-top: 115px;
+
+  .header,
+  .content .header-wrapper {
+    width: 100%;
+    position: fixed;
+  }
+
+  .header {
+    z-index: 101;
+    top: 0;
+  }
+
+  .content .header-wrapper {
+    z-index: 100;
+    top: 55px;
+  }
+
+  &.shadowed {
+    .content .header-wrapper {
+      box-shadow: 0px -9px 31px 6px rgba(0,0,0,0.15);
+    }
+  }
+}
+
+.prices {
+  .header-wrapper {
+    background-color: $bg-color;
+  }
+
+  .price-list-header {
+    max-width: 960px;
+    margin: auto;
+
+    .left-aside {
+      padding-left: 0;
+    }
+
+    .center {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .create-new-button {
+      margin-top: 4px;
+
+      .fa {
+        font-size: 14px;
+        margin-right: 6px;
+      }
+    }
+
+    .control.has-icon .input:focus+.fa {
+      color: #1fc8db;
+    }
+
+    .search-input-icon {
+      top: 12px;
+      right: 12px;
+      font-size: 19px;
+    }
+  }
+
+  &.content {
+    padding: 0 0 1rem;
+  }
+
+  .price-list-content {
+    max-width: 770px;
+    margin-top: 1rem;
+    box-shadow: none;
+
+    border: 1px solid #fafafa;
+    background: #fefeff;
+    padding: .5rem;
+
+    &.showed {
+      .price-item {
+        transform: none;
+        opacity: 1;
+      }
+    }
+  }
+
+  .empty-title {
+    text-align: center;
+    margin: 40px;
+    color: #bbb;
+  }
+
+  .price-item {
+    width: 100%;
+    padding: .7rem;
+    margin: 0;
+    transition: $trans-dur;
+    transform: translateY(50px);
+    opacity: 0;
+    border-bottom: 1px solid rgba(230, 230, 230, .8);
+    position: relative;
+
+    &:last-child {
+      border: 0;
+    }
+
+    .title.link {
+      display: inline-block;
+      margin-bottom: .7rem;
+      color: #1fc8db;
+      transition: $trans-dur;
+      cursor: pointer;
+
+      &:hover {
+        a {
+          color: #24e6ac;
+          border: 0;
+        }
+      }
+    }
+
+    .count {
+      margin-bottom: 0;
+    }
+
+    .updated-at {
+      position: absolute;
+      top: .7rem;
+      right: .7rem;
+    }
+  }
+
+  .new-header {
+    padding: 10px;
+    padding-left: 0;
+    padding-right: 0;
+
+    .button.is-primary {
+      margin: 0 2%;
+
+      .fa {
+        font-size: 14px;
+        margin-right: 6px;
+      }
+    }
+
+    .icon-link {
+      background: transparent;
+      text-decoration: none;
+
+      &:hover,
+      &:active {
+        background: rgba(230, 230, 230, .8);
+      }
+
+      .fa {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+.button.is-primary.is-medium {
+  .fa {
+    font-size: 18px;
+    margin-right: 6px;
+  }
+}
