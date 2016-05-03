@@ -11,6 +11,26 @@ class PricesContainer extends Component {
     this.fetchPriceById = this.fetchPriceById.bind(this);
   }
 
+  scrollHandler(event) {
+    let { scrollingElement } = event.target;
+    let { body } = document;
+    if (scrollingElement.scrollTop !== 0) {
+      body.className = "scrolled shadowed";
+    } else {
+      body.className = "scrolled";
+    }
+  }
+
+  componentWillMount() {
+    document.body.className = "scrolled";
+    window.addEventListener('scroll', this.scrollHandler, false);
+  }
+
+  componentWillUnmount() {
+    document.body.className = "";
+    window.removeEventListener('scroll', this.scrollHandler);
+  }
+
   fetchPrices(flag) {
     this.props.dispatch(actions.fetchPrices(flag));
   }
