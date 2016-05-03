@@ -83,11 +83,11 @@
   </div>
 
   <script>
-    var clipedShine = document.getElementById('clipedShine');
+    var cs = document.getElementById('clipedShine');
 
     var resetInterval = setInterval(function() {
-      clipedShine.setAttribute('x', "0");
-      clipedShine.setAttribute('y', "670");
+      cs.setAttribute('x', "0");
+      cs.setAttribute('y', "670");
 
       if (document.getElementById('clipedShine') === null) {
         // If scripts loaded and app rendered  and loader is removed - clear the intervals
@@ -98,10 +98,10 @@
     }, 3000);
 
     var offsetInterval = setInterval(function() {
-      var offsetX = parseInt(clipedShine.getAttribute('x'));
-      var offsetY = parseInt(clipedShine.getAttribute('y'));
-      clipedShine.setAttribute('x', String(offsetX + 30));
-      clipedShine.setAttribute('y', String(offsetY - 9));
+      var offsetX = parseInt(cs.getAttribute('x'));
+      var offsetY = parseInt(cs.getAttribute('y'));
+      cs.setAttribute('x', String(offsetX + 30));
+      cs.setAttribute('y', String(offsetY - 9));
     }, 1000 / 60);
 
     window.addEventListener('error', function(event) {
@@ -110,13 +110,13 @@
       errorBox.textContent = event.message;
       document.body.appendChild(errorBox);
 
-      var shineArea = document.getElementById('shineArea');
-      shineArea.style.fill = "#ed6c63";
-      shineArea.style.opacity = "1";
-      clipedShine.setAttribute('width', "1500")
-      clipedShine.setAttribute('height', "1500");
-      clipedShine.setAttribute('x', "250");
-      clipedShine.setAttribute('y', "0");
+      var sa = document.getElementById('shineArea');
+      sa.style.fill = "#ed6c63";
+      sa.style.opacity = "1";
+      cs.setAttribute('width', "1500")
+      cs.setAttribute('height', "1500");
+      cs.setAttribute('x', "250");
+      cs.setAttribute('y', "0");
       window.clearInterval(offsetInterval);
       window.clearInterval(resetInterval);
     }, false);
