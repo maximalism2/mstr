@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var htmlmin = require('gulp-htmlmin');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
@@ -13,6 +14,11 @@ var webpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config');
 var webpackProductionConfig = require('./webpack.production.config');
 
+gulp.task('minifyhtml', function() {
+  return gulp.src('./public/htmlsrc/*.html')
+    .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(gulp.dest('./public'))
+});
 
 const lintScss = [
   './public/styles/scss/site/*.scss',
@@ -111,5 +117,5 @@ gulp.task('webpack-dev-server', (cb) => {
   });
 });
 
-gulp.task('default', ['build:css', 'webpack']);
+gulp.task('default', ['minifyhtml', 'build:css', 'webpack']);
 gulp.task('hot', ['sass:watch', 'webpack-dev-server']);
