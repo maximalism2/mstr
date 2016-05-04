@@ -35,6 +35,7 @@ var config = {
     }),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify('production'),
+      'process.env.NODE_ENV': JSON.stringify('production'),
       LANG: JSON.stringify('ua')
     }),
     // new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor-[chunkhash].js', Infinity),
