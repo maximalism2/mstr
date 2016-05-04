@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import {
-  FETCH_PRICE_BY_ID, FETCHING_LOADING, FBI_ERROR
+  FETCH_PRICE_BY_ID, FETCHING_LOADING, FBI_ERROR,
+  EDIT_MODE_ON, EDIT_MODE_OFF
 } from '../consts';
 
 const initialPrice = {
@@ -10,7 +11,8 @@ const initialPrice = {
   },
   view: {
     error: false,
-    loading: false
+    loading: false,
+    editMode: false
   }
 }
 
@@ -35,6 +37,16 @@ function view(state = initialPrice.view, action) {
     case FBI_ERROR: {
       return Object.assign({}, state, {
         error: true
+      });
+    }
+    case EDIT_MODE_ON: {
+      return Object.assign({}, state, {
+        editMode: true
+      });
+    }
+    case EDIT_MODE_OFF: {
+      return Object.assign({}, state, {
+        editMode: false
       });
     }
     default: {

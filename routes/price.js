@@ -88,4 +88,24 @@ router.get('/', (req, res, next) => {
     })
 });
 
+router.delete('/:id/', (req, res, next) => {
+  let id = req.params.id ? Types.ObjectId(req.params.id) : null;
+  if (id === null) {
+    res.json(JSON.stringify({error: 'must be not null'}));
+    res.end()
+    return;
+  }
+
+  let removingRes = Price.remove(id);
+  console.log(removingRes);
+
+  if (removingRes.then) {
+    removingRes.then(result => {
+      console.log('\n\nresult', result);
+    })
+    res.end("success");
+  }
+  res.end()
+})
+
 module.exports = router;

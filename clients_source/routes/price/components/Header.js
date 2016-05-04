@@ -3,6 +3,9 @@ import { Link } from 'react-router';
 
 class Header extends Component {
   render() {
+    let { actions } = this.props;
+    console.log('actions', actions);
+
     return (
       <div className="header-wrapper">
         <header className="price-list-header new-header">
@@ -10,24 +13,34 @@ class Header extends Component {
             <i className="fa fa-arrow-left"></i>
           </Link>
           <div className="right-side">
-            <a className="button is-warning is-outlined">
+            <button
+              className="button is-warning is-outlined"
+              onClick={() => actions.editModeOn()}
+            >
               <span className="icon">
                 <span className="fa fa-edit"></span>
               </span>
               <span>Редагувати</span>
-            </a>
+            </button>
             {" "}
-            <a className="button is-danger is-outlined">
+            <button
+              className="button is-danger is-outlined"
+              onClick={() => actions.remove()}
+            >
               <span className="icon">
                 <span className="fa fa-times"></span>
               </span>
               <span>Видалити</span>
-            </a>
+            </button>
           </div>
         </header>
       </div>
     );
   }
+}
+
+Header.propTypes = {
+  actions: PropTypes.objectOf(PropTypes.func).isRequired
 }
 
 export default Header;

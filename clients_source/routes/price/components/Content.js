@@ -1,13 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import Loader from '../../../common/components/loader';
+import cnames from 'classnames';
 
 class Content extends Component {
   renderContent() {
-    let { data } = this.props;
+    let { data, view } = this.props;
     let updatedAt = data.updatedAt ? (new Date(data.updatedAt)).toLocaleDateString() : null;
 
+    let containerCName = cnames({
+      "price-content": true,
+      "container": true,
+      "edit-mode": view.editMode
+    });
+
     return (
-      <div className="price-content container">
+      <div className={containerCName}>
         <div className="main-info content-container">
           <p className="updated-at">Оновлено: {updatedAt}</p>
           <h1 className="title price-title">{data.name}</h1>
@@ -22,8 +29,8 @@ class Content extends Component {
               <tr>
                 <th className="number-column">№</th>
                 <th className="name-column">Назва</th>
-                <th>Одиниці вимірювання</th>
-                <th>Ціна</th>
+                <th>Одиниці вим.</th>
+                <th className="cost-column">Ціна</th>
               </tr>
             </thead>
             <tbody className="table-body">

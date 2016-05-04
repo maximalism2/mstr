@@ -1,8 +1,11 @@
 import {
-  FETCH_PRICE_BY_ID, FETCHING_LOADING, FBI_ERROR
+  FETCH_PRICE_BY_ID, FETCHING_LOADING, FBI_ERROR,
+  EDIT_MODE_ON, EDIT_MODE_OFF,
+  REMOVING_LOADING, REMOVE, REMOVE_ERROR
 } from '../consts';
+
 import origin from '../../../common/origin';
-import { read } from '../../../common/fetch';
+import { read, destroy } from '../../../common/fetch';
 
 export function fetchPriceById(id) {
   return async dispatch => {
@@ -32,5 +35,31 @@ export function fetchPriceById(id) {
         type: FBI_ERROR
       });
     }
+  }
+}
+
+export function editModeOn() {
+  return {
+    type: EDIT_MODE_ON
+  }
+}
+
+export function editModeOff() {
+  return {
+    type: EDIT_MODE_OFF
+  }
+}
+
+export function remove(id) {
+  return async dispatch => {
+    dispatch({
+      type: REMOVING_LOADING
+    });
+
+    const url = `${origin}/api/price/${id}/`;
+    console.log(url);
+    let response = await destroy(url);
+    console.log('response', response);
+    console.log('result', await response.json());
   }
 }
