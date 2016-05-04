@@ -6,6 +6,11 @@ export const FBI_ERROR = 'FBI_ERROR';
 export const EDIT_MODE_ON = 'EDIT_MODE_ON';
 export const EDIT_MODE_OFF = 'EDIT_MODE_OFF';
 
+
+export const WILL_REMOVE = 'WILL_REMOVE';
 export const REMOVING_LOADING = 'REMOVING_LOADING';
 export const REMOVE = 'REMOVE';
 export const REMOVE_ERROR = 'REMOVE_ERROR';
+export const REMOVING_SUCCESS = 'REMOVING_SUCCESS';
+
+export const RESET_PRICE_VIEW = 'RESET_PRICE_VIEW';

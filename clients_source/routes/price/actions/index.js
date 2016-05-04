@@ -1,7 +1,5 @@
 import {
-  FETCH_PRICE_BY_ID, FETCHING_LOADING, FBI_ERROR,
-  EDIT_MODE_ON, EDIT_MODE_OFF,
-  REMOVING_LOADING, REMOVE, REMOVE_ERROR
+  FETCH_PRICE_BY_ID, FETCHING_LOADING, FBI_ERROR
 } from '../consts';
 
 import origin from '../../../common/origin';
@@ -38,6 +36,10 @@ export function fetchPriceById(id) {
   }
 }
 
+import {
+  EDIT_MODE_ON, EDIT_MODE_OFF
+} from '../consts';
+
 export function editModeOn() {
   return {
     type: EDIT_MODE_ON
@@ -50,16 +52,48 @@ export function editModeOff() {
   }
 }
 
+
+import {
+  WILL_REMOVE, REMOVING_LOADING, REMOVE,
+  REMOVE_ERROR, REMOVING_SUCCESS
+} from '../consts';
+
+export function willRemove(flag) {
+  return {
+    type: WILL_REMOVE,
+    flag
+  }
+}
+
 export function remove(id) {
   return async dispatch => {
     dispatch({
-      type: REMOVING_LOADING
+      type: REMOVING_LOADING,
+      flag: true
     });
 
     const url = `${origin}/api/price/${id}/`;
     console.log(url);
-    let response = await destroy(url);
-    console.log('response', response);
-    console.log('result', await response.json());
+
+    setTimeout(() => {
+      dispatch({
+        type: REMOVING_LOADING,
+        flag: false
+      });
+      dispatch({
+        type: REMOVING_SUCCESS
+      });
+    }, 2000)
+    // let response = await destroy(url);
+    // console.log('response', response);
+    // console.log('result', await response.json());
+  }
+}
+
+import { RESET_PRICE_VIEW } from '../consts';
+
+export function resetPriceView() {
+  return {
+    type: RESET_PRICE_VIEW
   }
 }

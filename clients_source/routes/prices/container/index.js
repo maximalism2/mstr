@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Header, PriceList } from '../components/';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import { resetPriceView } from '../../price/actions';
 
 class PricesContainer extends Component {
   constructor() {
@@ -24,6 +25,16 @@ class PricesContainer extends Component {
   componentWillMount() {
     document.body.className = "scrolled";
     window.addEventListener('scroll', this.scrollHandler, false);
+
+    let { price } = this.props;
+    if (price.view.removingSuccess) {
+      console.info('Price is removed successfully, reseted price view, show notification');
+      this.props.dispatch(resetPriceView());
+
+      let notificationMessage = `Каталог "${price.data.name}" успішно видалений`
+      console.log(notificationMessage);
+      //this.props.dispatch(showNotification('success', notificationMessage));
+    }
   }
 
   componentWillUnmount() {
@@ -76,7 +87,8 @@ class PricesContainer extends Component {
 
 function select(state) {
   return {
-    prices: state.prices
+    prices: state.prices,
+    price: state.price
   };
 }
 

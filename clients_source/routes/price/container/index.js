@@ -10,6 +10,7 @@ class PriceContainer extends Component {
 
     this.editModeOn = this.editModeOn.bind(this);
     this.editModeOff = this.editModeOff.bind(this);
+    this.willRemove = this.willRemove.bind(this);
     this.remove = this.remove.bind(this);
   }
 
@@ -26,6 +27,18 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.fetchPriceById(id));
   }
 
+  componentWillReceiveProps(nextProps) {
+    // If price is deleted successfully go to /prices/ route
+    if (nextProps.price.view.removingSuccess) {
+      this.props.history.push('/prices/');
+    }
+  }
+
+  willRemove(flag) {
+    flag = flag !== undefined ? flag : false;
+    this.props.dispatch(actions.willRemove(flag));
+  }
+
   remove() {
     let { id } = this.props.params;
     this.props.dispatch(actions.remove(id));
@@ -36,6 +49,7 @@ class PriceContainer extends Component {
     let actionsForComponents = {
       editModeOn: this.editModeOn,
       editModeOff: this.editModeOff,
+      willRemove: this.willRemove,
       remove: this.remove
     }
 
@@ -43,6 +57,7 @@ class PriceContainer extends Component {
       <div className="prices content">
         <Header
           actions={actionsForComponents}
+          view={price.view}
         />
         <Content
           data={price.data}
