@@ -32,12 +32,15 @@ var config = {
     new webpack.optimize.CommonsChunkPlugin({
       name: "common",
       minChunks: 2,
-      async: true
     }),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify('production'),
       LANG: JSON.stringify('ua')
-    })
+    }),
+    // new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor-[chunkhash].js', Infinity),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(true),
+    new webpack.optimize.UglifyJsPlugin()
   ]
 };
 
