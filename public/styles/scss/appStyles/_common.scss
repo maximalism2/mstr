@@ -6,6 +6,11 @@ html {
   margin-top: 30px;
 }
 
+.content-container {
+  max-width: 770px;
+  margin: auto;
+}
+
 .app {
   .header {
     margin-top: 5px;
@@ -21,6 +26,11 @@ html {
     }
 
   }
+}
+
+
+.right-side {
+  float: right;
 }
 
 .header-logo {

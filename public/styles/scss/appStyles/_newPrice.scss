@@ -6,3 +6,46 @@
 .name-column {
   width: 60%;
 }
+
+.new-price-form {
+  padding: 1rem 0;
+
+  .title {
+    margin-bottom: 0;
+    text-align: center;
+    color: #999;
+  }
+
+  .product-form-title {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .columns.labels-row {
+    margin-bottom: 8px;
+  }
+
+  .input-row {
+    padding: 0 10px;
+
+    .input {
+      border-radius: 0;
+    }
+
+    .column {
+      &:first-child {
+        .input {
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+        }
+      }
+
+      &:last-child {
+        .input {
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
+      }
+    }
+  }
+}

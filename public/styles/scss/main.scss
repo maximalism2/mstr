@@ -2,6 +2,7 @@
 $bg-color: #fcfcff;
 $trans-dur: .5s;
 @import './appStyles/common';
+@import './appStyles/spinner';
 @import './appStyles/prices';
 @import './appStyles/newPrice';
 @import './appStyles/price';
@@ -66,20 +67,4 @@ $trans-dur: .5s;
     color: #555;
     border-bottom: 1px solid rgba(0,0,0,.12);
   }
-}
-
-.spinner {
-  width: 30px;
-  height: 30px;
-  background: linear-gradient(to right, #1fc8db 0%, #24e6ac 100%);
-  margin: 30px auto;
-  animation: sk-rotateplane 3s infinite ease-in-out;
-}
-
-@keyframes sk-rotateplane {
-  0%   { transform: perspective(90px) rotateX(0deg) rotateY(0deg); }
-  25%  { transform: perspective(90px) rotateX(-180deg) rotateY(0deg); }
-  50%  { transform: perspective(90px) rotateX(-180deg) rotateY(-180deg); }
-  75%  { transform: perspective(90px) rotateX(-360deg) rotateY(-180deg); }
-  100% { transform: perspective(90px) rotateX(-360deg) rotateY(0deg); }
 }
