@@ -1,8 +1,10 @@
 @import '../../../node_modules/bulma/bulma.sass';
 $bg-color: #fcfcff;
 $trans-dur: .5s;
+
 @import './appStyles/common';
 @import './appStyles/spinner';
+@import './appStyles/modalAnimations';
 @import './appStyles/prices';
 @import './appStyles/newPrice';
 @import './appStyles/price';

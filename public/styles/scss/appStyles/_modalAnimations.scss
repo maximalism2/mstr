@@ -1,0 +1,50 @@
+$modal-trans-dur: .3s;
+.modal-enter {
+  .modal-box {
+    opacity: 0;
+    transition: $modal-trans-dur;
+    transform: translateY(-30px);
+  }
+}
+
+.modal-enter .overlay {
+  transition: $modal-trans-dur ease-in;
+  background-color: rgba(0, 0, 0, .01);
+}
+
+.modal-enter.modal-enter-active {
+  .modal-box {
+    opacity: 1;
+    transform: none;
+  }
+
+
+  .overlay {
+    transition: $modal-trans-dur;
+    background-color: rgba(0, 0, 0, .6);
+  }
+}
+
+.modal-leave {
+  .modal-box {
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: $modal-trans-dur;
+  }
+  
+  .overlay {
+    transition: $modal-trans-dur;
+    background-color: rgba(0, 0, 0, .6);
+  }
+}
+
+.modal-leave.modal-leave-active {
+  .modal-box {
+    opacity: 0;
+  }
+
+  .overlay {
+    transition: $modal-trans-dur;
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
