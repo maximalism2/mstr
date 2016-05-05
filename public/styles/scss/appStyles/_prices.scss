@@ -1,26 +1,12 @@
 .scrolled {
-  padding-top: 115px;
+  padding-top: 60px;
 
-  .header,
   .content .header-wrapper {
-    width: 100%;
     position: fixed;
-  }
-
-  .header {
-    z-index: 101;
     top: 0;
-  }
-
-  .content .header-wrapper {
     z-index: 100;
-    top: 55px;
-  }
-
-  &.shadowed {
-    .content .header-wrapper {
-      box-shadow: 0px -9px 31px 6px rgba(0,0,0,0.15);
-    }
+    width: 100%;
+    box-shadow: 0px -9px 31px 6px rgba(0,0,0,0.15);
   }
 }
 

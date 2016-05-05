@@ -97,13 +97,12 @@ router.delete('/:id/', (req, res, next) => {
   }
 
   let removingRes = Price.remove(id);
-  console.log(removingRes);
 
   if (removingRes.then) {
     removingRes.then(result => {
       console.log('\n\nresult', result);
     })
-    res.end("success");
+    res.end(JSON.stringify("success"));
   }
   res.end()
 })

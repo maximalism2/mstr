@@ -22,15 +22,32 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.editModeOff());
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.scrollHandler);
+  }
+
   componentDidMount() {
     let { id } = this.props.params;
     this.props.dispatch(actions.fetchPriceById(id));
+
+    window.addEventListener('scroll', this.scrollHandler, false);
   }
 
   componentWillReceiveProps(nextProps) {
     // If price is deleted successfully go to /prices/ route
     if (nextProps.price.view.removingSuccess) {
       this.props.history.push('/prices/');
+    }
+  }
+
+  scrollHandler(event) {
+    let st = event.target.scrollingElement.scrollTop;
+    let b = document.body;
+
+    if (st <= 55) { b.className = ""; }
+    if (st > 55) { b.className = "scrolled-price"; }
+    if (st > 105 && b.className !== "scrolled-price with-main-info") {
+      b.className = "scrolled-price with-main-info";
     }
   }
 

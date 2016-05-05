@@ -73,9 +73,10 @@ export function remove(id) {
     });
 
     const url = `${origin}/api/price/${id}/`;
-    console.log(url);
+    let response = await destroy(url);
 
-    setTimeout(() => {
+    console.log('response', response);
+    if (response.ok) {
       dispatch({
         type: REMOVING_LOADING,
         flag: false
@@ -83,10 +84,16 @@ export function remove(id) {
       dispatch({
         type: REMOVING_SUCCESS
       });
-    }, 2000)
-    // let response = await destroy(url);
-    // console.log('response', response);
-    // console.log('result', await response.json());
+      console.log('result', await response.json());
+    } else {
+      dispatch({
+        type: REMOVING_LOADING,
+        flag: false
+      });
+      dispatch({
+        type: REMOVE_ERROR
+      });
+    }
   }
 }
 
