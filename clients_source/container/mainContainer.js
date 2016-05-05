@@ -108,7 +108,6 @@ AppContainer.propTypes = {
 }
 
 function select(state) {
-  console.log('state', state);
   return {
     routing: state.routing,
     notifications: state.notifications

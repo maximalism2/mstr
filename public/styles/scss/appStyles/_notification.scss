@@ -8,27 +8,43 @@
 
 .notification {
   margin-bottom: 1rem;
+
+  .delete {
+    background-color: transparent;
+
+    &:hover {
+      background-color: rgba(0,0,0,.15);
+    }
+  }
 }
 
 // Notification animations
 
 $notification-trans-dur: .3s;
 .notification-enter {
-  transition: $notification-trans-dur;
-  opacity: 0;
-  transform: translateY(30px);
+  .notification {
+    transition: $notification-trans-dur;
+    opacity: 0;
+    transform: translateY(30px);
+  }
 }
 
 .notification-enter.notification-etner-active {
-  opacity: 1;
-  transform: none;
+  .notification {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .notification-leave {
-  transiton: $notification-trans-dur;
-  opacity: 0;
+  .notification {
+    transiton: $notification-trans-dur;
+    opacity: 0;
+  }
 }
 
 .notification-leave.notification-leave-active {
-  opacity: 0;
+  .notification {
+    opacity: 0;
+  }
 }

@@ -16,21 +16,18 @@ class Notification extends Component {
 
   deleteNotification() {
     let { deleteNotification, data } = this.props;
-    console.log('deleted', data.id);
     deleteNotification(data.id);
     window.clearTimeout(this.timeoutToDelete);
   }
 
   deleteNow() {
-    console.log('from now');
     window.clearTimeout(this.timeoutToDelete);
     this.deleteNotification();
   }
 
 
   componentDidMount() {
-    this.intervalToDelete = setTimeout(() => {
-      console.log('from timeout');
+    this.timeoutToDelete = setTimeout(() => {
       this.deleteNotification();
       window.clearTimeout(this.timeoutToDelete);
     }, notificationShowDuration);
@@ -65,17 +62,19 @@ class Notifications extends Component {
   renderNotifications() {
     let { notifications } = this.props;
     if (notifications.length) {
-      return notifications.map((note, index) => {
-        return (
-          <Notification
-            key={index}
-            data={note}
-            deleteNotification={this.props.deleteNotification}
-          />
-        );
-      });
+      return (
+        <div className="notifications-plural">
+          {notifications.map((note, index) =>
+              <Notification
+                key={index}
+                data={note}
+                deleteNotification={this.props.deleteNotification}
+              />
+          )}
+        </div>
+      );
     } else {
-      return <span></span>;
+      return null;
     }
   }
 
