@@ -14,6 +14,35 @@ var webpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config');
 var webpackProductionConfig = require('./webpack.production.config');
 
+var uncss = require('gulp-uncss');
+
+var files   = ['http://localhost:3000'],
+    options = {
+        ignore       : ['#added_at_runtime', /test\-[0-9]+/],
+        media        : ['(min-width: 700px) handheld and (orientation: landscape)'],
+        csspath      : './public/styles/css/',
+        raw          : 'h1 { color: green }',
+        // stylesheets  : ['./public/styles/css/main.css'],
+        ignoreSheets : [/fonts.googleapis/],
+        timeout      : 5000,
+        htmlroot     : 'public',
+        report       : true,
+        uncssrc      : '.uncssrc'
+    };
+
+gulp.task('uncss', function () {
+    return gulp.src('./public/styles/css/main.css')
+        .pipe(uncss({
+            html: ['http://localhost:3000'],
+            options: {
+              timeout: 5000
+            }
+        }))
+        .pipe(gulp.dest('./uncss.css'));
+});
+
+
+
 gulp.task('minifyhtml', function() {
   return gulp.src('./public/htmlsrc/*.html')
     .pipe(htmlmin({collapseWhitespace: true}))
