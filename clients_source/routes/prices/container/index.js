@@ -3,6 +3,7 @@ import { Header, PriceList } from '../components/';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { resetPriceView } from '../../price/actions';
+import { showNotification } from '../../../common/notifications/actions';
 
 class PricesContainer extends Component {
   constructor() {
@@ -33,7 +34,7 @@ class PricesContainer extends Component {
 
       let notificationMessage = `Каталог "${price.data.name}" успішно видалений`
       console.log(notificationMessage);
-      //this.props.dispatch(showNotification('success', notificationMessage));
+      this.props.dispatch(showNotification('success', notificationMessage));
     }
   }
 
@@ -88,7 +89,8 @@ class PricesContainer extends Component {
 function select(state) {
   return {
     prices: state.prices,
-    price: state.price
+    price: state.price,
+    notification: state.norification
   };
 }
 

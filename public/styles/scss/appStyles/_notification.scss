@@ -1,0 +1,34 @@
+.notification-box {
+  position: fixed;
+  right: 2vw;
+  top: 8vh;
+  width: 300px;
+  z-index: 2000;
+}
+
+.notification {
+  margin-bottom: 1rem;
+}
+
+// Notification animations
+
+$notification-trans-dur: .3s;
+.notification-enter {
+  transition: $notification-trans-dur;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.notification-enter.notification-etner-active {
+  opacity: 1;
+  transform: none;
+}
+
+.notification-leave {
+  transiton: $notification-trans-dur;
+  opacity: 0;
+}
+
+.notification-leave.notification-leave-active {
+  opacity: 0;
+}

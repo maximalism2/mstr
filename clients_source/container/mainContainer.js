@@ -1,10 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import Notifications from '../common/notifications/components';
+import { deleteNotification } from '../common/notifications/actions';
+
+let ErrorLink = () => (
+  <h1 className="title">
+    Щось пішло не так
+    <Link to="/prices/">сюди.</Link>
+  </h1>
+);
 
 class AppContainer extends Component {
   constructor(props, context) {
     super(props);
+
+    this.deleteNotification = this.deleteNotification.bind(this);
   }
 
   componentDidMount() {
@@ -13,6 +24,10 @@ class AppContainer extends Component {
     if (!children && isRoot) {
       this.context.router.push('prices/')
     }
+  }
+
+  deleteNotification(id) {
+    this.props.dispatch(deleteNotification(id));
   }
 
   render() {
@@ -68,7 +83,17 @@ class AppContainer extends Component {
             </div>
           </div>
         </header>
-        {this.props.children ? this.props.children : 'empty'}
+
+
+        <Notifications
+          // View for app notifications
+          notifications={this.props.notifications}
+          deleteNotification={this.deleteNotification}
+        />
+
+
+        {/* routes */}
+        {this.props.children ? this.props.children : <ErrorLink />}
       </div>
     );
   }
@@ -83,9 +108,10 @@ AppContainer.propTypes = {
 }
 
 function select(state) {
+  console.log('state', state);
   return {
     routing: state.routing,
-    prices: state.prices
+    notifications: state.notifications
   }
 }
 
