@@ -75,12 +75,16 @@
       e.className = "error-box";
       e.textContent = t.message,document.body.appendChild(e);
       var r = document.getElementById("shineArea");
-      r.style.fill = "#ed6c63";
-      r.style.opacity="1";
-      cs.setAttribute("width","1500");
-      cs.setAttribute("height","1500");
-      cs.setAttribute("x","250");
-      cs.setAttribute("y","0");
+      if (r !== null) {
+        r.style.fill = "#ed6c63";
+        r.style.opacity="1";
+      }
+      if (cs !== null) {
+        cs.setAttribute("width","1500");
+        cs.setAttribute("height","1500");
+        cs.setAttribute("x","250");
+        cs.setAttribute("y","0");
+      }
       window.clearInterval(offsetInterval);
       window.clearInterval(resetInterval)
     },!1);
