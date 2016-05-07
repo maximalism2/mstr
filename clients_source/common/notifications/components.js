@@ -23,7 +23,12 @@ class Notification extends Component {
     deleteNotification(data.id);
   }
 
+  // componentWillUnmount() {
+  //   this.setState({});
+  // }
+
   notificationEaseOut() {
+    // console.log('notifications.easeOutcalled');
     let id = String(this.props.data.id);
     window.clearTimeout(this[id]);
 
@@ -38,10 +43,6 @@ class Notification extends Component {
     }, easingDuration)
   }
 
-  componentWillMount() {
-    console.log('will', this);
-  }
-
   componentDidMount() {
     let { showDuration, easingDuration, data } = this.props;
     let timerDuration = showDuration + easingDuration;
@@ -51,25 +52,25 @@ class Notification extends Component {
       this.notificationEaseOut();
     }, timerDuration);
 
-    console.log('mount', this);
+    // console.log('mount', this);
     // Set that notification is mounted in state
     setTimeout(() => {
       this.setState({
-        mounted: true
+        notificationMounted: true
       });
     }, 50);
   }
 
   render() {
     let { data, animationName } = this.props;
-    let { mounted, showTimeEnded } = this.state;
+    let { notificationMounted, showTimeEnded } = this.state;
 
-    console.log('render', this);
+    console.log(data.id, this);
 
     let notificationCName = cnames({
       [`is-${data.type}`]: data.type !== null,
       "notification": true,
-      [`${animationName}-enter`]: !mounted,
+      [`${animationName}-enter`]: !notificationMounted,
       [`${animationName}-leave`]: showTimeEnded,
     });
 
@@ -79,7 +80,7 @@ class Notification extends Component {
           className="delete"
           onClick={() => this.notificationEaseOut()}
         ></button>
-        <p>{data.message}</p>
+        <p>{data.message + " " + data.id}</p>
       </div>
     );
   }
@@ -98,13 +99,20 @@ Notification.propTypes = {
 }
 
 class Notifications extends Component {
+  constructor() {
+    super();
+    this.state = {
+      notes: []
+    }
+  }
+
   render() {
     let { notifications } = this.props;
     return (
       <div className="notification-box">
-        {notifications.map((note, index) =>
+        {notifications.map(note =>
           <Notification
-            key={index}
+            key={note.id}
             data={note}
             {...this.props}
           />

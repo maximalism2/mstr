@@ -12,7 +12,6 @@ class PricesContainer extends Component {
     this.fetchPrices = this.fetchPrices.bind(this);
     this.fetchPriceById = this.fetchPriceById.bind(this);
     this.scrollHandler = this.scrollHandler.bind(this);
-    this.sn = this.sn.bind(this);
   }
 
   componentWillMount() {
@@ -37,7 +36,12 @@ class PricesContainer extends Component {
     } else {
       b.className = "";
     }
+  }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.price.view.editMode) {
+      this.props.dispatch(resetPriceView());
+    }
   }
 
   fetchPrices(flag) {
@@ -46,10 +50,6 @@ class PricesContainer extends Component {
 
   fetchPriceById(id) {
     this.props.dispatch(actions.fetchPriceById(id));
-  }
-
-  sn(type, message) {
-    this.props.dispatch(showNotification(type, message));
   }
 
   render() {
@@ -63,7 +63,7 @@ class PricesContainer extends Component {
     if ((pn === '/prices/' || pn === 'prices/')  && children === null) {
       return (
         <div className="prices content">
-          <Header sn={this.sn} />
+          <Header />
           <PriceList
             data={prices.data}
             view={prices.view}

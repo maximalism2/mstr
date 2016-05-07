@@ -87,9 +87,9 @@ class AppContainer extends Component {
 
         <Notifications
           // View for app notifications
-          showDuration={10000}
+          showDuration={7000}
           animationName={"notification"}
-          easingDuration={1000}
+          easingDuration={300}
           notifications={this.props.notifications}
           deleteNotification={this.deleteNotification}
         />

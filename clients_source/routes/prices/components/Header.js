@@ -18,14 +18,7 @@ class Header extends Component {
               <i className="fa fa-search search-input-icon"></i>
             </div>
           </div>
-          <div className="right-aside column is-3">
-            <button
-              className="button is-danger"
-              onClick={() => this.props.sn('warning', "Some message")}
-            >
-              show note
-            </button>
-          </div>
+          <div className="right-aside column is-3"></div>
         </header>
       </div>
     );
