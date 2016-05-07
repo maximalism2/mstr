@@ -11,6 +11,8 @@ class PricesContainer extends Component {
 
     this.fetchPrices = this.fetchPrices.bind(this);
     this.fetchPriceById = this.fetchPriceById.bind(this);
+    this.scrollHandler = this.scrollHandler.bind(this);
+    this.sn = this.sn.bind(this);
   }
 
   componentWillMount() {
@@ -20,9 +22,22 @@ class PricesContainer extends Component {
       this.props.dispatch(resetPriceView());
 
       let notificationMessage = `Каталог "${price.data.name}" успішно видалений`
-      console.log(notificationMessage);
       this.props.dispatch(showNotification('success', notificationMessage));
     }
+
+    window.addEventListener('scroll', this.scrollHandler);
+  }
+
+  scrollHandler(event) {
+    let st = event.target.scrollingElement.scrollTop;
+    let b = document.body;
+
+    if (st > 55) {
+      b.className = "scrolled";
+    } else {
+      b.className = "";
+    }
+
   }
 
   fetchPrices(flag) {
@@ -31,6 +46,10 @@ class PricesContainer extends Component {
 
   fetchPriceById(id) {
     this.props.dispatch(actions.fetchPriceById(id));
+  }
+
+  sn(type, message) {
+    this.props.dispatch(showNotification(type, message));
   }
 
   render() {
@@ -44,7 +63,7 @@ class PricesContainer extends Component {
     if ((pn === '/prices/' || pn === 'prices/')  && children === null) {
       return (
         <div className="prices content">
-          <Header />
+          <Header sn={this.sn} />
           <PriceList
             data={prices.data}
             view={prices.view}

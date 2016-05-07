@@ -1,3 +1,4 @@
+$notification-trans-dur: .3s;
 .notification-box {
   position: fixed;
   right: 2vw;
@@ -8,7 +9,9 @@
 
 .notification {
   margin-bottom: 1rem;
-  opacity: .85;
+  opacity: .9;
+  transform: none;
+  transition: $notification-trans-dur;
 
   .delete {
     background-color: transparent;
@@ -21,31 +24,12 @@
 
 // Notification animations
 
-$notification-trans-dur: .3s;
 .notification-enter {
-  .notification {
-    transition: $notification-trans-dur;
-    opacity: 0;
-    transform: translateY(30px);
-  }
-}
-
-.notification-enter.notification-etner-active {
-  .notification {
-    opacity: 1;
-    transform: none;
-  }
+  opacity: 0 !important;
+  transform: translateY(30px) !important;
 }
 
 .notification-leave {
-  .notification {
-    transiton: $notification-trans-dur;
-    opacity: 0;
-  }
-}
-
-.notification-leave.notification-leave-active {
-  .notification {
-    opacity: 0;
-  }
+  opacity: 0 !important;
+  transform: translateY(-30px) !important;
 }
