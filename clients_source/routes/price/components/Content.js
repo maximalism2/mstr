@@ -57,7 +57,7 @@ class Content extends Component {
     if (view.loading) {
       return <Loader />;
     } else if (view.error) {
-      return this.renderError();
+      return <p>Fetching Error</p>;
     } else {
       return this.renderContent();
     } 

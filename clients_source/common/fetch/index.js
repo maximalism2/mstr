@@ -35,9 +35,14 @@ export const defaultParams = headers
  */
 export function read(url) {
   return fetch(url, {
-    ...defaultParams,
-    method: 'get'
-  });
+      ...defaultParams,
+      method: 'get'
+    }).then(response => {
+      return response;
+    }).catch(err => {
+      console.error('Fetching error', new Error(err));
+      return err;
+    });
 }
 
 /**
