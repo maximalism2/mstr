@@ -61,7 +61,8 @@ router.get('/:id/', (req, res, next) => {
     res.end();
   } else {
     result.then(price => {
-      if (price) {
+      console.log('routes price', price);
+      if (price !== null) {
         let priceCopy = JSON.parse(JSON.stringify(price));
         let query = {
           priceOrigin: id
@@ -74,6 +75,8 @@ router.get('/:id/', (req, res, next) => {
           res.end();
         });
       } else {
+        console.log('res', res);
+        res.writeHead(404, { "ok": false });
         res.end();
       }
     });
