@@ -26,10 +26,10 @@ $notification-trans-dur: .3s;
 
 .notification-enter {
   opacity: 0 !important;
-  transform: translateY(30px) !important;
+  transform: translateY(-30px) !important;
 }
 
 .notification-leave {
   opacity: 0 !important;
-  transform: translateX(150%) !important;
+  transform: translateY(10px) !important;
 }

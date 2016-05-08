@@ -110,7 +110,7 @@ class Notifications extends Component {
     let { notifications } = this.props;
     return (
       <div className="notification-box">
-        {notifications.map(note =>
+        {notifications.reverse().map(note =>
           <Notification
             key={note.id}
             data={note}

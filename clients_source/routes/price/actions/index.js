@@ -14,6 +14,7 @@ export function fetchPriceById(id) {
 
     let url = `${origin}/api/price/${id}/`;
     const response = await read(url);
+    console.log(response);
 
     if (response.ok) {
       dispatch({
