@@ -90,22 +90,31 @@ router.get('/', (req, res, next) => {
 });
 
 router.delete('/:id/', (req, res, next) => {
+  // Here we need to remove single price and all products which have
+  // the priceOrigin field equal price's id
+
   let id = req.params.id ? Types.ObjectId(req.params.id) : null;
   if (id === null) {
     res.json(JSON.stringify({error: 'must be not null'}));
-    res.end()
+    res.end();
     return;
   }
 
   let removingRes = Price.remove(id);
 
-  if (removingRes.then) {
-    removingRes.then(result => {
-      console.log('\n\nresult', result);
-    })
-    res.end(JSON.stringify("success"));
+  if (removingRes.error) {
+    res.json(JSON.stringify(removingRes.error));
+  } else {
+    removingRes.then(r => console.log('price', r));
+    let productsRes = Product.removeWhere({ priceOrigin: id });
+    if (productsRes.error) {
+      res.json(JSON.stringify(productsRes.error));
+    } else {
+      productsRes.then(s => console.log("products", s));
+      res.end(JSON.stringify({ok: true}));
+    }
   }
-  res.end()
+  res.end();
 })
 
 module.exports = router;
