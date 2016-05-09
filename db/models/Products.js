@@ -350,14 +350,107 @@ function remove(id) {
   return result;
 }
 
+
+function removeWhere(query) {
+  if (query === undefined) {
+    // If passed nothing
+    let message = 'Method expects some argument';
+    return { error: message };
+  } else if (!(query instanceof Object)) {
+    // If instance is not object
+    let message = 'Method expects an array of objects';
+    message += ` but query is ${typeof query}`;
+    return { error: message };
+  } else if (Object.keys(query).length === 0) {
+    // If query object has no propertys
+    let message = `'query' is the empty object`;
+    return  { error: message };
+  }
+
+  if (Object.keys(query).length > 0) {
+    // If query consists some field, but they are not specified in Product model
+    let message = "";
+    let notExistingField = false;
+    Object.keys(query).forEach(key => {
+      if (key !== 'name' && key !== 'cost' && key !== 'unitOfMeasurement' && key !== 'priceOrigin') {
+        message = 'In model \'Product\' field ' + key + ' is not specified.';
+        notExistingField = true;
+      }
+    });
+    if (notExistingField) {
+      return { error: message };
+    }
+  }
+
+  if (query.hasOwnProperty('name')) {
+    if (typeof query.name !== 'string') {
+      // If name is not a string
+      let message = `'query.name' must be a string`;
+      return { error: message };
+    } else if (query.name.length === 0) {
+      // If query.name is empty string
+      let message = `'query.name' cannot be ""`;
+      return { error: message };
+    } else if (query.name.length > 300) {
+      // If query.name is longer than 300 characters
+      let message = `'query.name' cannot be longer than 300 characters`;
+      return { error: message };
+    }
+  }
+
+  if (query.hasOwnProperty('cost')) {
+    if(typeof query.cost !== 'number') {
+      // If query.cost is not number
+      let message = `'argument[' + index + '].cost' must be a number`;
+      return { error: message };
+    } else if (query.cost < 0) {
+      // If cost is less then 0
+      let message = `'query.cost' must be bigger or equal 0`;
+      return { error: message };
+    } else if (!instance.hasOwnProperty('priceOrigin')) {
+      // If instance has no property priceOrigin (link to parents price)
+      let message = `'query' must have the 'priceOrigin' property`;
+      return { error: message };
+    } else if (!(query.priceOrigin instanceof Types.ObjectId)) {
+      // If priceOrigin is not an ObjectId
+      let message = `'query.priceOrigin' must be an ObjectId`;
+      return { error: message };
+    }
+  }
+
+  if (query.hasOwnProperty('unitOfMeasurement')) {
+    if (typeof query.unitOfMeasurement !== 'string') {
+      // If unitOfMeasurement is not a string
+      let message = `'query.unitOfMeasurement' must be a string`;
+      return { error: message };
+    } else if (query.unitOfMeasurement.length === 0) {
+      // If unitOfMeasurement is empty string
+      let message = `'query.unitOfMeasurement' cannot be empty string`;
+      return { error: message };
+    }
+  }
+
+  if (query.hasOwnProperty('priceOrigin')) {
+    if (!(query.priceOrigin instanceof Types.ObjectId)) {
+      // If priceOrigin is exists, but it's not an ObjectId
+      let message = `query.priceOrigin must be an ObjectId`;
+      return { error: message }
+    }
+  }
+
+  let result = Product.remove(query);
+  return result;
+}
+
 const Interface = {
-  create: create,
-  createOf: createOf,
-  readById: readById,
-  readWhere: readWhere,
-  update: update,
-  read: read,
-  remove: remove
+  create,
+  createOf,
+  readById,
+  readWhere,
+  update,
+  read,
+  remove,
+  removeWhere
 };
 
 module.exports = Interface;

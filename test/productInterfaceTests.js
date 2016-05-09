@@ -434,5 +434,80 @@ describe('Model interface', () => {
         assert.equal(true, isErrorObject(res));
       });
     });
+    describe('.removeWhere(), must returns object with error when:', () => {
+      it('called without arguments', () => {
+        let res = Product.removeWhere();
+        assert.equal(true, isErrorObject(res));
+      });
+      it('passed query but it is not an object', () => {
+        let query = 123;
+        let res = Product.removeWhere(query);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('passed query, but query is an empty object', () => {
+        let query = {};
+        let res = Product.removeWhere(query);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('passed query, in which is not existed some of required fields', () => {
+        let query = {
+          otherField: 'some value'
+        };
+        let res = Product.removeWhere(query);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('the name field in query is not a string', () => {
+        let query = { name: 123 };
+        let res = Product.removeWhere(query);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('the name field in query is an empry string', () => {
+        let query = { name: '' };
+        let res = Product.removeWhere(query);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('the name field in query is bigger than 300 characters', () => {
+        let query = {
+          name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        };
+        let res = Product.removeWhere(query);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('the cost field in query is not a number', () => {
+        let query = {
+          cost: 'some string'
+        };
+        let res = Product.removeWhere(query);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('the cost field in query is less than 0', () => {
+        let query = {
+          cost: -1
+        };
+        let res = Product.removeWhere(query);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('the unitOfMeasurement field is not a string', () => {
+        let query = {
+          unitOfMeasurement: 123
+        };
+        let res = Product.removeWhere(query);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('the unitOfMeasurement field is an empty string', () => {
+        let query = {
+          unitOfMeasurement: ''
+        };
+        let res = Product.update(query);
+        assert.equal(true, isErrorObject(res));
+      });
+      it('the priceOrigin field is not an ObjectId', () => {
+        let query = {
+          priceOrigin: 'some value'
+        };
+        let res = Product.removeWhere(query);
+        assert.equal(true, isErrorObject(res));
+      });
+    });
   });
 });
