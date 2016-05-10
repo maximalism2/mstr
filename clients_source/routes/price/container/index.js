@@ -79,6 +79,7 @@ class PriceContainer extends Component {
         <Content
           data={price.data}
           view={price.view}
+          actions={actionsForComponents}
         />
       </div>
     );

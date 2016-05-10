@@ -4,7 +4,7 @@ import cnames from 'classnames';
 
 class Content extends Component {
   renderContent() {
-    let { data, view } = this.props;
+    let { data, view, actions } = this.props;
     let updatedAt = data.updatedAt ? (new Date(data.updatedAt)).toLocaleDateString() : null;
 
     let containerCName = cnames({
@@ -15,6 +15,10 @@ class Content extends Component {
 
     return (
       <div className={containerCName}>
+        <button
+          className="button"
+          onClick={() => actions.editModeOff()}
+        >Скасувати</button>
         <div className="main-info content-container">
           <p className="updated-at">Оновлено: {updatedAt}</p>
           <h1 className="title price-title">{data.name}</h1>
