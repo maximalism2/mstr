@@ -23,10 +23,6 @@ class Notification extends Component {
     deleteNotification(data.id);
   }
 
-  // componentWillUnmount() {
-  //   this.setState({});
-  // }
-
   notificationEaseOut() {
     // console.log('notifications.easeOutcalled');
     let id = String(this.props.data.id);
@@ -52,7 +48,6 @@ class Notification extends Component {
       this.notificationEaseOut();
     }, timerDuration);
 
-    // console.log('mount', this);
     // Set that notification is mounted in state
     setTimeout(() => {
       this.setState({
@@ -64,8 +59,6 @@ class Notification extends Component {
   render() {
     let { data, animationName } = this.props;
     let { notificationMounted, showTimeEnded } = this.state;
-
-    console.log(data.id, this);
 
     let notificationCName = cnames({
       [`is-${data.type}`]: data.type !== null,
@@ -80,7 +73,7 @@ class Notification extends Component {
           className="delete"
           onClick={() => this.notificationEaseOut()}
         ></button>
-        <p>{data.message + " " + data.id}</p>
+        <p>{data.message}</p>
       </div>
     );
   }
