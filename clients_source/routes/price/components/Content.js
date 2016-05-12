@@ -3,6 +3,27 @@ import Loader from '../../../common/components/loader';
 import cnames from 'classnames';
 
 class Content extends Component {
+  renderEditModeControls() {
+    let { view, actions } = this.props;
+    if (view.editMode) {
+      return (
+        <div className="edit-mode-controls">
+          <button
+            className="button"
+            onClick={() => actions.editModeOff()}
+          >Скасувати</button>
+          {" "}
+          <button className="button is-success on-save">
+            <span className="icon"><i className="fa fa-save"></i></span>
+            Зберегти
+          </button>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderContent() {
     let { data, view, actions } = this.props;
     let updatedAt = data.updatedAt ? (new Date(data.updatedAt)).toLocaleDateString() : null;
@@ -15,10 +36,7 @@ class Content extends Component {
 
     return (
       <div className={containerCName}>
-        <button
-          className="button"
-          onClick={() => actions.editModeOff()}
-        >Скасувати</button>
+        {this.renderEditModeControls()}
         <div className="main-info content-container">
           <p className="updated-at">Оновлено: {updatedAt}</p>
           <h1 className="title price-title">{data.name}</h1>

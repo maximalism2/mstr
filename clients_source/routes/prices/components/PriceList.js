@@ -37,7 +37,7 @@ class PriceList extends Component {
         <p className="title size-4 empty-title">
           Виникли технічні проблеми...
           <br />
-          будь ласка, спробуйте пізніше
+          Будь ласка, спробуйте пізніше
         </p>
       );
     } else if (view.loading) {
