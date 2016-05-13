@@ -2,12 +2,38 @@ import React, { Component, PropTypes } from 'react';
 import Loader from '../../../common/components/loader';
 import cnames from 'classnames';
 
+var animationTimeout = null;
+var needToMountControls = false;
+
 class Content extends Component {
+  componentWillReceiveProps(nextProps) {
+    // We need to check what user want to do.
+    // If he want to exit from edit mode, we need to hide edit mode controls
+    // and unmount them
+    let nextView = nextProps.view;
+    let currView = this.props.view;
+
+    if (!nextView.editMode && currView.editMode) { // If will turn off
+      animationTimeout = setTimeout(() => {
+        // We need to unmount controls after short timeout for play the animation
+        needToMountControls = false;
+      }, 300);
+    } else if (nextView.editMode && !currView.editMode) { // If will turn on
+      needToMountControls = nextProps.view.editMode;
+    }
+  }
+
   renderEditModeControls() {
     let { view, actions } = this.props;
-    if (view.editMode) {
+
+    let editControlsCName = cnames({
+      "edit-mode-controls": true,
+      "showed": view.editMode
+    });
+
+    if (needToMountControls) { // <= global variable
       return (
-        <div className="edit-mode-controls">
+        <div className={editControlsCName}>
           <button
             className="button"
             onClick={() => actions.editModeOff()}
