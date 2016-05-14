@@ -1,6 +1,10 @@
 {
-  "name": "maestro",
+  "name": "mstr",
   "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/necinc/mstr.git"
+  },
   "private": false,
   "scripts": {
     "start": "node ./bin/www",
@@ -68,5 +72,20 @@
     "redux-logger": "^2.6.1",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"
-  }
+  },
+  "description": "[![Build Status](https://travis-ci.org/necinc/maestro.svg?branch=master)](https://travis-ci.org/necinc/maestro) [![Coverage Status](https://coveralls.io/repos/github/necinc/maestro/badge.svg?branch=master)](https://coveralls.io/github/necinc/maestro?branch=master)",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/necinc/mstr.git"
+  },
+  "author": "necinc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/necinc/mstr/issues"
+  },
+  "homepage": "https://github.com/necinc/mstr#readme"
 }
