@@ -1,0 +1,47 @@
+.edit-mode-controls {
+  position: fixed;
+  top: 0;
+  margin: auto;
+  left: calc(50% - (290px + 95px * 2));
+  width: 100%;
+  max-width: 960px;
+  background: rgba(255,255,255,.98);
+  border: 3px solid $yellow;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top: 0;
+  padding: 1rem 95px;
+  z-index: 1000;
+  transform: translateY(calc(-32px - 3px - 2rem)) scale(1.05);
+  box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.46);
+  transition: .3s;
+
+  &::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 100%;
+    clear: both;
+    margin-bottom: -1px;
+  }
+
+  .button-group {
+    float: right;
+  }
+
+  .button {
+    box-sizing: border-box;
+  }
+
+  &.showed {
+    transform: translateY(0) scale(1.05);
+  }
+
+  .on-save {
+    .icon {
+      font-size: 15px;
+      margin-right: 0;
+      margin-left: -3px;
+    }
+  }
+}

@@ -27,6 +27,11 @@ class PricesContainer extends Component {
     window.addEventListener('scroll', this.scrollHandler);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.scrollHandler);
+    document.body.className = "";
+  }
+
   scrollHandler(event) {
     let st = event.target.scrollingElement.scrollTop;
     let b = document.body;
