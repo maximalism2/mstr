@@ -19,11 +19,13 @@
     font-weight: 600;
     letter-spacing: 0.043rem;
     color: #555;
+    z-index: 700;
   }
 
   .discount {
     font-size: 1.2rem;
     float: left;
+    z-index: 700;
 
     &-value {
       font-weight: 600;
@@ -44,14 +46,17 @@
   .table {
     .number-column {
       text-align: center;
+      z-index: 700;
     }
 
     .name-column {
       width: 65%;
+      z-index: 700;
     }
 
     .cost-column {
       width: 10%;
+      z-index: 700;
     }
   }
 
