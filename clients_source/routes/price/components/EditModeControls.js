@@ -57,7 +57,10 @@ class EditModeControls extends Component {
             <div className="button-group">
               <button
                 className="button"
-                onClick={() => actions.editModeOff()}
+                onClick={() => {
+                  actions.editModeOff();
+                  actions.removeInput();
+                }}
               >Скасувати</button>
               {" "}
               <button className="button is-success on-save">
