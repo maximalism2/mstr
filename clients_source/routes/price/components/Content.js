@@ -1,10 +1,66 @@
 import React, { Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 import Loader from '../../../common/components/loader';
 import cnames from 'classnames';
 
+import { diff } from 'deep-diff';
+
+var lhs = {
+  name: 'ss',
+  ss: '2'
+}
+
+var rhs = {
+  name: 'dd'
+}
+
 class Content extends Component {
+  componentWillReceiveProps(nextProps) {
+    if (this.refs.fieldInput) {
+      console.log('must be focused');
+      findDOMNode(this.refs.fieldInput).focus();
+    }
+  }
+
+  renderProduct(data, index) {
+    let { view, editMode, actions } = this.props;
+    // console.log(this.props);
+
+    let nameCol = (
+      <td
+        className="name-column"
+        onClick={() => view.editMode ? actions.makeInput(data._id, 'name') : null}
+      >
+        {data.name}
+      </td>
+    );
+
+    if (editMode.id === data._id && editMode.field === 'name') {
+      nameCol = (
+        <td className="name-column editing">
+          <input
+            type="text"
+            className="input"
+            ref="fieldInput"
+            defaultValue={data.name}
+            onChange={e => actions.changeProductField(data._id, 'name', e.target.value)}
+          />
+        </td>
+      );
+    }
+
+    return (
+      <tr key={data._id}>
+        <td className="number-column">{index + 1}</td>
+        {nameCol}
+        <td className="unit-column">{data.unitOfMeasurement}</td>
+        <td className="cost-column">{data.cost}</td>
+      </tr>
+    );
+  }
+
   renderContent() {
-    let { data, view, actions } = this.props;
+    let { data, view, editMode, actions } = this.props;
     let updatedAt = data.updatedAt ? (new Date(data.updatedAt)).toLocaleDateString() : null;
 
     let containerCName = cnames({
@@ -34,16 +90,17 @@ class Content extends Component {
               </tr>
             </thead>
             <tbody className="table-body">
-              {data.products.map((product, index) => {
-                return (
-                  <tr key={index}>
-                    <td className="number-column">{index + 1}</td>
-                    <td className="name-column">{product.name}</td>
-                    <td className="unit-column">{product.unitOfMeasurement}</td>
-                    <td className="cost-column">{product.cost}</td>
-                  </tr>
-                );
-              })}
+              {(() => {
+                if (view.editMode) {
+                  return editMode.data.products.map((product, index) =>
+                    this.renderProduct(product, index)
+                  );
+                } else {
+                  return data.products.map((product, index) =>
+                    this.renderProduct(product, index)
+                  );
+                }
+              })()}
             </tbody>
           </table>
         </div>

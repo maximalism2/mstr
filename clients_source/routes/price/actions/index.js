@@ -14,7 +14,6 @@ export function fetchPriceById(id) {
 
     let url = `${origin}/api/price/${id}/`;
     const response = await read(url);
-    console.log(response);
 
     if (response.ok) {
       dispatch({
@@ -41,9 +40,10 @@ import {
   EDIT_MODE_ON, EDIT_MODE_OFF
 } from '../consts';
 
-export function editModeOn() {
+export function editModeOn(data) {
   return {
-    type: EDIT_MODE_ON
+    type: EDIT_MODE_ON,
+    data
   }
 }
 
@@ -103,5 +103,30 @@ import { RESET_PRICE_VIEW } from '../consts';
 export function resetPriceView() {
   return {
     type: RESET_PRICE_VIEW
+  }
+}
+
+import { MAKE_INPUT, REMOVE_INPUT, CHANGE_PRODUCT_FIELD } from '../consts';
+
+export function makeInput(id, field) {
+  return {
+    type: MAKE_INPUT,
+    id,
+    field
+  }
+};
+
+export function removeInput() {
+  return {
+    type: REMOVE_INPUT
+  }
+}
+
+export function changeProductField(id, field, value) {
+  return {
+    type: CHANGE_PRODUCT_FIELD,
+    id,
+    field,
+    value
   }
 }

@@ -52,18 +52,24 @@ class EditModeControls extends Component {
 
     if (this.state.mounted) {
       return (
-        <div className={editControlsCName}>
-          <div className="button-group">
-            <button
-              className="button"
-              onClick={() => actions.editModeOff()}
-            >Скасувати</button>
-            {" "}
-            <button className="button is-success on-save">
-              <span className="icon"><i className="fa fa-save"></i></span>
-              Зберегти
-            </button>
+        <div>
+          <div className={editControlsCName}>
+            <div className="button-group">
+              <button
+                className="button"
+                onClick={() => actions.editModeOff()}
+              >Скасувати</button>
+              {" "}
+              <button className="button is-success on-save">
+                <span className="icon"><i className="fa fa-save"></i></span>
+                Зберегти
+              </button>
+            </div>
           </div>
+          <div
+            className="clickableOverlay"
+            onClick={() => actions.removeInput()}
+          ></div>
         </div>
       );
     } else {

@@ -11,11 +11,14 @@ class PriceContainer extends Component {
     this.editModeOn = this.editModeOn.bind(this);
     this.editModeOff = this.editModeOff.bind(this);
     this.willRemove = this.willRemove.bind(this);
+    this.makeInput = this.makeInput.bind(this);
+    this.removeInput = this.removeInput.bind(this);
+    this.changeProductField = this.changeProductField.bind(this);
     this.remove = this.remove.bind(this);
   }
 
   editModeOn() {
-    this.props.dispatch(actions.editModeOn());
+    this.props.dispatch(actions.editModeOn(this.props.price.data));
   }
 
   editModeOff() {
@@ -27,11 +30,17 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.fetchPriceById(id));
   }
 
-  componentWillReceiveProps(nextProps) {
-    // If price is deleted successfully go to /prices/ route
-    if (nextProps.price.view.removingSuccess) {
-      this.props.history.push('/prices/');
+  makeInput(id, field) {
+    let { editMode } = this.props.price;
+    if (id === null && field === null && editMode.id !== null && editMode.field !== null) {
+      this.removeInput();
+    } else if (field !== null){
+      this.props.dispatch(actions.makeInput(id, field));
     }
+  }
+
+  removeInput() {
+    this.props.dispatch(actions.removeInput());
   }
 
   willRemove(flag) {
@@ -44,13 +53,41 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.remove(id));
   }
 
+  changeProductField(productId, field, value) {
+    this.props.dispatch(actions.changeProductField(productId, field, value));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // If price is deleted successfully go to /prices/ route
+    if (nextProps.price.view.removingSuccess) {
+      this.props.history.push('/prices/');
+    }
+
+    // Register the click event listener
+    let currView = this.props.price.view;
+    let nextView = nextProps.price.view;
+
+    if (!currView.editMode && nextView.editMode) { // If edit mode is turned on
+      window.addEventListener('click', this.makeInput(null, null), false);
+    } else if (currView.editMode && !nextView.editMode) { // If it turned off
+      document.body.removeEventListener('click', this.makeInput);
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.makeInput);
+  }
+
   render() {
     let { price } = this.props;
     let actionsForComponents = {
       editModeOn: this.editModeOn,
       editModeOff: this.editModeOff,
       willRemove: this.willRemove,
-      remove: this.remove
+      makeInput: this.makeInput,
+      removeInput: this.removeInput,
+      remove: this.remove,
+      changeProductField: this.changeProductField
     }
 
     return (
@@ -68,6 +105,7 @@ class PriceContainer extends Component {
         <Content
           data={price.data}
           view={price.view}
+          editMode={price.editMode}
           actions={actionsForComponents}
         />
       </div>

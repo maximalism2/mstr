@@ -3,7 +3,8 @@ import {
   FETCH_PRICE_BY_ID, FETCHING_LOADING, FBI_ERROR,
   EDIT_MODE_ON, EDIT_MODE_OFF,
   WILL_REMOVE, REMOVING_LOADING, REMOVE, REMOVE_ERROR, REMOVING_SUCCESS,
-  RESET_PRICE_VIEW
+  RESET_PRICE_VIEW,
+  MAKE_INPUT, REMOVE_INPUT, CHANGE_PRODUCT_FIELD
 } from '../consts';
 
 const initialPrice = {
@@ -18,6 +19,11 @@ const initialPrice = {
     willRemove: false,
     removingLoading: false,
     removingSuccess: false
+  },
+  editMode: {
+    id: null,
+    field: '',
+    data: []
   }
 }
 
@@ -78,9 +84,69 @@ function view(state = initialPrice.view, action) {
   }
 }
 
+function editMode(state = initialPrice.editMode, action) {
+  switch (action.type) {
+    case EDIT_MODE_ON: {
+      return Object.assign({}, state, {
+        data: JSON.parse(JSON.stringify(action.data))
+      });
+    }
+    case EDIT_MODE_OFF: {
+      return Object.assign({}, state, {
+        data: {}
+      });
+    }
+    case CHANGE_PRODUCT_FIELD: {
+      if (action.id) {
+        let productIsNotChangedJet = true;
+        let newProducts = state.data.products.map(changedField => {
+          if (changedField._id && changedField._id === action.id) {
+            return Object.assign({}, changedField, {
+              [action.field]: action.value
+            });
+          } else {
+            return changedField;
+          }
+        });
+        let newData = JSON.parse(JSON.stringify(state.data));
+        newData.products = newProducts;
+        return Object.assign({}, state, {
+          data: newData
+        });
+      } else if (action.field === 'priceTitle') {
+        return Object.assign({}, state, {
+          name: action.value
+        });
+      } else if (action.field === 'discount') {
+        return Object.assign({}, state, {
+          discount: action.value
+        });
+      } else {
+        return state;
+      }
+    }
+    case MAKE_INPUT: {
+      return Object.assign({}, state, {
+        id: action.id,
+        field: action.field
+      });
+    }
+    case REMOVE_INPUT: {
+      return Object.assign({}, state, {
+        id: null,
+        field: null
+      });
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
 const price = combineReducers({
   data,
-  view
+  view,
+  editMode
 });
 
 export default price;
