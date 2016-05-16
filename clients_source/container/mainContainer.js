@@ -38,10 +38,10 @@ class AppContainer extends Component {
     }
     return (
       <div className="app">
-        <header className="header">
+        <header className="nav">
           <div className="container">
-            <div className="header-left">
-              <Link to="/prices/" className="header-item header-logo">
+            <div className="nav-left">
+              <Link to="/prices/" className="nav-item nav-logo">
                 <h1 className="logo-title title">Master</h1>
                 <svg
                    viewBox="0 0 1500 1500"
@@ -62,22 +62,22 @@ class AppContainer extends Component {
                      style={svgLogoStyle} />
                 </svg>
               </Link>
-              <a className="header-tab is-active" href="#">
+              <a className="nav-item is-tab is-active" href="#">
                 Каталоги
               </a>
-              <Link to="prices/" className="header-tab">
+              <Link to="prices/" className="nav-item is-tab">
                 Розрахунки
               </Link>
             </div>
 
-            <span className="header-toggle">
+            <span className="nav-toggle">
               <span></span>
               <span></span>
               <span></span>
             </span>
 
-            <div className="header-right header-menu">
-              <a href="" className="header-item">
+            <div className="nav-right nav-menu">
+              <a href="" className="nav-item">
                 <i className="fa fa-cog"></i>
               </a>
             </div>

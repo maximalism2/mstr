@@ -31,6 +31,10 @@
     .create-new-button {
       margin-top: 4px;
 
+      &:visited {
+        color: white;
+      }
+
       .fa {
         font-size: 14px;
         margin-right: 6px;
@@ -97,6 +101,15 @@
       color: #1fc8db;
       transition: $trans-dur;
       cursor: pointer;
+      width: 80%;
+
+      .link-to-price {
+        border: 0;
+
+        &:visited {
+          color: inherit;
+        }
+      }
 
       &:hover {
         a {
