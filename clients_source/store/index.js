@@ -3,6 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { combineReducers } from 'redux';
 import rootReducer from '../reducers';
 import { CHANGE_FIELD } from '../routes/prices/routes/new/consts/';
+import { CHANGE_MAIN_FIELD, CHANGE_PRODUCT_FIELD } from '../routes/price/consts/';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 
@@ -12,7 +13,12 @@ var createStoreWithMiddleware = applyMiddleware(
 
 if (NODE_ENV === 'development') {
   const loggerMiddleware = createLogger({
-    predicate: (getState, action) => action.type !== CHANGE_FIELD,
+    predicate: (getState, action) => {
+      let res = action.type !== CHANGE_FIELD
+      // && action.type !== CHANGE_MAIN_FIELD
+      // && action.type !== CHANGE_PRODUCT_FIELD;
+      return res;
+    },
     collapsed: true,
     duration: true,
   });

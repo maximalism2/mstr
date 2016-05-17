@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import Loader from '../../../common/components/loader';
-import { getCaretPosition } from '../../../common/helpers/';
 import cnames from 'classnames';
 
 import { diff } from 'deep-diff';
@@ -20,11 +19,49 @@ class Input extends Component {
   constructor() {
     super();
 
-    this.keyDownHanlder = this.keyDownHanlder.bind(this);
+    this.walkOnFields = this.walkOnFields.bind(this);
   }
 
-  keyDownHanlder(e) {
-    console.log(e.which, getCaretPosition(e.target));
+  walkOnFields(e) {
+    // When user press crtl + shift and any arrow, we check if exists field in
+    // arrows direction, and do makeInput(id, this.props.type);
+
+    if (e.ctrlKey && e.shiftKey) {
+      e.preventDefault();
+      let { data, type, productsIndex, productsPlural } = this.props;
+      switch (e.which) {
+        case 37: {
+          let productsFields = ["name", "unitOfMeasurement", "cost"];
+          let columntIndex = productsFields.indexOf(type);
+          if (columntIndex > 0) {
+            this.props.makeInput(data._id, productsFields[columntIndex - 1]);
+          }
+          break;
+        }
+        case 38: {
+          if (productsIndex > 0) {
+            let id = productsPlural[productsIndex - 1]._id;
+            this.props.makeInput(id, type);
+          }
+          break;
+        }
+        case 39: {
+          let productsFields = ["name", "unitOfMeasurement", "cost"];
+          let columntIndex = productsFields.indexOf(type);
+          if (columntIndex < productsFields.length - 1) {
+            this.props.makeInput(data._id, productsFields[columntIndex + 1]);
+          }
+          break;
+        }
+        case 40: {
+          if (productsIndex < productsPlural.length - 1) {
+            let id = productsPlural[productsIndex + 1]._id;
+            this.props.makeInput(id, type);
+          }
+          break;
+        }
+      }
+    }
   }
 
   componentDidMount() {
@@ -35,6 +72,7 @@ class Input extends Component {
 
   render() {
     let { data, type, isMainField, ch, onBlur } = this.props;
+
     if (this.props.isMainField) {
       return (
         <input
@@ -42,7 +80,6 @@ class Input extends Component {
           className="input"
           defaultValue={data[type]}
           onBlur={onBlur}
-          onKeyDown={e => this.keyDownHanlder(e)}
           onChange={e => ch(type, e.target.value)}
         />
       );
@@ -53,6 +90,7 @@ class Input extends Component {
           className="input"
           defaultValue={data[type]}
           onBlur={onBlur}
+          onKeyDown={e => this.walkOnFields(e)}
           onChange={e => ch(data._id, type, e.target.value)}
         />
       );
@@ -63,9 +101,12 @@ class Input extends Component {
 Input.propTypes = {
   data: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
-  isMainField: PropTypes.bool,
   ch: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired
+  onBlur: PropTypes.func.isRequired,
+  makeInput: PropTypes.func,
+  isMainField: PropTypes.bool,
+  productsIndex: PropTypes.number,
+  productsPlural: PropTypes.arrayOf(PropTypes.object)
 }
 
 class Content extends Component {
@@ -136,7 +177,7 @@ class Content extends Component {
     }
   }
 
-  renderProduct(data, index) {
+  renderProduct(data, index, origin) {
     let { view, editMode, actions } = this.props;
     // console.log(this.props);
 
@@ -157,6 +198,9 @@ class Content extends Component {
             data={data}
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
+            productsIndex={index}
+            productsPlural={origin}
+            makeInput={actions.makeInput}
           />
         </td>
       );
@@ -179,12 +223,15 @@ class Content extends Component {
             data={data}
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
+            productsIndex={index}
+            productsPlural={origin}
+            makeInput={actions.makeInput}
           />
         </td>
       );
     }
 
-    let costCol =  (
+    let costCol = (
       <td
         className="cost-column"
         onClick={() => view.editMode ? actions.makeInput(data._id, 'cost') : null}
@@ -202,13 +249,23 @@ class Content extends Component {
             data={data}
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
+            productsIndex={index}
+            productsPlural={origin}
+            makeInput={actions.makeInput}
           />
         </td>
       );
     }
 
+    let rowCName = cnames({
+      "active-row": data._id === editMode.id
+    });
+
     return (
-      <tr key={data._id}>
+      <tr
+        className={rowCName}
+        key={data._id}
+      >
         <td className="number-column">{index + 1}</td>
         {nameCol}
         {unitCol}
@@ -253,12 +310,12 @@ class Content extends Component {
             <tbody className="table-body">
               {(() => {
                 if (view.editMode) {
-                  return editMode.data.products.map((product, index) =>
-                    this.renderProduct(product, index)
+                  return editMode.data.products.map((product, index, origin) =>
+                    this.renderProduct(product, index, origin)
                   );
                 } else {
-                  return data.products.map((product, index) =>
-                    this.renderProduct(product, index)
+                  return data.products.map((product, index, origin) =>
+                    this.renderProduct(product, index, origin)
                   );
                 }
               })()}
