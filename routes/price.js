@@ -4,6 +4,8 @@ var router = express.Router();
 var Price = require('../db/models/Prices');
 var Product = require('../db/models/Products');
 var Types = require('mongoose').Types;
+var helpers = require('./helpers/');
+var diff = require('deep-diff').diff;
 
 router.post('/', (req, res, next) => {
   // Make copy of request body
@@ -55,38 +57,151 @@ router.get('/:id/', (req, res, next) => {
   //  get them and put to product property in price object
   let id = Types.ObjectId(req.params.id);
 
-  let result = Price.readById(id);
+  helpers.readById(req.params.id)
+    .then(result => {
+      res.json(JSON.stringify(result));
+      res.end();
+    })
+    .catch(err => {
+      res.writeHead(400);
+      res.json(JSON.stringify(err));
+      res.end();
+    });
+});
+
+router.get('/', (req, res, next) => {
+  Price.read()
+    .then(result => {
+      res.json(JSON.stringify(result));
+      res.end();
+    });
+});
+
+router.put('/:id/', (req, res, next) => {
+  // At first we need to read price by id from request and do comparison
+  // helpers.readById(:id);
+  console.log('typeof params id', typeof req.params.id, String(req.params.id));
+
+  let result = Price.readById(Types.ObjectId(req.params.id));
   if (result.error) {
-    res.json(JSON.stringify(result));
-    res.end();
+    console.log('result error', result);
   } else {
     result.then(price => {
+      console.log(price);
       if (price !== null) {
         let priceCopy = JSON.parse(JSON.stringify(price));
         let query = {
           priceOrigin: id
         }
 
-        Product.readWhere(query)
-        .then(result => {
-          priceCopy.products = result;
-          res.json(JSON.stringify(priceCopy));
-          res.end();
-        });
+        return Product.readWhere(query)
+          .then(ress => {
+            let currentPrice = {
+              price: priceCopy,
+              products: ress
+            };
+            let newPrice = req.body;
+
+
+            let differenceBetweenProducts = diff(JSON.parse(JSON.stringify(currentPrice.products)), newPrice.products);
+            
+            // Array for update products
+            let prepareProductForUpdate = [];
+            let alreadyFound_u = null; // already found for update
+            let currentCheckingIndex_u = null; // checking index for update
+
+
+            differenceBetweenProducts.forEach(difference => {
+              if (difference.kind === 'E') {
+                // Checking only updated product
+                
+                // Here we parse difference between old and new arrays
+                if (currentCheckingIndex_u !== difference.path[0]) {
+                  // It's for valid checking, is specific product already changed?
+                  // Here we reset the index of changed product, where index in path (of difference)
+                  // is also changed
+                  alreadyFound_u = null;
+                } else {
+                  // If it is some new index - use it
+                  currentCheckingIndex_u = difference.path[0];
+                }
+
+                prepareProductForUpdate.forEach((alreadyPrepared, index) => {
+                  // Here we looking for product, which is already changed and detected
+                  // we check the _id field in products
+                  if (alreadyFound_u !== null) return;
+                  if (alreadyPrepared._id === newPrice.products[difference.path[0]]._id) {
+                    alreadyFound_u = index;
+                  }
+                });
+
+                if (alreadyFound_u !== null) {
+                  let foundPrice = prepareProductForUpdate[alreadyFound_u];
+                  prepareProductForUpdate[alreadyFound_u] = Object.assign({}, foundPrice, {
+                    _id: newPrice.products[difference.path[0]]._id,
+                    [difference.path[1]]: difference.rhs
+                  });
+                } else {
+                  prepareProductForUpdate.push({
+                    _id: newPrice.products[difference.path[0]]._id,
+                    [difference.path[1]]: difference.rhs
+                  })
+                }
+              }
+            });
+
+            console.log('\n\n\n\n', prepareProductForUpdate);
+            // Updating needed products
+            prepareProductForUpdate.forEach(product => {
+              let id = /*Types.ObjectId(*/product._id/*)*/;
+              let body = {};
+              Object.keys(product).forEach(key => {
+                if (key !== "_id") {
+                  // if (key === "cost") {
+                  //   body = Object.assign({}, body, {
+                  //     [key]: Number(product[key])
+                  //   });
+                  // } else {
+                    body = Object.assign({}, body, {
+                      [key]: String(product[key])
+                    });
+                  // }
+                }
+              });
+
+              body = JSON.stringify(body);
+
+              console.log(typeof id, id, body);
+              let updatingRes = Product.update(id, body);
+              if (updatingRes.error) {
+                console.log('updatingError => ', updatingRes);
+                // res.whireHead(400);
+                // res.json(updatingRes);
+                res.end();
+                return;
+              }
+            });
+
+            res.end({ ok: true });
+          });
       } else {
-        res.writeHead(404, { "ok": false });
+        console.log('jibucha mistake')
         res.end();
+        return { error: 404 }
       }
     });
   }
-});
+  // let id = Types.ObjectId(req.params.id);
+  // helpers.readById(id, true)
+  //   .then(data => {
+      
+  //   })
+  //   .catch((error) => {
+  //     console.log('errorr', error);
+  //     res.end();
+  //   })
 
-router.get('/', (req, res, next) => {
-  Price.read()
-    .then(result => {
-        res.json(JSON.stringify(result));
-        res.end();
-    })
+    res.end();
 });
 
 router.delete('/:id/', (req, res, next) => {
