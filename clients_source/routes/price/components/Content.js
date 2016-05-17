@@ -14,7 +14,46 @@ var rhs = {
   name: 'dd'
 }
 
+function getCaretPosition(oField) {
+
+  // Initialize
+  var iCaretPos = 0;
+
+  // IE Support
+  if (document.selection) {
+
+    // Set focus on the element
+    oField.focus();
+
+    // To get cursor position, get empty selection range
+    var oSel = document.selection.createRange();
+
+    // Move selection start to 0 position
+    oSel.moveStart('character', -oField.value.length);
+
+    // The caret position is selection length
+    iCaretPos = oSel.text.length;
+  }
+
+  // Firefox support
+  else if (oField.selectionStart || oField.selectionStart == '0')
+    iCaretPos = oField.selectionStart;
+
+  // Return results
+  return iCaretPos;
+}
+
 class Input extends Component {
+  constructor() {
+    super();
+
+    this.keyDownHanlder = this.keyDownHanlder.bind(this);
+  }
+
+  keyDownHanlder(e) {
+    console.log(e.which);
+  }
+
   componentDidMount() {
     let DOMInput = findDOMNode(this);
     DOMInput.setSelectionRange(0, DOMInput.value.length);
@@ -30,6 +69,7 @@ class Input extends Component {
           className="input"
           defaultValue={data[type]}
           onBlur={onBlur}
+          onKeyDown={e => this.keyDownHanlder(e)}
           onChange={e => ch(type, e.target.value)}
         />
       );
@@ -171,12 +211,35 @@ class Content extends Component {
       );
     }
 
+    let costCol =  (
+      <td
+        className="cost-column"
+        onClick={() => view.editMode ? actions.makeInput(data._id, 'cost') : null}
+      >{data.cost}</td>
+    );
+
+    if (editMode.id === data._id && editMode.field === 'cost') {
+      costCol = (
+        <td
+          className="cost-column editing"
+          onClick={() => view.editMode ? actions.makeInput(data._id, 'cost') : null}
+        >
+          <Input
+            type="cost"
+            data={data}
+            onBlur={actions.removeInput}
+            ch={actions.changeProductField}
+          />
+        </td>
+      );
+    }
+
     return (
       <tr key={data._id}>
         <td className="number-column">{index + 1}</td>
         {nameCol}
         {unitCol}
-        <td className="cost-column">{data.cost}</td>
+        {costCol}
       </tr>
     );
   }
