@@ -134,6 +134,23 @@
       border-color: $yellow;
     }
   }
+
+  .discount {
+    .input {
+      margin-top: -2px;
+      margin-bottom: -6px;
+      margin-left: 0;
+      font-size: 1.2rem;
+      z-index: 700;
+      font-weight: 600;
+      color: $green;
+      width: 13%;
+      height: auto;
+      border-radius: 0;
+      border-color: $yellow;
+      background: transparent;
+    }
+  }
 }
 
 .will-remove-modal {

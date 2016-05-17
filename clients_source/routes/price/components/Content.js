@@ -75,14 +75,50 @@ class Content extends Component {
       return (
         <h1
           className="title price-title"
-          onClick={() => view.editMode ? actions.makeInput(data._id, 'title') : null}
-        >{editMode.data.name}</h1>
+          onClick={() => actions.makeInput(null, 'title')}
+        >{editMode.data.name.length ? editMode.data.name : data.name}</h1>
       );
     } else { // If default mode
       return (
         <h1
           className="title price-title"
         >{data.name}</h1>
+      );
+    }
+  }
+
+  renderDiscount() {
+    let { data, view, editMode, actions } = this.props;
+
+    if (view.editMode && editMode.field === 'discount') {
+      return (
+        <p className="discount">
+          Знижка: 
+          <span className="discount-value">
+            <Input
+              data={editMode.data}
+              type="discount"
+              isMainField
+              onBlur={actions.removeInput}
+              ch={actions.changeMainField}
+            />
+          </span>
+        </p>
+      );
+    } else if (view.editMode) {
+      return (
+        <p
+          className="discount"
+          onClick={() => actions.makeInput(null, 'discount')}
+        >
+          Знижка: <span className="discount-value">{editMode.data.discount + "%"}</span>
+        </p>
+      );
+    } else {
+      return (
+        <p className="discount">
+          Знижка: <span className="discount-value">{data.discount + "%"}</span>
+        </p>
       );
     }
   }
@@ -161,8 +197,11 @@ class Content extends Component {
           <p className="updated-at">Оновлено: {updatedAt}</p>
           {this.renderPriceTitle()}
           <div className="sub-main">
-            <p className="discount">Знижка: <span className="discount-value">{data.discount + '%'}</span></p>
-            <p className="currency">Валюта: <span className="currency-value">UAH (₴)</span></p>
+            {this.renderDiscount()}
+            <p className="currency">
+              Валюта: 
+              <span className="currency-value">UAH (₴)</span>
+            </p>
           </div>
         </div>
         <div className="products-list content-container">
