@@ -15,8 +15,8 @@ if (NODE_ENV === 'development') {
   const loggerMiddleware = createLogger({
     predicate: (getState, action) => {
       let res = action.type !== CHANGE_FIELD
-      // && action.type !== CHANGE_MAIN_FIELD
-      // && action.type !== CHANGE_PRODUCT_FIELD;
+      && action.type !== CHANGE_MAIN_FIELD
+      && action.type !== CHANGE_PRODUCT_FIELD;
       return res;
     },
     collapsed: true,

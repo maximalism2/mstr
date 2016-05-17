@@ -20,12 +20,19 @@ class Input extends Component {
     super();
 
     this.walkOnFields = this.walkOnFields.bind(this);
+    this.needToExit = this.needToExit.bind(this);
+  }
+
+  needToExit(e) {
+    if (e.which === 27) {
+      // If esc is pressed do the same that on blur event
+      this.props.onBlur();
+    }
   }
 
   walkOnFields(e) {
     // When user press crtl + shift and any arrow, we check if exists field in
     // arrows direction, and do makeInput(id, this.props.type);
-
     if (e.ctrlKey && e.shiftKey) {
       e.preventDefault();
       let { data, type, productsIndex, productsPlural } = this.props;
@@ -80,6 +87,7 @@ class Input extends Component {
           className="input"
           defaultValue={data[type]}
           onBlur={onBlur}
+          onKeyDown={e => this.needToExit(e)}
           onChange={e => ch(type, e.target.value)}
         />
       );
@@ -90,7 +98,10 @@ class Input extends Component {
           className="input"
           defaultValue={data[type]}
           onBlur={onBlur}
-          onKeyDown={e => this.walkOnFields(e)}
+          onKeyDown={e => {
+            this.walkOnFields(e);
+            this.needToExit(e);
+          }}
           onChange={e => ch(data._id, type, e.target.value)}
         />
       );
@@ -292,7 +303,7 @@ class Content extends Component {
           <div className="sub-main">
             {this.renderDiscount()}
             <p className="currency">
-              Валюта: 
+              Валюта: {" "}
               <span className="currency-value">UAH (₴)</span>
             </p>
           </div>
