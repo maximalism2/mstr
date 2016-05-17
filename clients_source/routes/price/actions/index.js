@@ -3,7 +3,7 @@ import {
 } from '../consts';
 
 import origin from '../../../common/origin';
-import { read, destroy } from '../../../common/fetch';
+import { read, update, destroy } from '../../../common/fetch';
 
 export function fetchPriceById(id) {
   return async dispatch => {
@@ -138,5 +138,47 @@ export function changeMainField(field, value) {
     type: CHANGE_MAIN_FIELD,
     field,
     value
+  }
+}
+
+import {
+  UPDATING_LOADING,
+  PRICE_UPDATING_ERROR,
+  PRICE_UPDATING_SUCCESS
+} from '../consts';
+
+export function updatePrice(id, data) {
+  return async dispatch => {
+    dispatch({
+      type: UPDATING_LOADING,
+      flag: true
+    });
+
+    let url = `${origin}/api/price/${id}/`;
+    // const response = await update(url, data);
+
+
+    // if (response.ok) {
+      setTimeout(() => {
+        dispatch({
+          type: UPDATING_LOADING,
+          flag: false
+        });
+        dispatch({
+          type: PRICE_UPDATING_SUCCESS,
+          data
+        });
+      }, 2000);
+    // } else {
+    //   let result = await response.json();
+    //   dispatch({
+    //     type: UPDATING_LOADING,
+    //     flag: false
+    //   });
+    //   dispatch({
+    //     type: PRICE_UPDATING_ERROR,
+    //     message: result
+    //   })
+    // }
   }
 }

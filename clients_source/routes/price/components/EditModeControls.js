@@ -50,20 +50,33 @@ class EditModeControls extends Component {
       "showed": this.state.showed
     });
 
+    let cancelButtonCName = cnames({
+      "button": true,
+      "is-disabled": this.props.view.updatingLoading
+    });
+
+    let saveButtonCName = cnames({
+      "button is-success on-save": true,
+      "is-loading": this.props.view.updatingLoading
+    });
+
     if (this.state.mounted) {
       return (
         <div>
           <div className={editControlsCName}>
             <div className="button-group">
               <button
-                className="button"
+                className={cancelButtonCName}
                 onClick={() => {
                   actions.editModeOff();
                   actions.removeInput();
                 }}
               >Скасувати</button>
               {" "}
-              <button className="button is-success on-save">
+              <button
+                className={saveButtonCName}
+                onClick={() => actions.updatePrice()}
+              >
                 <span className="icon"><i className="fa fa-save"></i></span>
                 Зберегти
               </button>

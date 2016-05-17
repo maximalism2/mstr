@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { showNotification } from '../../../common/notifications/actions';
 import * as actions from '../actions';
 
 import { Header, Content, EditModeControls } from '../components';
@@ -16,6 +17,7 @@ class PriceContainer extends Component {
     this.changeProductField = this.changeProductField.bind(this);
     this.changeMainField = this.changeMainField.bind(this);
     this.remove = this.remove.bind(this);
+    this.updatePrice = this.updatePrice.bind(this);
   }
 
   editModeOn() {
@@ -54,6 +56,12 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.remove(id));
   }
 
+  updatePrice() {
+    let { id } = this.props.params;
+    let { data } = this.props.price.editMode;
+    this.props.dispatch(actions.updatePrice(id, data));
+  }
+
   changeProductField(productId, field, value) {
     this.props.dispatch(actions.changeProductField(productId, field, value));
   }
@@ -71,6 +79,12 @@ class PriceContainer extends Component {
     // Register the click event listener
     let currView = this.props.price.view;
     let nextView = nextProps.price.view;
+
+    if (!currView.updatingSuccess && nextView.updatingSuccess) {
+      let notificationMessage = `Каталог "${this.props.price.editMode.data.name}" успішно оновлений`
+      this.props.dispatch(showNotification('info', notificationMessage));
+      this.props.dispatch(actions.resetPriceView());
+    }
 
     if (!currView.editMode && nextView.editMode) { // If edit mode is turned on
       window.addEventListener('click', this.makeInput(null, null), false);
@@ -93,7 +107,8 @@ class PriceContainer extends Component {
       removeInput: this.removeInput,
       remove: this.remove,
       changeProductField: this.changeProductField,
-      changeMainField: this.changeMainField
+      changeMainField: this.changeMainField,
+      updatePrice: this.updatePrice
     }
 
     return (

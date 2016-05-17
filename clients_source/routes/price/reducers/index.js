@@ -4,7 +4,8 @@ import {
   EDIT_MODE_ON, EDIT_MODE_OFF,
   WILL_REMOVE, REMOVING_LOADING, REMOVE, REMOVE_ERROR, REMOVING_SUCCESS,
   RESET_PRICE_VIEW,
-  MAKE_INPUT, REMOVE_INPUT, CHANGE_PRODUCT_FIELD, CHANGE_MAIN_FIELD
+  MAKE_INPUT, REMOVE_INPUT, CHANGE_PRODUCT_FIELD, CHANGE_MAIN_FIELD,
+  UPDATING_LOADING, PRICE_UPDATING_ERROR, PRICE_UPDATING_SUCCESS
 } from '../consts';
 
 const initialPrice = {
@@ -18,7 +19,9 @@ const initialPrice = {
     editMode: false,
     willRemove: false,
     removingLoading: false,
-    removingSuccess: false
+    removingSuccess: false,
+    updatingLoading: false,
+    updatingSuccess: false
   },
   editMode: {
     id: null,
@@ -30,6 +33,9 @@ const initialPrice = {
 function data(state = initialPrice.data, action) {
   switch (action.type) {
     case FETCH_PRICE_BY_ID: {
+      return Object.assign({}, state, action.data);
+    }
+    case PRICE_UPDATING_SUCCESS: {
       return Object.assign({}, state, action.data);
     }
     default: {
@@ -73,6 +79,16 @@ function view(state = initialPrice.view, action) {
     case REMOVING_SUCCESS: {
       return Object.assign({}, state, {
         removingSuccess: true
+      });
+    }
+    case UPDATING_LOADING: {
+      return Object.assign({}, state, {
+        updatingLoading: action.flag
+      });
+    }
+    case PRICE_UPDATING_SUCCESS: {
+      return Object.assign({}, state, {
+        updatingSuccess: true
       });
     }
     case RESET_PRICE_VIEW: {
