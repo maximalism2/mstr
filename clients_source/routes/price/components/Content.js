@@ -14,11 +14,76 @@ var rhs = {
   name: 'dd'
 }
 
+class Input extends Component {
+  componentDidMount() {
+    let DOMInput = findDOMNode(this);
+    DOMInput.setSelectionRange(0, DOMInput.value.length);
+    DOMInput.focus();
+  }
+
+  render() {
+    let { data, type, isMainField, ch, onBlur } = this.props;
+    if (this.props.isMainField) {
+      return (
+        <input
+          type="text"
+          className="input"
+          defaultValue={data[type]}
+          onBlur={onBlur}
+          onChange={e => ch(type, e.target.value)}
+        />
+      );
+    } else {
+      return (
+        <input
+          type="text"
+          className="input"
+          defaultValue={data[type]}
+          onBlur={onBlur}
+          onChange={e => ch(data._id, type, e.target.value)}
+        />
+      );
+    }
+  }
+}
+
+Input.propTypes = {
+  data: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  isMainField: PropTypes.bool,
+  ch: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired
+}
+
 class Content extends Component {
-  componentWillReceiveProps(nextProps) {
-    if (this.refs.fieldInput) {
-      console.log('must be focused');
-      findDOMNode(this.refs.fieldInput).focus();
+  renderPriceTitle() {
+    let { data, view, editMode, actions } = this.props;
+
+    if (view.editMode && editMode.field === 'title') {
+      return (
+        <h1 className="title price-title">
+          <Input
+            data={editMode.data}
+            type="name"
+            isMainField
+            ch={actions.changeMainField}
+            onBlur={actions.removeInput}
+          />
+        </h1>
+      );
+    } else if (view.editMode) {
+      return (
+        <h1
+          className="title price-title"
+          onClick={() => view.editMode ? actions.makeInput(data._id, 'title') : null}
+        >{editMode.data.name}</h1>
+      );
+    } else { // If default mode
+      return (
+        <h1
+          className="title price-title"
+        >{data.name}</h1>
+      );
     }
   }
 
@@ -38,12 +103,33 @@ class Content extends Component {
     if (editMode.id === data._id && editMode.field === 'name') {
       nameCol = (
         <td className="name-column editing">
-          <input
-            type="text"
-            className="input"
-            ref="fieldInput"
-            defaultValue={data.name}
-            onChange={e => actions.changeProductField(data._id, 'name', e.target.value)}
+          <Input
+            type="name"
+            data={data}
+            onBlur={actions.removeInput}
+            ch={actions.changeProductField}
+          />
+        </td>
+      );
+    }
+
+    let unitCol = (
+      <td
+        className="unit-column"
+        onClick={() => view.editMode ? actions.makeInput(data._id, 'unitOfMeasurement') : null}
+      >
+        {data.unitOfMeasurement}
+      </td>
+    );
+
+    if (editMode.id === data._id && editMode.field === 'unitOfMeasurement') {
+      unitCol = (
+        <td className="unit-column editing">
+          <Input
+            type="unitOfMeasurement"
+            data={data}
+            onBlur={actions.removeInput}
+            ch={actions.changeProductField}
           />
         </td>
       );
@@ -53,7 +139,7 @@ class Content extends Component {
       <tr key={data._id}>
         <td className="number-column">{index + 1}</td>
         {nameCol}
-        <td className="unit-column">{data.unitOfMeasurement}</td>
+        {unitCol}
         <td className="cost-column">{data.cost}</td>
       </tr>
     );
@@ -73,7 +159,7 @@ class Content extends Component {
       <div className={containerCName}>
         <div className="main-info content-container">
           <p className="updated-at">Оновлено: {updatedAt}</p>
-          <h1 className="title price-title">{data.name}</h1>
+          {this.renderPriceTitle()}
           <div className="sub-main">
             <p className="discount">Знижка: <span className="discount-value">{data.discount + '%'}</span></p>
             <p className="currency">Валюта: <span className="currency-value">UAH (₴)</span></p>

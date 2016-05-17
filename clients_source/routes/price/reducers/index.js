@@ -4,7 +4,7 @@ import {
   EDIT_MODE_ON, EDIT_MODE_OFF,
   WILL_REMOVE, REMOVING_LOADING, REMOVE, REMOVE_ERROR, REMOVING_SUCCESS,
   RESET_PRICE_VIEW,
-  MAKE_INPUT, REMOVE_INPUT, CHANGE_PRODUCT_FIELD
+  MAKE_INPUT, REMOVE_INPUT, CHANGE_PRODUCT_FIELD, CHANGE_MAIN_FIELD
 } from '../consts';
 
 const initialPrice = {
@@ -96,34 +96,30 @@ function editMode(state = initialPrice.editMode, action) {
         data: {}
       });
     }
+    case CHANGE_MAIN_FIELD: {
+      let newMainData = Object.assign({}, state.data, {
+        [action.field]: action.value
+      });
+      return Object.assign({}, state, {
+        data: newMainData
+      });
+    }
     case CHANGE_PRODUCT_FIELD: {
-      if (action.id) {
-        let productIsNotChangedJet = true;
-        let newProducts = state.data.products.map(changedField => {
-          if (changedField._id && changedField._id === action.id) {
-            return Object.assign({}, changedField, {
-              [action.field]: action.value
-            });
-          } else {
-            return changedField;
-          }
-        });
-        let newData = JSON.parse(JSON.stringify(state.data));
-        newData.products = newProducts;
-        return Object.assign({}, state, {
-          data: newData
-        });
-      } else if (action.field === 'priceTitle') {
-        return Object.assign({}, state, {
-          name: action.value
-        });
-      } else if (action.field === 'discount') {
-        return Object.assign({}, state, {
-          discount: action.value
-        });
-      } else {
-        return state;
-      }
+      let productIsNotChangedJet = true;
+      let newProducts = state.data.products.map(changedField => {
+        if (changedField._id && changedField._id === action.id) {
+          return Object.assign({}, changedField, {
+            [action.field]: action.value
+          });
+        } else {
+          return changedField;
+        }
+      });
+      let newData = JSON.parse(JSON.stringify(state.data));
+      newData.products = newProducts;
+      return Object.assign({}, state, {
+        data: newData
+      });
     }
     case MAKE_INPUT: {
       return Object.assign({}, state, {

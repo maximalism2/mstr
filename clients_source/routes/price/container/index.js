@@ -14,6 +14,7 @@ class PriceContainer extends Component {
     this.makeInput = this.makeInput.bind(this);
     this.removeInput = this.removeInput.bind(this);
     this.changeProductField = this.changeProductField.bind(this);
+    this.changeMainField = this.changeMainField.bind(this);
     this.remove = this.remove.bind(this);
   }
 
@@ -57,6 +58,10 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.changeProductField(productId, field, value));
   }
 
+  changeMainField(field, value) {
+    this.props.dispatch(actions.changeMainField(field, value));
+  }
+
   componentWillReceiveProps(nextProps) {
     // If price is deleted successfully go to /prices/ route
     if (nextProps.price.view.removingSuccess) {
@@ -87,7 +92,8 @@ class PriceContainer extends Component {
       makeInput: this.makeInput,
       removeInput: this.removeInput,
       remove: this.remove,
-      changeProductField: this.changeProductField
+      changeProductField: this.changeProductField,
+      changeMainField: this.changeMainField
     }
 
     return (
