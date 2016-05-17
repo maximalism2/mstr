@@ -155,7 +155,7 @@ export function updatePrice(id, data) {
     });
 
     let url = `${origin}/api/price/${id}/`;
-    // const response = await update(url, data);
+    const response = await update(url, data);
 
 
     // if (response.ok) {
