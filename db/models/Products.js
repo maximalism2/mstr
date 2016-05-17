@@ -331,7 +331,7 @@ function update(id, query) {
     // If method update called without parameters
     let message = 'Methor read() expects two parameters, but there was passed ' + arguments.length;
     return { error: message };
-  } else if (!(Types.ObjectId(id) instanceof Types.ObjectId)) {
+  } else if (!(id instanceof Types.ObjectId)) {
     // If id is not an ObjectId
     let message = '\'id\' must be an ObjectId.';
     return { error: message };
@@ -414,6 +414,8 @@ function update(id, query) {
   }, {
     $set: query
   });
+
+  result.then(someData => console.log('\n\n\n\nsome data', someData))
 
   return result;
 }

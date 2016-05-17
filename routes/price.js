@@ -81,13 +81,14 @@ router.put('/:id/', (req, res, next) => {
   // At first we need to read price by id from request and do comparison
   // helpers.readById(:id);
   console.log('typeof params id', typeof req.params.id, String(req.params.id));
+  const id = Types.ObjectId(req.params.id);
 
-  let result = Price.readById(Types.ObjectId(req.params.id));
+  let result = Price.readById(id);
   if (result.error) {
     console.log('result error', result);
   } else {
     result.then(price => {
-      console.log(price);
+      console.log('price=> ', price);
       if (price !== null) {
         let priceCopy = JSON.parse(JSON.stringify(price));
         let query = {
@@ -100,10 +101,13 @@ router.put('/:id/', (req, res, next) => {
               price: priceCopy,
               products: ress
             };
+
             let newPrice = req.body;
+            console.log('currentPrice', currentPrice, 'newPrice', newPrice);
 
 
             let differenceBetweenProducts = diff(JSON.parse(JSON.stringify(currentPrice.products)), newPrice.products);
+            console.log('differenceBetweenProducts', differenceBetweenProducts);
             
             // Array for update products
             let prepareProductForUpdate = [];
@@ -153,26 +157,24 @@ router.put('/:id/', (req, res, next) => {
             console.log('\n\n\n\n', prepareProductForUpdate);
             // Updating needed products
             prepareProductForUpdate.forEach(product => {
-              let id = /*Types.ObjectId(*/product._id/*)*/;
+              let productId = Types.ObjectId(product._id);
               let body = {};
               Object.keys(product).forEach(key => {
                 if (key !== "_id") {
-                  // if (key === "cost") {
-                  //   body = Object.assign({}, body, {
-                  //     [key]: Number(product[key])
-                  //   });
-                  // } else {
+                  if (key === "cost") {
+                    body = Object.assign({}, body, {
+                      [key]: Number(product[key])
+                    });
+                  } else {
                     body = Object.assign({}, body, {
                       [key]: String(product[key])
                     });
-                  // }
+                  }
                 }
               });
 
-              body = JSON.stringify(body);
-
-              console.log(typeof id, id, body);
-              let updatingRes = Product.update(id, body);
+              console.log(typeof productId, productId, body);
+              let updatingRes = Product.update(productId, body);
               if (updatingRes.error) {
                 console.log('updatingError => ', updatingRes);
                 // res.whireHead(400);
