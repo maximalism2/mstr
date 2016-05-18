@@ -39,7 +39,6 @@ router.post('/', (req, res, next) => {
           console.log('\n\nerror\n\n', updatingResult);
         } else {
           updatingResult.then(someRes => {
-            console.log('some res', someRes);
           })
         }
         res.json(JSON.stringify(newPrice));
@@ -85,16 +84,14 @@ router.put('/:id/', (req, res, next) => {
 
   let result = Price.readById(id);
   if (result.error) {
-    console.log('result error', result);
+    res.json(JSON.stringify(result));
+    res.end();
   } else {
     result.then(price => {
       if (price !== null) {
         let priceCopy = JSON.parse(JSON.stringify(price));
-        let query = {
-          priceOrigin: id
-        }
 
-        return Product.readWhere(query)
+        Product.readWhere({ priceOrigin: id })
           .then(ress => {
             let currentPrice = {
               price: priceCopy,
@@ -110,7 +107,6 @@ router.put('/:id/', (req, res, next) => {
             delete copyCurrentForMainComparison.products;
             delete copyNewForMainComparison.products;
 
-            console.log('currentPrice', copyCurrentForMainComparison, 'newPrice', copyNewForMainComparison);
             let differenceBetweenPricesHeaders = diff(copyCurrentForMainComparison, copyNewForMainComparison);
 
             if (differenceBetweenPricesHeaders.length) {
@@ -125,15 +121,22 @@ router.put('/:id/', (req, res, next) => {
               console.log('\n\n\nHeader for update', id, body);
               let headerUpdatingResult = Price.update(id, body);
               console.log('headerUpdatingResult', headerUpdatingResult);
+
               if (headerUpdatingResult.error) {
-                console.log(headerUpdatingResult.error);
+                console.log('headerUpdatingResult.error', headerUpdatingResult.error);
                 res.json(JSON.stringify(headerUpdatingResult))
                 res.end();
               }
               else {
                 headerUpdatingResult
-                  .then(result => console.log('header result => ', result))
-                  .catch(err => console.log('header error =>', err));
+                  .then(result => {
+                    res.json(JSON.stringify(result));
+                    res.end();
+                  })
+                  .catch(err => {
+                    res.json(JSON.stringify(err));
+                    res.end();
+                  });
               }
             }
 
@@ -208,33 +211,24 @@ router.put('/:id/', (req, res, next) => {
                 let updatingRes = Product.update(productId, body);
                 if (updatingRes.error) {
                   console.log('updatingError => ', updatingRes);
-                  // res.whireHead(400);
-                  // res.json(updatingRes);
+                  res.json(JSON.stringify(updatingRes));
                   res.end();
-                  return;
                 }
               });
             }
 
-            res.end({ ok: true });
+            res.json(JSON.stringify({ ok: true }));
+            res.end();
           });
       } else {
+        res.json({
+          error: "Price not found",
+          code: 404
+        });
         res.end();
-        return { error: 404 }
       }
     });
   }
-  // let id = Types.ObjectId(req.params.id);
-  // helpers.readById(id, true)
-  //   .then(data => {
-      
-  //   })
-  //   .catch((error) => {
-  //     console.log('errorr', error);
-  //     res.end();
-  //   })
-
-    res.end();
 });
 
 router.delete('/:id/', (req, res, next) => {

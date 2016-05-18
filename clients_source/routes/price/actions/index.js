@@ -158,27 +158,25 @@ export function updatePrice(id, data) {
     const response = await update(url, data);
 
 
-    // if (response.ok) {
-      setTimeout(() => {
-        dispatch({
-          type: UPDATING_LOADING,
-          flag: false
-        });
-        dispatch({
-          type: PRICE_UPDATING_SUCCESS,
-          data
-        });
-      }, 2000);
-    // } else {
-    //   let result = await response.json();
-    //   dispatch({
-    //     type: UPDATING_LOADING,
-    //     flag: false
-    //   });
-    //   dispatch({
-    //     type: PRICE_UPDATING_ERROR,
-    //     message: result
-    //   })
-    // }
+    if (response.ok) {
+      dispatch({
+        type: UPDATING_LOADING,
+        flag: false
+      });
+      dispatch({
+        type: PRICE_UPDATING_SUCCESS,
+        data
+      });
+    } else {
+      let result = await response.json();
+      dispatch({
+        type: UPDATING_LOADING,
+        flag: false
+      });
+      dispatch({
+        type: PRICE_UPDATING_ERROR,
+        message: result
+      })
+    }
   }
 }
