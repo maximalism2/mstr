@@ -88,7 +88,6 @@ router.put('/:id/', (req, res, next) => {
     console.log('result error', result);
   } else {
     result.then(price => {
-      console.log('price=> ', price);
       if (price !== null) {
         let priceCopy = JSON.parse(JSON.stringify(price));
         let query = {
@@ -103,91 +102,123 @@ router.put('/:id/', (req, res, next) => {
             };
 
             let newPrice = req.body;
-            console.log('currentPrice', currentPrice, 'newPrice', newPrice);
+            newPrice.updatedAt = new Date();
+
+            let copyCurrentForMainComparison = JSON.parse(JSON.stringify(currentPrice.price));
+            let copyNewForMainComparison = JSON.parse(JSON.stringify(newPrice));
+
+            delete copyCurrentForMainComparison.products;
+            delete copyNewForMainComparison.products;
+
+            console.log('currentPrice', copyCurrentForMainComparison, 'newPrice', copyNewForMainComparison);
+            let differenceBetweenPricesHeaders = diff(copyCurrentForMainComparison, copyNewForMainComparison);
+
+            if (differenceBetweenPricesHeaders.length) {
+              let id = copyNewForMainComparison._id;
+              let body = {};
+              differenceBetweenPricesHeaders.forEach(difference => {
+                body = Object.assign({}, body, {
+                  [difference.path[0]]: difference.rhs
+                });
+              });
+
+              console.log('\n\n\nHeader for update', id, body);
+              let headerUpdatingResult = Price.update(id, body);
+              console.log('headerUpdatingResult', headerUpdatingResult);
+              if (headerUpdatingResult.error) {
+                console.log(headerUpdatingResult.error);
+                res.json(JSON.stringify(headerUpdatingResult))
+                res.end();
+              }
+              else {
+                headerUpdatingResult
+                  .then(result => console.log('header result => ', result))
+                  .catch(err => console.log('header error =>', err));
+              }
+            }
 
 
             let differenceBetweenProducts = diff(JSON.parse(JSON.stringify(currentPrice.products)), newPrice.products);
-            console.log('differenceBetweenProducts', differenceBetweenProducts);
-            
-            // Array for update products
-            let prepareProductForUpdate = [];
-            let alreadyFound_u = null; // already found for update
-            let currentCheckingIndex_u = null; // checking index for update
+            if (differenceBetweenProducts.length) {
+              // Array for update products
+              let prepareProductForUpdate = [];
+              let alreadyFound_u = null; // already found for update
+              let currentCheckingIndex_u = null; // checking index for update
 
 
-            differenceBetweenProducts.forEach(difference => {
-              if (difference.kind === 'E') {
-                // Checking only updated product
-                
-                // Here we parse difference between old and new arrays
-                if (currentCheckingIndex_u !== difference.path[0]) {
-                  // It's for valid checking, is specific product already changed?
-                  // Here we reset the index of changed product, where index in path (of difference)
-                  // is also changed
-                  alreadyFound_u = null;
-                } else {
-                  // If it is some new index - use it
-                  currentCheckingIndex_u = difference.path[0];
-                }
-
-                prepareProductForUpdate.forEach((alreadyPrepared, index) => {
-                  // Here we looking for product, which is already changed and detected
-                  // we check the _id field in products
-                  if (alreadyFound_u !== null) return;
-                  if (alreadyPrepared._id === newPrice.products[difference.path[0]]._id) {
-                    alreadyFound_u = index;
+              differenceBetweenProducts.forEach(difference => {
+                if (difference.kind === 'E') {
+                  // Checking only updated product
+                  
+                  // Here we parse difference between old and new arrays
+                  if (currentCheckingIndex_u !== difference.path[0]) {
+                    // It's for valid checking, is specific product already changed?
+                    // Here we reset the index of changed product, where index in path (of difference)
+                    // is also changed
+                    alreadyFound_u = null;
+                  } else {
+                    // If it is some new index - use it
+                    currentCheckingIndex_u = difference.path[0];
                   }
-                });
 
-                if (alreadyFound_u !== null) {
-                  let foundPrice = prepareProductForUpdate[alreadyFound_u];
-                  prepareProductForUpdate[alreadyFound_u] = Object.assign({}, foundPrice, {
-                    _id: newPrice.products[difference.path[0]]._id,
-                    [difference.path[1]]: difference.rhs
+                  prepareProductForUpdate.forEach((alreadyPrepared, index) => {
+                    // Here we looking for product, which is already changed and detected
+                    // we check the _id field in products
+                    if (alreadyFound_u !== null) return;
+                    if (alreadyPrepared._id === newPrice.products[difference.path[0]]._id) {
+                      alreadyFound_u = index;
+                    }
                   });
-                } else {
-                  prepareProductForUpdate.push({
-                    _id: newPrice.products[difference.path[0]]._id,
-                    [difference.path[1]]: difference.rhs
-                  })
-                }
-              }
-            });
 
-            console.log('\n\n\n\n', prepareProductForUpdate);
-            // Updating needed products
-            prepareProductForUpdate.forEach(product => {
-              let productId = Types.ObjectId(product._id);
-              let body = {};
-              Object.keys(product).forEach(key => {
-                if (key !== "_id") {
-                  if (key === "cost") {
-                    body = Object.assign({}, body, {
-                      [key]: Number(product[key])
+                  if (alreadyFound_u !== null) {
+                    let foundPrice = prepareProductForUpdate[alreadyFound_u];
+                    prepareProductForUpdate[alreadyFound_u] = Object.assign({}, foundPrice, {
+                      _id: newPrice.products[difference.path[0]]._id,
+                      [difference.path[1]]: difference.rhs
                     });
                   } else {
-                    body = Object.assign({}, body, {
-                      [key]: String(product[key])
-                    });
+                    prepareProductForUpdate.push({
+                      _id: newPrice.products[difference.path[0]]._id,
+                      [difference.path[1]]: difference.rhs
+                    })
                   }
                 }
               });
 
-              console.log(typeof productId, productId, body);
-              let updatingRes = Product.update(productId, body);
-              if (updatingRes.error) {
-                console.log('updatingError => ', updatingRes);
-                // res.whireHead(400);
-                // res.json(updatingRes);
-                res.end();
-                return;
-              }
-            });
+              console.log('\n\n\n\n', prepareProductForUpdate);
+              // Updating needed products
+              prepareProductForUpdate.forEach(product => {
+                let productId = Types.ObjectId(product._id);
+                let body = {};
+                Object.keys(product).forEach(key => {
+                  if (key !== "_id") {
+                    if (key === "cost") {
+                      body = Object.assign({}, body, {
+                        [key]: Number(product[key])
+                      });
+                    } else {
+                      body = Object.assign({}, body, {
+                        [key]: String(product[key])
+                      });
+                    }
+                  }
+                });
+
+                console.log(typeof productId, productId, body);
+                let updatingRes = Product.update(productId, body);
+                if (updatingRes.error) {
+                  console.log('updatingError => ', updatingRes);
+                  // res.whireHead(400);
+                  // res.json(updatingRes);
+                  res.end();
+                  return;
+                }
+              });
+            }
 
             res.end({ ok: true });
           });
       } else {
-        console.log('jibucha mistake')
         res.end();
         return { error: 404 }
       }
