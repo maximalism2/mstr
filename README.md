@@ -1,7 +1,7 @@
 # Master app (mstr)
 #### It is my diploma project
 
-[![Build Status](https://travis-ci.org/necinc/maestro.svg?branch=master)](https://travis-ci.org/necinc/maestro)
+[![Build Status](https://travis-ci.org/necinc/mstr.svg?branch=master)](https://travis-ci.org/necinc/mstr)
 [![Coverage Status](https://coveralls.io/repos/github/necinc/maestro/badge.svg?branch=master)](https://coveralls.io/github/necinc/maestro?branch=master)
 
 To deploy the project on your machine do items below:
