@@ -4,9 +4,7 @@ const Price = require('../../db/models/Prices');
 const Product = require('../../db/models/Products');
 
 function readById(id, willReturnChunks) {
-  console.log('before', typeof id, id)
   id = Types.ObjectId(id);
-  console.log('after', typeof id, id)
 
   let result = Price.readById(id);
   if (result.error) {

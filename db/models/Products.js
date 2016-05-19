@@ -408,16 +408,14 @@ function update(id, query) {
     let message = 'Cannot change priceOrigin in any product';
     return { error: message };
   }
-  console.log('id in model', typeof id, id);
+
   var result = Product.update({
     _id: id
   }, {
     $set: query
   });
 
-  result.then(someData => console.log('\n\n\n\nsome data', someData))
-
-  return result;
+  return result.then(someData => someData);
 }
 
 function remove(id) {

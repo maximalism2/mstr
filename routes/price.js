@@ -78,14 +78,20 @@ router.get('/', (req, res, next) => {
 
 router.put('/:id/', (req, res, next) => {
   // At first we need to read price by id from request and do comparison
-  // helpers.readById(:id);
-  console.log('typeof params id', typeof req.params.id, String(req.params.id));
+  // we need to check is connection actual, if it's closed - remove all future
+  // responses
+  let needToResponse = true;
+
   const id = Types.ObjectId(req.params.id);
 
   let result = Price.readById(id);
   if (result.error) {
-    res.json(JSON.stringify(result));
-    res.end();
+    if (needToResponse) {
+      needToResponse = false; // Turn off the need to response
+      console.log('error in search');
+      res.json(JSON.stringify(result));
+      res.end();
+    }
   } else {
     result.then(price => {
       if (price !== null) {
@@ -118,24 +124,32 @@ router.put('/:id/', (req, res, next) => {
                 });
               });
 
-              console.log('\n\n\nHeader for update', id, body);
               let headerUpdatingResult = Price.update(id, body);
-              console.log('headerUpdatingResult', headerUpdatingResult);
 
               if (headerUpdatingResult.error) {
-                console.log('headerUpdatingResult.error', headerUpdatingResult.error);
-                res.json(JSON.stringify(headerUpdatingResult))
-                res.end();
+                if (needToResponse) {
+                  needToResponse = false; // Turn off the need to response
+                  console.log('headerUpdatingResult.error');
+                  res.json(JSON.stringify(headerUpdatingResult))
+                  res.end();
+                }
               }
               else {
                 headerUpdatingResult
                   .then(result => {
-                    res.json(JSON.stringify(result));
-                    res.end();
+                    if (needToResponse) {
+                      needToResponse = false; // Turn off the need to response
+                      res.json(JSON.stringify(result));
+                      res.end();
+                    }
                   })
                   .catch(err => {
-                    res.json(JSON.stringify(err));
-                    res.end();
+                    console.error('error', err)
+                    if (needToResponse) {
+                      needToResponse = false; // Turn off the need to response
+                      res.json(JSON.stringify(err));
+                      res.end();
+                    }
                   });
               }
             }
@@ -188,7 +202,6 @@ router.put('/:id/', (req, res, next) => {
                 }
               });
 
-              console.log('\n\n\n\n', prepareProductForUpdate);
               // Updating needed products
               prepareProductForUpdate.forEach(product => {
                 let productId = Types.ObjectId(product._id);
@@ -207,20 +220,20 @@ router.put('/:id/', (req, res, next) => {
                   }
                 });
 
-                console.log(typeof productId, productId, body);
                 let updatingRes = Product.update(productId, body);
                 if (updatingRes.error) {
                   console.log('updatingError => ', updatingRes);
-                  res.json(JSON.stringify(updatingRes));
-                  res.end();
+                  if (needToResponse) {
+                    needToResponse = false; // Turn off the need to response
+                    res.json(JSON.stringify(updatingRes));
+                    res.end();
+                  }
                 }
               });
             }
-
-            res.json(JSON.stringify({ ok: true }));
-            res.end();
           });
       } else {
+        console.log('some wrong in this?');
         res.json({
           error: "Price not found",
           code: 404
