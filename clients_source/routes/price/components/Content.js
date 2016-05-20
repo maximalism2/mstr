@@ -277,7 +277,14 @@ class Content extends Component {
         className={rowCName}
         key={data._id}
       >
-        <td className="number-column">{index + 1}</td>
+        <td className="number-column">
+          <div className="controls">
+            <div className="remove-button">
+              <i className="fa fa-times"></i>
+            </div>
+          </div>
+          <div className="counter">{index + 1}</div>
+        </td>
         {nameCol}
         {unitCol}
         {costCol}
@@ -318,7 +325,9 @@ class Content extends Component {
                 <th className="cost-column">Ціна</th>
               </tr>
             </thead>
-            <tbody className="table-body">
+            <tbody className="table-body" onMouseEnter={() => {
+              console.log('mouse over tbody');
+            }}>
               {(() => {
                 if (view.editMode) {
                   return editMode.data.products.map((product, index, origin) =>
