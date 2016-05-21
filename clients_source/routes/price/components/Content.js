@@ -278,11 +278,13 @@ class Content extends Component {
         key={data._id}
       >
         <td className="number-column">
-          <div className="controls">
-            <div className="remove-button">
-              <i className="fa fa-times"></i>
+          {view.editMode &&
+            <div className="controls">
+              <div className="remove-button">
+                <i className="fa fa-times"></i>
+              </div>
             </div>
-          </div>
+          }
           <div className="counter">{index + 1}</div>
         </td>
         {nameCol}

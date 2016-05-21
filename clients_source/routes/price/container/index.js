@@ -31,6 +31,7 @@ class PriceContainer extends Component {
   componentDidMount() {
     let { id } = this.props.params;
     this.props.dispatch(actions.fetchPriceById(id));
+    this.editModeOn();
   }
 
   makeInput(id, field) {
