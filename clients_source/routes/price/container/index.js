@@ -18,6 +18,8 @@ class PriceContainer extends Component {
     this.changeMainField = this.changeMainField.bind(this);
     this.remove = this.remove.bind(this);
     this.updatePrice = this.updatePrice.bind(this);
+    this.removeProduct = this.removeProduct.bind(this);
+    this.cancelRemovingProduct = this.cancelRemovingProduct.bind(this);
   }
 
   editModeOn() {
@@ -26,12 +28,6 @@ class PriceContainer extends Component {
 
   editModeOff() {
     this.props.dispatch(actions.editModeOff());
-  }
-
-  componentDidMount() {
-    let { id } = this.props.params;
-    this.props.dispatch(actions.fetchPriceById(id));
-    this.editModeOn();
   }
 
   makeInput(id, field) {
@@ -71,6 +67,14 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.changeMainField(field, value));
   }
 
+  removeProduct(id) {
+    this.props.dispatch(actions.removeProduct(id));
+  }
+
+  cancelRemovingProduct(id) {
+    this.props.dispatch(aactions.cancelRemovingProduct(id));
+  }
+
   componentWillReceiveProps(nextProps) {
     // If price is deleted successfully go to /prices/ route
     if (nextProps.price.view.removingSuccess) {
@@ -94,6 +98,11 @@ class PriceContainer extends Component {
     }
   }
 
+  componentDidMount() {
+    let { id } = this.props.params;
+    this.props.dispatch(actions.fetchPriceById(id));
+  }
+
   componentWillUnmount() {
     window.removeEventListener('click', this.makeInput);
   }
@@ -109,7 +118,9 @@ class PriceContainer extends Component {
       remove: this.remove,
       changeProductField: this.changeProductField,
       changeMainField: this.changeMainField,
-      updatePrice: this.updatePrice
+      updatePrice: this.updatePrice,
+      removeProduct: this.removeProduct,
+      cancelRemovingProduct: this.cancelRemovingProduct
     }
 
     return (

@@ -184,10 +184,10 @@
           width: 30px;
           height: 30px;
           color: transparent;
-          transition: .3s;
+          transition: .1s;
           cursor: pointer;
 
-          &:hover {
+          i.fa:hover {
             color: $red;
           }
         }

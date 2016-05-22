@@ -142,6 +142,24 @@ export function changeMainField(field, value) {
 }
 
 import {
+  REMOVE_PRODUCT, CANCEL_REMOVING_PRODUCT
+} from '../consts';
+
+export function removeProduct(id) {
+  return {
+    type: REMOVE_PRODUCT,
+    id
+  }
+}
+
+export function cancelRemovingProduct(id) {
+  return {
+    type: CANCEL_REMOVING_PRODUCT,
+    id
+  }
+}
+
+import {
   UPDATING_LOADING,
   PRICE_UPDATING_ERROR,
   PRICE_UPDATING_SUCCESS

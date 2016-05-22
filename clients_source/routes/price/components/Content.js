@@ -190,7 +190,6 @@ class Content extends Component {
 
   renderProduct(data, index, origin) {
     let { view, editMode, actions } = this.props;
-    // console.log(this.props);
 
     let nameCol = (
       <td
@@ -280,7 +279,10 @@ class Content extends Component {
         <td className="number-column">
           {view.editMode &&
             <div className="controls">
-              <div className="remove-button">
+              <div
+                className="remove-button"
+                onClick={() => actions.removeProduct(data._id)}
+              >
                 <i className="fa fa-times"></i>
               </div>
             </div>
@@ -327,9 +329,7 @@ class Content extends Component {
                 <th className="cost-column">Ціна</th>
               </tr>
             </thead>
-            <tbody className="table-body" onMouseEnter={() => {
-              console.log('mouse over tbody');
-            }}>
+            <tbody className="table-body">
               {(() => {
                 if (view.editMode) {
                   return editMode.data.products.map((product, index, origin) =>
