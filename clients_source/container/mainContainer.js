@@ -97,6 +97,22 @@ class AppContainer extends Component {
 
         {/* routes */}
         {this.props.children ? this.props.children : <ErrorLink />}
+
+        <footer className="footer">
+          <div className="container">
+            <div className="content has-text-centered">
+              <p>
+                <strong>Mstr</strong> by <a href="http://fb.com/maxym.vyznyuk">Max Vyznyuk</a>. The website content
+                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC ANS 4.0</a>.
+              </p>
+              <p>
+                <a className="icon" href="https://github.com/necinc/mstr/">
+                  <i className="fa fa-github"></i>
+                </a>
+              </p>
+            </div>
+          </div>
+        </footer>
       </div>
     );
   }

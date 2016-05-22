@@ -30,6 +30,17 @@ html {
     }
 
   }
+
+  .footer {
+    background: white;
+    padding-bottom: 25px;
+
+    .container {
+      max-width: 960px;
+      border-top: 1px solid #eee;
+      padding-top:25px;
+    }
+  }
 }
 
 
