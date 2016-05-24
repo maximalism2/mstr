@@ -204,6 +204,45 @@
       }
     }
   }
+
+  .will-be-removed {
+    background: transparentize($red, .98);
+    color: transparentize($grey, .5);
+
+    &:hover {
+      background: transparentize($red, .95);
+      color: transparentize($grey, .85);
+
+      .cancel-removing-btn {
+        display: inline-block;
+      }
+    }
+
+    .cancel-removing-btn {
+      display: none;
+      background: transparent;
+      border: 0;
+      position: absolute;
+      top: -8px;
+      right: calc(100% - 174px);
+      line-height: 35px;
+      color: darken($red, 5%);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    // &::after {
+    //   content: '';
+    //   display: inline-block;
+    //   position: absolute;
+    //   left: 0;
+    //   width: 770px;
+    //   height: 37.85px;
+    //   z-index: 3000;
+    // }
+  }
 }
 
 .will-remove-modal {

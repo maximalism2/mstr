@@ -72,7 +72,7 @@ class PriceContainer extends Component {
   }
 
   cancelRemovingProduct(id) {
-    this.props.dispatch(aactions.cancelRemovingProduct(id));
+    this.props.dispatch(actions.cancelRemovingProduct(id));
   }
 
   componentWillReceiveProps(nextProps) {

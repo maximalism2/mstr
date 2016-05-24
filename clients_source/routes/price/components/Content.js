@@ -268,7 +268,8 @@ class Content extends Component {
     }
 
     let rowCName = cnames({
-      "active-row": data._id === editMode.id
+      "active-row": data._id === editMode.id,
+      "will-be-removed": editMode.productsWillRemove.includes(data._id)
     });
 
     return (
@@ -279,12 +280,20 @@ class Content extends Component {
         <td className="number-column">
           {view.editMode &&
             <div className="controls">
-              <div
-                className="remove-button"
-                onClick={() => actions.removeProduct(data._id)}
-              >
-                <i className="fa fa-times"></i>
-              </div>
+              {!editMode.productsWillRemove.includes(data._id) &&
+                <div
+                  className="remove-button"
+                  onClick={() => actions.removeProduct(data._id)}
+                >
+                  <i className="fa fa-times"></i>
+                </div>
+              }
+              {editMode.productsWillRemove.includes(data._id) &&
+                <button
+                  className="cancel-removing-btn"
+                  onClick={() => actions.cancelRemovingProduct(data._id)}
+                >Скасувати видалення</button>
+              }
             </div>
           }
           <div className="counter">{index + 1}</div>
