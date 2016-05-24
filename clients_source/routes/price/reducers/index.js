@@ -111,7 +111,8 @@ function editMode(state = initialPrice.editMode, action) {
     }
     case EDIT_MODE_OFF: {
       return Object.assign({}, state, {
-        data: {}
+        data: {},
+        productsWillRemove: []
       });
     }
     case CHANGE_MAIN_FIELD: {
