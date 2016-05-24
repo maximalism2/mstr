@@ -223,9 +223,8 @@
       background: transparent;
       border: 0;
       position: absolute;
-      top: -8px;
+      top: 1px;
       right: calc(100% - 174px);
-      line-height: 35px;
       color: darken($red, 5%);
 
       &:hover {
