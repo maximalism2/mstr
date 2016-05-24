@@ -55,7 +55,13 @@ class PriceContainer extends Component {
 
   updatePrice() {
     let { id } = this.props.params;
-    let { data } = this.props.price.editMode;
+    let { data, productsWillRemove } = this.props.price.editMode;
+    if (productsWillRemove.length) {
+      let dp = data.products;
+      let newProducts = dp.filter(p => !productsWillRemove.includes(p._id));
+      data.products = newProducts;
+    }
+
     this.props.dispatch(actions.updatePrice(id, data));
   }
 
