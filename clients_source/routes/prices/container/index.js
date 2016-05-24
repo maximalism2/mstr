@@ -11,37 +11,36 @@ class PricesContainer extends Component {
 
     this.fetchPrices = this.fetchPrices.bind(this);
     this.fetchPriceById = this.fetchPriceById.bind(this);
-    this.scrollHandler = this.scrollHandler.bind(this);
+    // this.scrollHandler = this.scrollHandler.bind(this);
   }
 
   componentWillMount() {
     let { price } = this.props;
     if (price.view.removingSuccess) {
-      console.info('Price is removed successfully, reseted price view, show notification');
       this.props.dispatch(resetPriceView());
 
       let notificationMessage = `Каталог "${price.data.name}" успішно видалений`
       this.props.dispatch(showNotification('success', notificationMessage));
     }
 
-    window.addEventListener('scroll', this.scrollHandler);
+    // window.addEventListener('scroll', this.scrollHandler);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.scrollHandler);
-    document.body.className = "";
-  }
+  // componentWillUnmount() {
+  //   window.removeEventListener('scroll', this.scrollHandler);
+  //   document.body.className = "";
+  // }
 
-  scrollHandler(event) {
-    let st = event.target.scrollingElement.scrollTop;
-    let b = document.body;
+  // scrollHandler(event) {
+  //   let st = event.target.scrollingElement.scrollTop;
+  //   let b = document.body;
 
-    if (st > 55) {
-      b.className = "scrolled";
-    } else {
-      b.className = "";
-    }
-  }
+  //   if (st > 55) {
+  //     b.className = "scrolled";
+  //   } else {
+  //     b.className = "";
+  //   }
+  // }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.price.view.editMode) {

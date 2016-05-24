@@ -35,22 +35,31 @@ class Input extends Component {
     // arrows direction, and do makeInput(id, this.props.type);
     if (e.ctrlKey && e.shiftKey) {
       e.preventDefault();
-      let { data, type, productsIndex, productsPlural } = this.props;
+      let { data, type, editMode, productsIndex, productsPlural } = this.props;
       switch (e.which) {
         case 37: {
           let productsFields = ["name", "unitOfMeasurement", "cost"];
           let columntIndex = productsFields.indexOf(type);
           if (columntIndex > 0) {
+
             this.props.makeInput(data._id, productsFields[columntIndex - 1]);
           }
           break;
         }
         case 38: {
           if (productsIndex > 0) {
-            let id = productsPlural[productsIndex - 1]._id;
-            this.props.makeInput(id, type);
+            for (let i = 1; i <= productsIndex; i++) {
+              let id = productsPlural[productsIndex - i]._id;
+              let isNextRemoved = editMode.productsWillRemove.includes(id);
+              if (!isNextRemoved) {
+                this.props.makeInput(id, type);
+                break;
+              }
+            }
+            break;
+          } else {
+            break;
           }
-          break;
         }
         case 39: {
           let productsFields = ["name", "unitOfMeasurement", "cost"];
@@ -61,11 +70,18 @@ class Input extends Component {
           break;
         }
         case 40: {
-          if (productsIndex < productsPlural.length - 1) {
-            let id = productsPlural[productsIndex + 1]._id;
-            this.props.makeInput(id, type);
+          if (productsPlural[productsIndex + 1]) {
+            for (let i = 1; i < (productsPlural.length - productsIndex); i++) {
+              let id = productsPlural[productsIndex + i]._id;
+              let isNextRemoved = editMode.productsWillRemove.includes(id);
+              if (!isNextRemoved) {
+                this.props.makeInput(id, type)
+                break;
+              }
+            }
+          } else {
+            break;
           }
-          break;
         }
       }
     }
@@ -191,10 +207,12 @@ class Content extends Component {
   renderProduct(data, index, origin) {
     let { view, editMode, actions } = this.props;
 
+    let canBeInput = view.editMode && !editMode.productsWillRemove.includes(data._id);
+
     let nameCol = (
       <td
         className="name-column"
-        onClick={() => view.editMode ? actions.makeInput(data._id, 'name') : null}
+        onClick={() => canBeInput ? actions.makeInput(data._id, 'name') : null}
       >
         {data.name}
       </td>
@@ -206,10 +224,11 @@ class Content extends Component {
           <Input
             type="name"
             data={data}
-            onBlur={actions.removeInput}
-            ch={actions.changeProductField}
             productsIndex={index}
             productsPlural={origin}
+            editMode={editMode}
+            onBlur={actions.removeInput}
+            ch={actions.changeProductField}
             makeInput={actions.makeInput}
           />
         </td>
@@ -219,7 +238,7 @@ class Content extends Component {
     let unitCol = (
       <td
         className="unit-column"
-        onClick={() => view.editMode ? actions.makeInput(data._id, 'unitOfMeasurement') : null}
+        onClick={() => canBeInput ? actions.makeInput(data._id, 'unitOfMeasurement') : null}
       >
         {data.unitOfMeasurement}
       </td>
@@ -231,10 +250,11 @@ class Content extends Component {
           <Input
             type="unitOfMeasurement"
             data={data}
-            onBlur={actions.removeInput}
-            ch={actions.changeProductField}
             productsIndex={index}
             productsPlural={origin}
+            editMode={editMode}
+            onBlur={actions.removeInput}
+            ch={actions.changeProductField}
             makeInput={actions.makeInput}
           />
         </td>
@@ -244,7 +264,7 @@ class Content extends Component {
     let costCol = (
       <td
         className="cost-column"
-        onClick={() => view.editMode ? actions.makeInput(data._id, 'cost') : null}
+        onClick={() => canBeInput ? actions.makeInput(data._id, 'cost') : null}
       >{data.cost}</td>
     );
 
@@ -257,10 +277,11 @@ class Content extends Component {
           <Input
             type="cost"
             data={data}
-            onBlur={actions.removeInput}
-            ch={actions.changeProductField}
             productsIndex={index}
             productsPlural={origin}
+            editMode={editMode}
+            onBlur={actions.removeInput}
+            ch={actions.changeProductField}
             makeInput={actions.makeInput}
           />
         </td>
