@@ -42,4 +42,5 @@ var App = () => (
 render(
   <App />,
   document.getElementById('root')
-);
+)
+

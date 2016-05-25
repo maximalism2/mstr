@@ -162,6 +162,8 @@ router.put('/:id/', (req, res, next) => {
               let alreadyFound_u = null; // already found for update
               let currentCheckingIndex_u = null; // checking index for update
 
+              console.log(differenceBetweenProducts);
+
 
               differenceBetweenProducts.forEach(difference => {
                 if (difference.kind === 'E') {
