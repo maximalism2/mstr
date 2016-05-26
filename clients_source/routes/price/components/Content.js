@@ -162,7 +162,7 @@ class Input extends Component {
 
   componentDidMount() {
     let DOMInput = findDOMNode(this);
-    DOMInput.setSelectionRange(0, DOMInput.value.length);
+    // DOMInput.setSelectionRange(0, DOMInput.value.length);
     DOMInput.focus();
   }
 
