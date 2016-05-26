@@ -108,3 +108,7 @@ html {
     color: darken($red, 15%);
   }
 }
+
+button.button {
+  display: inline-block;
+}
