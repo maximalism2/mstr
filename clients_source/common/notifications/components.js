@@ -7,7 +7,6 @@ class Notification extends Component {
     super(props);
 
     this.timeoutToEaseOut = null;
-    this[String(props.data.id)] = null
 
     this.state = {
       notificationMounted: false,
@@ -31,7 +30,6 @@ class Notification extends Component {
     this.setState({
       showTimeEnded: true
     });
-
 
     let { easingDuration } = this.props;
     setTimeout(() => {
@@ -73,18 +71,14 @@ class Notification extends Component {
           className="delete"
           onClick={() => this.notificationEaseOut()}
         ></button>
-        <p>{data.message}</p>
+        <p>{data.message} {data.id}</p>
       </div>
     );
   }
 }
 
 Notification.propTypes = {
-  // data: PropTypes.objectOf({
-  //   id: PropTypes.number.isRequired,
-  //   type: PropTypes.string,
-  //   message: PropTypes.string.isRequired
-  // }).isRequired,
+  data: PropTypes.object.isRequired,
   showDuration: PropTypes.number.isRequired,
   animationName: PropTypes.string.isRequired,
   easingDuration: PropTypes.number.isRequired,
@@ -92,15 +86,9 @@ Notification.propTypes = {
 }
 
 class Notifications extends Component {
-  constructor() {
-    super();
-    this.state = {
-      notes: []
-    }
-  }
-
   render() {
     let { notifications } = this.props;
+    notifications = JSON.parse(JSON.stringify(notifications));
     return (
       <div className="notification-box">
         {notifications.reverse().map(note =>
