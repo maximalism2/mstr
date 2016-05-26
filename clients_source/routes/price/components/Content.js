@@ -14,6 +14,19 @@ var rhs = {
   name: 'dd'
 }
 
+class Error extends Component {
+  render() {
+    return (
+      <div className="container fetching-error-box">
+        <p className="title size-5 fetching-error-title">
+          Вибачте, у нас виникли технічні проблеми...
+          <br />
+          Будь ласка. спробуйте ще раз пізніше
+        </p>
+      </div>
+    );
+  }
+}
 
 class Input extends Component {
   constructor() {
@@ -353,7 +366,19 @@ class Content extends Component {
           <table className="table content-container">
             <thead className="table-header">
               <tr>
-                <th className="number-column">№</th>
+                <th className="number-column">
+                  {view.editMode &&
+                    <div className="controls">
+                      <div
+                        className="add-button"
+                        onClick={() => console.log('will add one more')}
+                      >
+                        <i className="fa fa-plus"></i>
+                      </div>
+                    </div>
+                  }
+                  №
+                </th>
                 <th className="name-column">Назва</th>
                 <th>Одиниці вим.</th>
                 <th className="cost-column">Ціна</th>
@@ -384,7 +409,7 @@ class Content extends Component {
     if (view.loading) {
       return <Loader />;
     } else if (view.error) {
-      return <p>Fetching Error</p>;
+      return <Error />;
     } else {
       return this.renderContent();
     } 

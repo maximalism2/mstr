@@ -22,25 +22,7 @@ class PricesContainer extends Component {
       let notificationMessage = `Каталог "${price.data.name}" успішно видалений`
       this.props.dispatch(showNotification('success', notificationMessage));
     }
-
-    // window.addEventListener('scroll', this.scrollHandler);
   }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener('scroll', this.scrollHandler);
-  //   document.body.className = "";
-  // }
-
-  // scrollHandler(event) {
-  //   let st = event.target.scrollingElement.scrollTop;
-  //   let b = document.body;
-
-  //   if (st > 55) {
-  //     b.className = "scrolled";
-  //   } else {
-  //     b.className = "";
-  //   }
-  // }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.price.view.editMode) {

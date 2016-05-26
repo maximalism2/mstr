@@ -34,10 +34,10 @@ class PriceList extends Component {
 
     if (view.error) {
       return (
-        <p className="title size-4 empty-title">
-          Виникли технічні проблеми...
+        <p className="title size-5 empty-title">
+          Вибачте, у нас виникли технічні проблеми...
           <br />
-          Будь ласка, спробуйте пізніше
+          Будь ласка, спробуйте ще раз пізніше
         </p>
       );
     } else if (view.loading) {
