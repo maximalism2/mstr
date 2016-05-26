@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import reactDOMServer from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
@@ -38,6 +39,9 @@ var App = () => (
     <Router history={history} routes={routes} />
   </Provider>
 );
+
+// console.log(reactDOMServer.renderToString(App()));
+// console.log(reactDOMServer.renderToStaticMarkup(App()));
 
 render(
   <App />,

@@ -107,6 +107,31 @@ router.put('/:id/', (req, res, next) => {
             let newPrice = req.body;
             newPrice.updatedAt = new Date();
 
+            let currentPriceProducts = JSON.parse(JSON.stringify(currentPrice.products));
+            let lookForDeletedProducts = diff(currentPriceProducts, newPrice.products);
+
+            let arrayOfDeleted = [];
+
+            lookForDeletedProducts.forEach(difference => {
+              // If some difference is in array and item is deleted do something
+              if (difference.kind === 'A' && difference.item.kind === 'D') {
+                arrayOfDeleted.push(difference.item.lhs._id);
+              }
+            });
+
+            if (arrayOfDeleted.length) {
+              let copyOfCurrentPriceProducts = JSON.parse(JSON.stringify(currentPrice.price.products));
+              console.log(copyOfCurrentPriceProducts);
+              let newArrayOfProductsId = copyOfCurrentPriceProducts.filter(id => {
+                console.log(id);
+                let res = arrayOfDeleted.includes(id);
+                console.log(res);
+                return !res;
+              });
+              console.log(newArrayOfProductsId);
+              currentPrice.products = newArrayOfProductsId;
+            }
+
             let copyCurrentForMainComparison = JSON.parse(JSON.stringify(currentPrice.price));
             let copyNewForMainComparison = JSON.parse(JSON.stringify(newPrice));
 
@@ -154,85 +179,84 @@ router.put('/:id/', (req, res, next) => {
               }
             }
 
+            let differenceBetweenProducts = diff(currentPriceProducts, newPrice.products);
+            // if (differenceBetweenProducts.length) {
+            //   // Array for update products
+            //   let prepareProductForUpdate = [];
+            //   let alreadyFound_u = null; // already found for update
+            //   let currentCheckingIndex_u = null; // checking index for update
 
-            let differenceBetweenProducts = diff(JSON.parse(JSON.stringify(currentPrice.products)), newPrice.products);
-            if (differenceBetweenProducts.length) {
-              // Array for update products
-              let prepareProductForUpdate = [];
-              let alreadyFound_u = null; // already found for update
-              let currentCheckingIndex_u = null; // checking index for update
-
-              console.log(differenceBetweenProducts);
+            //   console.log(differenceBetweenProducts);
 
 
-              differenceBetweenProducts.forEach(difference => {
-                if (difference.kind === 'E') {
-                  // Checking only updated product
+            //   differenceBetweenProducts.forEach(difference => {
+            //     if (difference.kind === 'E') {
+            //       // Checking only updated product
                   
-                  // Here we parse difference between old and new arrays
-                  if (currentCheckingIndex_u !== difference.path[0]) {
-                    // It's for valid checking, is specific product already changed?
-                    // Here we reset the index of changed product, where index in path (of difference)
-                    // is also changed
-                    alreadyFound_u = null;
-                  } else {
-                    // If it is some new index - use it
-                    currentCheckingIndex_u = difference.path[0];
-                  }
+            //       // Here we parse difference between old and new arrays
+            //       if (currentCheckingIndex_u !== difference.path[0]) {
+            //         // It's for valid checking, is specific product already changed?
+            //         // Here we reset the index of changed product, where index in path (of difference)
+            //         // is also changed
+            //         alreadyFound_u = null;
+            //       } else {
+            //         // If it is some new index - use it
+            //         currentCheckingIndex_u = difference.path[0];
+            //       }
 
-                  prepareProductForUpdate.forEach((alreadyPrepared, index) => {
-                    // Here we looking for product, which is already changed and detected
-                    // we check the _id field in products
-                    if (alreadyFound_u !== null) return;
-                    if (alreadyPrepared._id === newPrice.products[difference.path[0]]._id) {
-                      alreadyFound_u = index;
-                    }
-                  });
+            //       prepareProductForUpdate.forEach((alreadyPrepared, index) => {
+            //         // Here we looking for product, which is already changed and detected
+            //         // we check the _id field in products
+            //         if (alreadyFound_u !== null) return;
+            //         if (alreadyPrepared._id === newPrice.products[difference.path[0]]._id) {
+            //           alreadyFound_u = index;
+            //         }
+            //       });
 
-                  if (alreadyFound_u !== null) {
-                    let foundPrice = prepareProductForUpdate[alreadyFound_u];
-                    prepareProductForUpdate[alreadyFound_u] = Object.assign({}, foundPrice, {
-                      _id: newPrice.products[difference.path[0]]._id,
-                      [difference.path[1]]: difference.rhs
-                    });
-                  } else {
-                    prepareProductForUpdate.push({
-                      _id: newPrice.products[difference.path[0]]._id,
-                      [difference.path[1]]: difference.rhs
-                    })
-                  }
-                }
-              });
+            //       if (alreadyFound_u !== null) {
+            //         let foundPrice = prepareProductForUpdate[alreadyFound_u];
+            //         prepareProductForUpdate[alreadyFound_u] = Object.assign({}, foundPrice, {
+            //           _id: newPrice.products[difference.path[0]]._id,
+            //           [difference.path[1]]: difference.rhs
+            //         });
+            //       } else {
+            //         prepareProductForUpdate.push({
+            //           _id: newPrice.products[difference.path[0]]._id,
+            //           [difference.path[1]]: difference.rhs
+            //         })
+            //       }
+            //     }
+            //   });
 
-              // Updating needed products
-              prepareProductForUpdate.forEach(product => {
-                let productId = Types.ObjectId(product._id);
-                let body = {};
-                Object.keys(product).forEach(key => {
-                  if (key !== "_id") {
-                    if (key === "cost") {
-                      body = Object.assign({}, body, {
-                        [key]: Number(product[key])
-                      });
-                    } else {
-                      body = Object.assign({}, body, {
-                        [key]: String(product[key])
-                      });
-                    }
-                  }
-                });
+            //   // Updating needed products
+            //   prepareProductForUpdate.forEach(product => {
+            //     let productId = Types.ObjectId(product._id);
+            //     let body = {};
+            //     Object.keys(product).forEach(key => {
+            //       if (key !== "_id") {
+            //         if (key === "cost") {
+            //           body = Object.assign({}, body, {
+            //             [key]: Number(product[key])
+            //           });
+            //         } else {
+            //           body = Object.assign({}, body, {
+            //             [key]: String(product[key])
+            //           });
+            //         }
+            //       }
+            //     });
 
-                let updatingRes = Product.update(productId, body);
-                if (updatingRes.error) {
-                  console.log('updatingError => ', updatingRes);
-                  if (needToResponse) {
-                    needToResponse = false; // Turn off the need to response
-                    res.json(JSON.stringify(updatingRes));
-                    res.end();
-                  }
-                }
-              });
-            }
+            //     let updatingRes = Product.update(productId, body);
+            //     if (updatingRes.error) {
+            //       console.log('updatingError => ', updatingRes);
+            //       if (needToResponse) {
+            //         needToResponse = false; // Turn off the need to response
+            //         res.json(JSON.stringify(updatingRes));
+            //         res.end();
+            //       }
+            //     }
+            //   });
+            // }
           });
       } else {
         console.log('some wrong in this?');
