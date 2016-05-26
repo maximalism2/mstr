@@ -34,6 +34,8 @@ class Input extends Component {
 
     this.walkOnFields = this.walkOnFields.bind(this);
     this.needToExit = this.needToExit.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
+    this.blurHandler = this.blurHandler.bind(this);
   }
 
   needToExit(e) {
@@ -100,6 +102,64 @@ class Input extends Component {
     }
   }
 
+  changeHandler(e) {
+    let {
+      data, type, only, showNotification, isMainField, ch, hasError, onError
+    } = this.props;
+    let id = data._id;
+
+    if (hasError && e.target.value.length) {
+      onError(false);
+    }
+
+    switch (only) {
+      case 'number': {
+        let { value } = e.target;
+        if (value.length) {
+          let check = Number(value);
+          if (isNaN(check)) {
+            let message = 'Допустимі дані тільки числового типу';
+            showNotification('warning', message);
+          } else {
+            if (isMainField) {
+              ch(type, value);
+            } else {
+              ch(id, type, value);
+            }
+          }
+        } else {
+          if (isMainField) {
+            ch(type, value);
+          } else {
+            ch(id, type, value);
+          }
+        }
+        break;
+      }
+      default: {
+        if (isMainField) {
+          ch(type, e.target.value);
+        } else {
+          ch(id, type, e.target.value)
+        }
+      }
+    }
+  }
+
+  blurHandler(e) {
+    let { showNotification, onError, onBlur } = this.props;
+    let { value } = e.target;
+
+    if (value.length === 0) {
+      let message = 'Це поле не може бути порожнім';
+      showNotification('danger', message);
+      onError();
+      e.target.focus();
+    } else {
+      onBlur();
+    }
+  }
+
   componentDidMount() {
     let DOMInput = findDOMNode(this);
     DOMInput.setSelectionRange(0, DOMInput.value.length);
@@ -114,10 +174,10 @@ class Input extends Component {
         <input
           type="text"
           className="input"
-          defaultValue={data[type]}
-          onBlur={onBlur}
+          value={data[type]}
+          onBlur={e => this.blurHandler(e)}
           onKeyDown={e => this.needToExit(e)}
-          onChange={e => ch(type, e.target.value)}
+          onChange={e => this.changeHandler(e)}
         />
       );
     } else {
@@ -125,13 +185,13 @@ class Input extends Component {
         <input
           type="text"
           className="input"
-          defaultValue={data[type]}
-          onBlur={onBlur}
+          value={data[type]}
+          onBlur={e => this.blurHandler(e)}
           onKeyDown={e => {
             this.walkOnFields(e);
             this.needToExit(e);
           }}
-          onChange={e => ch(data._id, type, e.target.value)}
+          onChange={e => this.changeHandler(e)}
         />
       );
     }
@@ -144,6 +204,8 @@ Input.propTypes = {
   ch: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired,
+  showNotification: PropTypes.func.isRequired,
+  hasError: PropTypes.bool.isRequired,
   makeInput: PropTypes.func,
   only: PropTypes.string,
   isMainField: PropTypes.bool,
@@ -164,6 +226,9 @@ class Content extends Component {
             isMainField
             ch={actions.changeMainField}
             onBlur={actions.removeInput}
+            showNotification={actions.showNotification}
+            onError={actions.inputInsertError}
+            hasError={editMode.hasError}
           />
         </h1>
       );
@@ -196,7 +261,12 @@ class Content extends Component {
               type="discount"
               isMainField
               onBlur={actions.removeInput}
+              hasError={editMode.hasError}
               ch={actions.changeMainField}
+              only="number"
+              showNotification={actions.showNotification}
+              onError={actions.inputInsertError}
+              hasError={editMode.hasError}
             />
           </span>
         </p>
@@ -222,7 +292,11 @@ class Content extends Component {
   renderProduct(data, index, origin) {
     let { view, editMode, actions } = this.props;
 
-    let canBeInput = view.editMode && !editMode.productsWillRemove.includes(data._id);
+    let canBeInput = (
+      view.editMode &&
+      !editMode.productsWillRemove.includes(data._id) &&
+      !editMode.hasError
+    );
 
     let nameCol = (
       <td
@@ -245,6 +319,9 @@ class Content extends Component {
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
             makeInput={actions.makeInput}
+            showNotification={actions.showNotification}
+            onError={actions.inputInsertError}
+            hasError={editMode.hasError}
           />
         </td>
       );
@@ -271,6 +348,9 @@ class Content extends Component {
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
             makeInput={actions.makeInput}
+            showNotification={actions.showNotification}
+            onError={actions.inputInsertError}
+            hasError={editMode.hasError}
           />
         </td>
       );
@@ -295,9 +375,13 @@ class Content extends Component {
             productsIndex={index}
             productsPlural={origin}
             editMode={editMode}
+            only="number"
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
             makeInput={actions.makeInput}
+            showNotification={actions.showNotification}
+            onError={actions.inputInsertError}
+            hasError={editMode.hasError}
           />
         </td>
       );
@@ -348,7 +432,8 @@ class Content extends Component {
     let containerCName = cnames({
       "price-content": true,
       "container": true,
-      "edit-mode": view.editMode
+      "edit-mode": view.editMode,
+      "has-error": view.editMode && editMode.hasError
     });
 
     return (

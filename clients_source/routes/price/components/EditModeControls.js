@@ -70,6 +70,7 @@ class EditModeControls extends Component {
                 onClick={() => {
                   actions.editModeOff();
                   actions.removeInput();
+                  actions.resetPriceView();
                 }}
               >Скасувати</button>
               {" "}

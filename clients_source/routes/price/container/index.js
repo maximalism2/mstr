@@ -20,6 +20,9 @@ class PriceContainer extends Component {
     this.updatePrice = this.updatePrice.bind(this);
     this.removeProduct = this.removeProduct.bind(this);
     this.cancelRemovingProduct = this.cancelRemovingProduct.bind(this);
+    this.showNotification = this.showNotification.bind(this);
+    this.inputInsertError = this.inputInsertError.bind(this);
+    this.resetPriceView = this.resetPriceView.bind(this);
   }
 
   editModeOn() {
@@ -53,6 +56,10 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.remove(id));
   }
 
+  inputInsertError(flag) {
+    this.props.dispatch(actions.inputInsertError(flag));
+  }
+
   updatePrice() {
     let { id } = this.props.params;
     let { data, productsWillRemove } = this.props.price.editMode;
@@ -81,6 +88,14 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.cancelRemovingProduct(id));
   }
 
+  showNotification(type, message) {
+    this.props.dispatch(showNotification(type, message));
+  }
+
+  resetPriceView() {
+    this.props.dispatch(actions.resetPriceView());
+  }
+
   componentWillReceiveProps(nextProps) {
     // If price is deleted successfully go to /prices/ route
     if (nextProps.price.view.removingSuccess) {
@@ -93,8 +108,8 @@ class PriceContainer extends Component {
 
     if (!currView.updatingSuccess && nextView.updatingSuccess) {
       let notificationMessage = `Каталог "${this.props.price.editMode.data.name}" успішно оновлений`
-      this.props.dispatch(showNotification('info', notificationMessage));
-      this.props.dispatch(actions.resetPriceView());
+      this.showNotification('info', notificationMessage);
+      this.resetPriceView();
     }
 
     if (!currView.editMode && nextView.editMode) { // If edit mode is turned on
@@ -126,7 +141,10 @@ class PriceContainer extends Component {
       changeMainField: this.changeMainField,
       updatePrice: this.updatePrice,
       removeProduct: this.removeProduct,
-      cancelRemovingProduct: this.cancelRemovingProduct
+      cancelRemovingProduct: this.cancelRemovingProduct,
+      showNotification: this.showNotification,
+      inputInsertError: this.inputInsertError,
+      resetPriceView: this.resetPriceView
     }
 
     return (

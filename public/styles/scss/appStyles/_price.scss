@@ -263,6 +263,12 @@
   }
 }
 
+.price-content.edit-mode.has-error {
+  input.input {
+    border-color: $red;
+  }
+}
+
 .will-remove-modal {
   transition: .3s;
 

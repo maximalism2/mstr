@@ -107,7 +107,7 @@ export function resetPriceView() {
 }
 
 import {
-  MAKE_INPUT, REMOVE_INPUT, CHANGE_PRODUCT_FIELD, CHANGE_MAIN_FIELD
+  MAKE_INPUT, REMOVE_INPUT, CHANGE_PRODUCT_FIELD, CHANGE_MAIN_FIELD, INPUT_INSERT_ERROR
 } from '../consts';
 
 export function makeInput(id, field) {
@@ -121,6 +121,13 @@ export function makeInput(id, field) {
 export function removeInput() {
   return {
     type: REMOVE_INPUT
+  }
+}
+
+export function inputInsertError(flag = true) {
+  return {
+    type: INPUT_INSERT_ERROR,
+    flag
   }
 }
 

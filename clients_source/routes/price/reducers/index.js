@@ -5,6 +5,7 @@ import {
   WILL_REMOVE, REMOVING_LOADING, REMOVE, REMOVE_ERROR, REMOVING_SUCCESS,
   RESET_PRICE_VIEW,
   MAKE_INPUT, REMOVE_INPUT, CHANGE_PRODUCT_FIELD, CHANGE_MAIN_FIELD,
+  INPUT_INSERT_ERROR,
   REMOVE_PRODUCT, CANCEL_REMOVING_PRODUCT,
   UPDATING_LOADING, PRICE_UPDATING_ERROR, PRICE_UPDATING_SUCCESS
 } from '../consts';
@@ -27,6 +28,7 @@ const initialPrice = {
   editMode: {
     id: null,
     field: '',
+    hasError: false,
     data: {},
     productsWillRemove: []
   }
@@ -152,6 +154,11 @@ function editMode(state = initialPrice.editMode, action) {
         field: null
       });
     }
+    case INPUT_INSERT_ERROR: {
+      return Object.assign({}, state, {
+        hasError: action.flag
+      });
+    }
     case REMOVE_PRODUCT: {
       return Object.assign({}, state, {
         productsWillRemove: [
@@ -164,6 +171,11 @@ function editMode(state = initialPrice.editMode, action) {
       let newPWR = state.productsWillRemove.filter(id => id !== action.id);
       return Object.assign({}, state, {
         productsWillRemove: newPWR
+      });
+    }
+    case RESET_PRICE_VIEW: {
+      return Object.assign({}, state, {
+        hasError: false
       });
     }
     default: {
