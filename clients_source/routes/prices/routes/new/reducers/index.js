@@ -74,6 +74,46 @@ const initialData = {
     name: 'труба валмарт',
     unitOfMeasurement: 'm',
     cost: 32.4
+  },{
+    name: 'труба секонд хенд',
+    unitOfMeasurement: 'm',
+    cost: 120
+  },{
+    name: 'труба валмарт',
+    unitOfMeasurement: 'm',
+    cost: 32.4
+  },{
+    name: 'труба секонд хенд',
+    unitOfMeasurement: 'm',
+    cost: 120
+  },{
+    name: 'труба валмарт',
+    unitOfMeasurement: 'm',
+    cost: 32.4
+  },{
+    name: 'труба секонд хенд',
+    unitOfMeasurement: 'm',
+    cost: 120
+  },{
+    name: 'труба валмарт',
+    unitOfMeasurement: 'm',
+    cost: 32.4
+  },{
+    name: 'труба секонд хенд',
+    unitOfMeasurement: 'm',
+    cost: 120
+  },{
+    name: 'труба валмарт',
+    unitOfMeasurement: 'm',
+    cost: 32.4
+  },{
+    name: 'труба секонд хенд',
+    unitOfMeasurement: 'm',
+    cost: 120
+  },{
+    name: 'труба валмарт',
+    unitOfMeasurement: 'm',
+    cost: 32.4
   },]
 };
 

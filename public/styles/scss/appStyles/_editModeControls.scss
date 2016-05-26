@@ -14,7 +14,6 @@
   z-index: 1000;
   transform: translateY(calc(-32px - 3px - 2rem)) scale(1.05);
   box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.46);
-  transition: .3s;
 
   &::after {
     content: '';
@@ -34,7 +33,8 @@
   }
 
   &.showed {
-    transform: translateY(0) scale(1.05);
+    // transition: .3s;
+    transform: translateY(-5px) scale(1.05);
   }
 
   .on-save {
