@@ -125,7 +125,7 @@ router.put('/:id/', (req, res, next) => {
                 let copyOfCurrentPriceProducts = JSON.parse(JSON.stringify(currentPrice.price.products));
                 console.log(copyOfCurrentPriceProducts);
                 let newArrayOfProductsId = copyOfCurrentPriceProducts.filter(checkingId => {
-                  return !arrayOfDeleted.includes(checkingId);
+                  return arrayOfDeleted.indexOf(checkingId) === -1;
                 });
                 let id = currentPrice.price._id;
                 let body = {
@@ -167,7 +167,8 @@ router.put('/:id/', (req, res, next) => {
               }
 
               newPrice.products = newPrice.products.filter(product => {
-                return !arrayOfDeleted.includes(product._id);
+                // In the future indexOf must be replaced to array.includes()
+                return arrayOfDeleted.indexOf(product._id) === -1;
               });
             }
 
