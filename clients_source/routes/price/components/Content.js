@@ -104,7 +104,8 @@ class Input extends Component {
 
   changeHandler(e) {
     let {
-      data, type, only, showNotification, isMainField, ch, hasError, onError
+      data, type, only, showNotification, isMainField, ch, hasError, onError,
+      countFrom, countTo
     } = this.props;
     let id = data._id;
 
@@ -121,10 +122,27 @@ class Input extends Component {
             let message = 'Допустимі дані тільки числового типу';
             showNotification('warning', message);
           } else {
-            if (isMainField) {
-              ch(type, value);
-            } else {
-              ch(id, type, value);
+            let isInRange = true;
+            console.log(countFrom < check);
+
+            if (countFrom !== undefined && check < countFrom) {
+              let message = `Значення повинне бути більше нуля ${countFrom}`;
+              showNotification('warning', message);
+              isInRange = false;
+            }
+
+            if (countTo !== undefined && check > countTo) {
+              let message = `Значення повинне бути менше ніж ${countTo}`;
+              showNotification('warning', message);
+              isInRange = false;
+            }
+
+            if (isInRange) {
+              if (isMainField) {
+                ch(type, value);
+              } else {
+                ch(id, type, value);
+              }
             }
           }
         } else {
@@ -162,7 +180,7 @@ class Input extends Component {
 
   componentDidMount() {
     let DOMInput = findDOMNode(this);
-    // DOMInput.setSelectionRange(0, DOMInput.value.length);
+    DOMInput.setSelectionRange(0, DOMInput.value.length);
     DOMInput.focus();
   }
 
@@ -208,6 +226,8 @@ Input.propTypes = {
   hasError: PropTypes.bool.isRequired,
   makeInput: PropTypes.func,
   only: PropTypes.string,
+  countFrom: PropTypes.number,
+  countTo: PropTypes.number,
   isMainField: PropTypes.bool,
   productsIndex: PropTypes.number,
   productsPlural: PropTypes.arrayOf(PropTypes.object)
@@ -264,6 +284,8 @@ class Content extends Component {
               hasError={editMode.hasError}
               ch={actions.changeMainField}
               only="number"
+              countFrom={0}
+              countTo={100}
               showNotification={actions.showNotification}
               onError={actions.inputInsertError}
               hasError={editMode.hasError}
