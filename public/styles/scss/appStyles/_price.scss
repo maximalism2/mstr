@@ -218,11 +218,16 @@
           left: -40px;
           width: 30px;
           height: 30px;
-          color: transparentize($green, .3);
+          color: transparentize($green, .5);
           transition: .1s;
 
-          i.fa:hover {
-            color: $green;
+          i.fa {
+            font-size: 20px; // Fix visual conflicts
+            cursor: pointer;
+
+            &:hover {
+              color: $green;
+            }
           }
         }
       }

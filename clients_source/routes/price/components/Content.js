@@ -143,7 +143,9 @@ Input.propTypes = {
   type: PropTypes.string.isRequired,
   ch: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
+  onError: PropTypes.func.isRequired,
   makeInput: PropTypes.func,
+  only: PropTypes.string,
   isMainField: PropTypes.bool,
   productsIndex: PropTypes.number,
   productsPlural: PropTypes.arrayOf(PropTypes.object)
@@ -187,7 +189,7 @@ class Content extends Component {
     if (view.editMode && editMode.field === 'discount') {
       return (
         <p className="discount">
-          Знижка: 
+          Знижка:
           <span className="discount-value">
             <Input
               data={editMode.data}
@@ -319,7 +321,7 @@ class Content extends Component {
                   className="remove-button"
                   onClick={() => actions.removeProduct(data._id)}
                 >
-                  <i className="fa fa-times"></i>
+                  <i className="fa fa-times" title="Видалити пункт"></i>
                 </div>
               }
               {editMode.productsWillRemove.includes(data._id) &&
@@ -373,7 +375,7 @@ class Content extends Component {
                         className="add-button"
                         onClick={() => console.log('will add one more')}
                       >
-                        <i className="fa fa-plus"></i>
+                        <i className="fa fa-plus" title="Додати пункт (Ctrl + Enter)"></i>
                       </div>
                     </div>
                   }
