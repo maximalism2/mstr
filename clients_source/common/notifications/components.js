@@ -71,7 +71,7 @@ class Notification extends Component {
           className="delete"
           onClick={() => this.notificationEaseOut()}
         ></button>
-        <p>{data.message} {data.id}</p>
+        <p>{data.message}</p>
       </div>
     );
   }
