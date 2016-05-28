@@ -48,6 +48,8 @@ class Input extends Component {
   walkOnFields(e) {
     // When user press crtl + shift and any arrow, we check if exists field in
     // arrows direction, and do makeInput(id, this.props.type);
+    // Also user cat preaa Tab and focus must to walk to next column or next row
+
     if (e.ctrlKey && e.shiftKey) {
       e.preventDefault();
       let { data, type, editMode, productsIndex, productsPlural } = this.props;
@@ -56,7 +58,6 @@ class Input extends Component {
           let productsFields = ["name", "unitOfMeasurement", "cost"];
           let columntIndex = productsFields.indexOf(type);
           if (columntIndex > 0) {
-
             this.props.makeInput(data._id, productsFields[columntIndex - 1]);
           }
           break;
@@ -96,6 +97,63 @@ class Input extends Component {
             }
           } else {
             break;
+          }
+        }
+      }
+    }
+
+
+    // On tab pressed handler
+    if (e.which === 9 && !e.shiftKey) {
+      e.preventDefault();
+      let { data, type, editMode, productsIndex, productsPlural } = this.props;
+
+      // Firstly try to go to the next column
+      let canGoToColumn = true;
+      let productsFields = ["name", "unitOfMeasurement", "cost"];
+      let columntIndex = productsFields.indexOf(type);
+      if (columntIndex < productsFields.length - 1) {
+        this.props.makeInput(data._id, productsFields[columntIndex + 1]);
+      } else {
+        canGoToColumn = false;
+      }
+
+      // If we cannot go to the next column - try to jump to the next row
+      // at the first column
+      if (productsPlural[productsIndex + 1] && !canGoToColumn) {
+        for (let i = 1; i < (productsPlural.length - productsIndex); i++) {
+          let id = productsPlural[productsIndex + i]._id;
+          let isNextRemoved = editMode.productsWillRemove.includes(id);
+          if (!isNextRemoved) {
+            this.props.makeInput(id, productsFields[0]);
+            return;
+          }
+        }
+      }
+    }
+
+    // On Shift + Tab pressed handler
+    if (e.which === 9 && e.shiftKey) {
+      e.preventDefault();
+      let { data, type, editMode, productsIndex, productsPlural } = this.props;
+
+      // Here also try to move on columns
+      let canGoToColumn = true;
+      let productsFields = ["name", "unitOfMeasurement", "cost"];
+      let columntIndex = productsFields.indexOf(type);
+      if (columntIndex > 0) {
+        this.props.makeInput(data._id, productsFields[columntIndex - 1]);
+      } else {
+        canGoToColumn = false
+      }
+
+      if (productsIndex > 0 && !canGoToColumn) {
+        for (let i = 1; i <= productsIndex; i++) {
+          let id = productsPlural[productsIndex - i]._id;
+          let isNextRemoved = editMode.productsWillRemove.includes(id);
+          if (!isNextRemoved) {
+            this.props.makeInput(id, productsFields[productsFields.length - 1]);
+            return;
           }
         }
       }
