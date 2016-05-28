@@ -41,6 +41,11 @@ class Input extends Component {
     // arrows direction, and do makeInput(id, this.props.type);
     // Also user cat preaa Tab and focus must to walk to next column or next row
 
+    // If field is empty - do nothing
+    if (e.target.value.length === 0) {
+      return;
+    }
+
     if (e.ctrlKey && e.shiftKey) {
       e.preventDefault();
       let { data, type, editMode, productsIndex, productsPlural } = this.props;

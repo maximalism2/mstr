@@ -300,7 +300,7 @@
 
 .price-content.edit-mode.has-error {
   input.input {
-    border-color: $red;
+    border-color: $red !important;
   }
 }
 
