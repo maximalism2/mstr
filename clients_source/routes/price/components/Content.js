@@ -458,8 +458,22 @@ class Content extends Component {
       "has-error": view.editMode && editMode.hasError
     });
 
+    let editModeStyles = {};
+    if (view.editMode) {
+
+      let translateYValue = (() => {
+        let DOMElement = document.getElementById('priceContainer');
+        let height = DOMElement.offsetHeight;
+        return (height * 1.05 - height) / 2;
+      })();
+
+      editModeStyles = {
+        transform: `translateY(${translateYValue}px) scale(1.05)`
+      }
+    }
+
     return (
-      <div className={containerCName}>
+      <div className={containerCName} style={editModeStyles} id="priceContainer">
         <div className="main-info content-container">
           <p className="updated-at">Оновлено: {updatedAt}</p>
           {this.renderPriceTitle()}
