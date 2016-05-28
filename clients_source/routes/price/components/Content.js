@@ -574,6 +574,11 @@ class Content extends Component {
             </thead>
             <tbody className="table-body">
               {(() => {
+                return editMode.newProducts.map((product, index, origin) =>
+                  this.renderProduct(product, index, origin)
+                );
+              })()}
+              {(() => {
                 if (view.editMode) {
                   return editMode.data.products.map((product, index, origin) =>
                     this.renderProduct(product, index, origin)
