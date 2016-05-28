@@ -5,15 +5,6 @@ import cnames from 'classnames';
 
 import { diff } from 'deep-diff';
 
-var lhs = {
-  name: 'ss',
-  ss: '2'
-}
-
-var rhs = {
-  name: 'dd'
-}
-
 class Error extends Component {
   render() {
     return (
@@ -369,6 +360,16 @@ class Content extends Component {
     }
   }
 
+  removeProductHandler(data) {
+    let { actions } = this.props;
+
+    if (data.new) {
+      actions.removeNewProduct(data._id);
+    } else {
+      actions.removeProduct(data._id);
+    }
+  }
+
   renderProduct(data, index, origin) {
     let { view, editMode, actions } = this.props;
 
@@ -469,7 +470,8 @@ class Content extends Component {
 
     let rowCName = cnames({
       "active-row": data._id === editMode.id,
-      "will-be-removed": editMode.productsWillRemove.includes(data._id)
+      "will-be-removed": editMode.productsWillRemove.includes(data._id),
+      "new-product": data.new
     });
 
     return (
@@ -483,7 +485,7 @@ class Content extends Component {
               {!editMode.productsWillRemove.includes(data._id) &&
                 <div
                   className="remove-button"
-                  onClick={() => actions.removeProduct(data._id)}
+                  onClick={() => this.removeProductHandler(data)}
                 >
                   <i className="fa fa-times" title="Видалити пункт"></i>
                 </div>
@@ -552,7 +554,7 @@ class Content extends Component {
                     <div className="controls">
                       <div
                         className="add-button"
-                        onClick={() => console.log('will add one more')}
+                        onClick={() => actions.createNewProduct()}
                       >
                         <i className="fa fa-plus" title="Додати пункт (Ctrl + Enter)"></i>
                       </div>
@@ -585,7 +587,11 @@ class Content extends Component {
   }
 
   render() {
-    let { data, view } = this.props;
+    let { data, view, editMode } = this.props;
+
+    if (Object.keys(editMode.data).length) {
+      console.log(diff(data, editMode.data));
+    }
 
     if (view.loading) {
       return <Loader />;

@@ -6,6 +6,7 @@ import {
   RESET_PRICE_VIEW,
   MAKE_INPUT, REMOVE_INPUT, CHANGE_PRODUCT_FIELD, CHANGE_MAIN_FIELD,
   INPUT_INSERT_ERROR,
+  CREATE_NEW_PRODUCT, REMOVE_NEW_PRODUCT,
   REMOVE_PRODUCT, CANCEL_REMOVING_PRODUCT,
   UPDATING_LOADING, PRICE_UPDATING_ERROR, PRICE_UPDATING_SUCCESS
 } from '../consts';
@@ -165,6 +166,38 @@ function editMode(state = initialPrice.editMode, action) {
           ...state.productsWillRemove,
           action.id
         ]
+      });
+    }
+    case CREATE_NEW_PRODUCT: {
+      let productsWithOneMore = state.data.products;
+      let firstProduct = productsWithOneMore[0];
+      let newProductTemplate = {
+        _id: Math.round(Math.random() * 1000000),
+        name: '',
+        unitOfMeasurement: '',
+        cost: '',
+        new: true
+      }
+      if (firstProduct !== undefined) {
+        newProductTemplate.name = firstProduct.name;
+        newProductTemplate.unitOfMeasurement = firstProduct.unitOfMeasurement;
+        newProductTemplate.cost = firstProduct.cost;
+      }
+      productsWithOneMore.unshift(newProductTemplate);
+      let newData = Object.assign({}, state.data, productsWithOneMore);
+      return Object.assign({}, state, {
+        data: newData
+      });
+    }
+    case REMOVE_NEW_PRODUCT: {
+      let updatedProductsArray = state.data.products.filter(product => {
+        return product._id !== action.id
+      });
+      let newData = Object.assign({}, state.data, {
+        products: updatedProductsArray
+      });
+      return Object.assign({}, state, {
+        data: newData
       });
     }
     case CANCEL_REMOVING_PRODUCT: {

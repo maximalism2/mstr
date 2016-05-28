@@ -253,6 +253,22 @@
     }
   }
 
+  .new-product {
+    background: transparentize($green, .87);
+
+    &.active-row {
+      background: transparentize($green, .75);
+
+      .input {
+        border-color: $green;
+      }
+    }
+
+    &:hover {
+      background: transparentize($green, .75);
+    }
+  }
+
   .will-be-removed {
     background: transparentize($red, .98);
     color: transparentize($grey, .5);

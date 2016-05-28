@@ -23,6 +23,8 @@ class PriceContainer extends Component {
     this.showNotification = this.showNotification.bind(this);
     this.inputInsertError = this.inputInsertError.bind(this);
     this.resetPriceView = this.resetPriceView.bind(this);
+    this.createNewProduct = this.createNewProduct.bind(this);
+    this.removeNewProduct = this.removeNewProduct.bind(this);
   }
 
   editModeOn() {
@@ -96,6 +98,14 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.resetPriceView());
   }
 
+  createNewProduct() {
+    this.props.dispatch(actions.createNewProduct());
+  }
+
+  removeNewProduct(id) {
+    this.props.dispatch(actions.removeNewProduct(id));
+  }
+
   componentWillReceiveProps(nextProps) {
     // If price is deleted successfully go to /prices/ route
     if (nextProps.price.view.removingSuccess) {
@@ -144,7 +154,9 @@ class PriceContainer extends Component {
       cancelRemovingProduct: this.cancelRemovingProduct,
       showNotification: this.showNotification,
       inputInsertError: this.inputInsertError,
-      resetPriceView: this.resetPriceView
+      resetPriceView: this.resetPriceView,
+      createNewProduct: this.createNewProduct,
+      removeNewProduct: this.removeNewProduct
     }
 
     return (
