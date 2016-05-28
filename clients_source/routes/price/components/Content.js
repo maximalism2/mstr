@@ -580,8 +580,9 @@ class Content extends Component {
               })()}
               {(() => {
                 if (view.editMode) {
+                  let deltaIndex = editMode.newProducts.length;
                   return editMode.data.products.map((product, index, origin) =>
-                    this.renderProduct(product, index, origin)
+                    this.renderProduct(product, deltaIndex + index, origin)
                   );
                 } else {
                   return data.products.map((product, index, origin) =>
