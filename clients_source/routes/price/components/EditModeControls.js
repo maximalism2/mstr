@@ -43,7 +43,8 @@ class EditModeControls extends Component {
   }
 
   render() {
-    let { view, actions } = this.props;
+    let { view, actions, counters } = this.props;
+    let { updated, created, removed } = counters;
 
     let editControlsCName = cnames({
       "edit-mode-controls": true,
@@ -55,15 +56,32 @@ class EditModeControls extends Component {
       "is-disabled": this.props.view.updatingLoading
     });
 
+    let areThereAnyChanges = (updated + created + removed) === 0;
+
     let saveButtonCName = cnames({
       "button is-success on-save": true,
-      "is-loading": this.props.view.updatingLoading
+      "is-loading": this.props.view.updatingLoading,
+      "is-disabled": areThereAnyChanges
     });
 
     if (this.state.mounted) {
       return (
         <div>
           <div className={editControlsCName}>
+            <div className="counters-box">
+              <div className="counter created-counter">
+                Створено:
+                <span className="value"> {created}</span>
+              </div>
+              <div className="counter updated-counter">
+                Змінено:
+                <span className="value"> {updated}</span>
+              </div>
+              <div className="counter removed-counter">
+                Видалено:
+                <span className="value"> {removed}</span>
+              </div>
+            </div>
             <div className="button-group">
               <button
                 className={cancelButtonCName}
@@ -85,7 +103,6 @@ class EditModeControls extends Component {
           </div>
           <div
             className="clickableOverlay"
-            onClick={() => actions.removeInput()}
           ></div>
         </div>
       );
@@ -99,7 +116,12 @@ EditModeControls.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
   animationDuration: PropTypes.number,
   data: PropTypes.object.isRequired,
-  view: PropTypes.object.isRequired
+  view: PropTypes.object.isRequired,
+  counters: PropTypes.shape({
+    created: PropTypes.number.isRequired,
+    updated: PropTypes.number.isRequired,
+    removed: PropTypes.number.isRequired
+  }).isRequired,
 }
 
 export default EditModeControls;

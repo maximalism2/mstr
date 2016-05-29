@@ -8,7 +8,8 @@ import {
   INPUT_INSERT_ERROR,
   CREATE_NEW_PRODUCT, REMOVE_NEW_PRODUCT,
   REMOVE_PRODUCT, CANCEL_REMOVING_PRODUCT,
-  UPDATING_LOADING, PRICE_UPDATING_ERROR, PRICE_UPDATING_SUCCESS
+  UPDATING_LOADING, PRICE_UPDATING_ERROR, PRICE_UPDATING_SUCCESS,
+  SET_COUNTERS
 } from '../consts';
 
 const initialPrice = {
@@ -32,6 +33,11 @@ const initialPrice = {
     hasError: false,
     data: {},
     productsWillRemove: [],
+    counters: {
+      created: 0,
+      removed: 0,
+      updated: 0
+    }
   }
 }
 
@@ -211,6 +217,11 @@ function editMode(state = initialPrice.editMode, action) {
     case RESET_PRICE_VIEW: {
       return Object.assign({}, state, {
         hasError: false
+      });
+    }
+    case SET_COUNTERS: {
+      return Object.assign({}, state, {
+        counters: action.counters
       });
     }
     default: {

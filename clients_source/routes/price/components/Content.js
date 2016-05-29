@@ -3,8 +3,6 @@ import { findDOMNode } from 'react-dom';
 import Loader from '../../../common/components/loader';
 import cnames from 'classnames';
 
-import { diff } from 'deep-diff';
-
 class Error extends Component {
   render() {
     return (
@@ -64,6 +62,7 @@ class Input extends Component {
     }
 
     let { only } = this.props;
+    let isNumberField = only === 'number';
 
     if (e.ctrlKey && e.shiftKey) {
       e.preventDefault();
@@ -73,7 +72,9 @@ class Input extends Component {
           let productsFields = ["name", "unitOfMeasurement", "cost"];
           let columntIndex = productsFields.indexOf(type);
           if (columntIndex > 0) {
-            this.rightPad(e);
+            if (isNumberField) {
+              this.rightPad(e);
+            }
             this.props.makeInput(data._id, productsFields[columntIndex - 1]);
           }
           break;
@@ -84,7 +85,9 @@ class Input extends Component {
               let id = productsPlural[productsIndex - i]._id;
               let isNextRemoved = editMode.productsWillRemove.includes(id);
               if (!isNextRemoved) {
-                this.rightPad(e);
+                if (isNumberField) {
+                  this.rightPad(e);
+                }
                 this.props.makeInput(id, type);
                 break;
               }
@@ -98,7 +101,9 @@ class Input extends Component {
           let productsFields = ["name", "unitOfMeasurement", "cost"];
           let columntIndex = productsFields.indexOf(type);
           if (columntIndex < productsFields.length - 1) {
-            this.rightPad(e);
+            if (isNumberField) {
+              this.rightPad(e);
+            }
             this.props.makeInput(data._id, productsFields[columntIndex + 1]);
           }
           break;
@@ -109,7 +114,9 @@ class Input extends Component {
               let id = productsPlural[productsIndex + i]._id;
               let isNextRemoved = editMode.productsWillRemove.includes(id);
               if (!isNextRemoved) {
-                this.rightPad(e);
+                if (isNumberField) {
+                  this.rightPad(e);
+                }
                 this.props.makeInput(id, type)
                 break;
               }
@@ -132,7 +139,9 @@ class Input extends Component {
       let productsFields = ["name", "unitOfMeasurement", "cost"];
       let columntIndex = productsFields.indexOf(type);
       if (columntIndex < productsFields.length - 1) {
-        this.rightPad(e);
+        if (isNumberField) {
+          this.rightPad(e);
+        }
         this.props.makeInput(data._id, productsFields[columntIndex + 1]);
       } else {
         canGoToColumn = false;
@@ -145,7 +154,9 @@ class Input extends Component {
           let id = productsPlural[productsIndex + i]._id;
           let isNextRemoved = editMode.productsWillRemove.includes(id);
           if (!isNextRemoved) {
-            this.rightPad(e);
+            if (isNumberField) {
+              this.rightPad(e);
+            }
             this.props.makeInput(id, productsFields[0]);
             return;
           }
@@ -163,7 +174,9 @@ class Input extends Component {
       let productsFields = ["name", "unitOfMeasurement", "cost"];
       let columntIndex = productsFields.indexOf(type);
       if (columntIndex > 0) {
-        this.rightPad(e);
+        if (isNumberField) {
+          this.rightPad(e);
+        }
         this.props.makeInput(data._id, productsFields[columntIndex - 1]);
       } else {
         canGoToColumn = false
@@ -174,7 +187,9 @@ class Input extends Component {
           let id = productsPlural[productsIndex - i]._id;
           let isNextRemoved = editMode.productsWillRemove.includes(id);
           if (!isNextRemoved) {
-            this.rightPad(e);
+            if (isNumberField) {
+              this.rightPad(e);
+            }
             this.props.makeInput(id, productsFields[productsFields.length - 1]);
             return;
           }
@@ -271,7 +286,7 @@ class Input extends Component {
   }
 
   blurHandler(e) {
-    let { showNotification, onError, onBlur } = this.props;
+    let { showNotification, onError, onBlur, only } = this.props;
     let { value } = e.target;
 
     if (value.length === 0) {
@@ -280,7 +295,9 @@ class Input extends Component {
       onError();
       e.target.focus();
     } else {
-      this.rightPad(e);
+      if (only === 'number') {
+        this.rightPad(e);
+      }
       onBlur();
     }
   }
@@ -470,6 +487,8 @@ class Content extends Component {
       let { _id } = nextProducts[nextProducts.length - 1];
       this.props.actions.makeInput(_id, 'name');
     }
+
+    this.props.actions.updateCounters();
   }
 
   renderProduct(data, index, origin) {
@@ -695,12 +714,7 @@ class Content extends Component {
   }
 
   render() {
-    let { data, view, editMode } = this.props;
-
-    let dataCopy = JSON.parse(JSON.stringify(data));
-    let editCopy = JSON.parse(JSON.stringify(editMode.data));
-
-    console.log(diff(dataCopy, editCopy));
+    let { view } = this.props;
 
     if (view.loading) {
       return <Loader />;

@@ -241,3 +241,14 @@ export function updatePrice(id, data) {
     }
   }
 }
+
+import {
+  SET_COUNTERS
+} from '../consts';
+
+export function setCounters(counters) {
+  return {
+    type: SET_COUNTERS,
+    counters
+  }
+}

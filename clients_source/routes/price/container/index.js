@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { showNotification } from '../../../common/notifications/actions';
 import * as actions from '../actions';
+import diff from 'deep-diff';
 
 import { Header, Content, EditModeControls } from '../components';
 
@@ -25,6 +26,7 @@ class PriceContainer extends Component {
     this.resetPriceView = this.resetPriceView.bind(this);
     this.createNewProduct = this.createNewProduct.bind(this);
     this.removeNewProduct = this.removeNewProduct.bind(this);
+    this.updateCounters = this.updateCounters.bind(this);
   }
 
   editModeOn() {
@@ -106,6 +108,46 @@ class PriceContainer extends Component {
     this.props.dispatch(actions.removeNewProduct(id));
   }
 
+  updateCounters() {
+    let { data, view } = this.props.price;
+    let editModeObject = this.props.price.editMode;
+
+    let dataCopy = JSON.parse(JSON.stringify(data));
+    let editCopy = JSON.parse(JSON.stringify(editModeObject.data));
+
+    let counters = {
+      created: 0,
+      updated: 0,
+      removed: 0
+    }
+
+    // Set number of removed products
+    counters.removed = editModeObject.productsWillRemove.length;
+
+    // Set number of created products
+    if (Object.keys(editModeObject.data).length) {
+      editModeObject.data.products.forEach(product => {
+        if (product.new) {
+          counters.created++;
+        }
+      });
+    }
+
+    // Set number of updated items, (not only in products)
+    let diffResult = diff(dataCopy, editCopy);
+    if (diffResult !== undefined) {
+      diffResult.forEach(difference => {
+        if (difference.kind === 'E') {
+          counters.updated++;
+        }
+      });
+    }
+
+    if (diff(editModeObject.counters, counters) !== undefined) {
+      this.props.dispatch(actions.setCounters(counters));
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     // If price is deleted successfully go to /prices/ route
     if (nextProps.price.view.removingSuccess) {
@@ -156,7 +198,8 @@ class PriceContainer extends Component {
       inputInsertError: this.inputInsertError,
       resetPriceView: this.resetPriceView,
       createNewProduct: this.createNewProduct,
-      removeNewProduct: this.removeNewProduct
+      removeNewProduct: this.removeNewProduct,
+      updateCounters: this.updateCounters
     }
 
     return (
@@ -170,6 +213,7 @@ class PriceContainer extends Component {
           view={price.view}
           anumationDuration={300}
           actions={actionsForComponents}
+          counters={price.editMode.counters}
         />
         <Content
           data={price.data}
