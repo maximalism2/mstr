@@ -32,7 +32,6 @@ const initialPrice = {
     hasError: false,
     data: {},
     productsWillRemove: [],
-    newProducts: []
   }
 }
 
@@ -116,8 +115,7 @@ function editMode(state = initialPrice.editMode, action) {
     case EDIT_MODE_OFF: {
       return Object.assign({}, state, {
         data: {},
-        productsWillRemove: [],
-        newProducts: []
+        productsWillRemove: []
       });
     }
     case CHANGE_MAIN_FIELD: {
@@ -172,7 +170,7 @@ function editMode(state = initialPrice.editMode, action) {
     }
     case CREATE_NEW_PRODUCT: {
       let currentProducts = state.data.products;
-      let firstProduct = currentProducts[0];
+      let firstProduct = currentProducts[currentProducts.length - 1];
       let newProductTemplate = {
         _id: Math.round(Math.random() * 1000000),
         name: '',
@@ -186,16 +184,22 @@ function editMode(state = initialPrice.editMode, action) {
         newProductTemplate.cost = firstProduct.cost;
       }
 
+      let newProducts = [...state.data.products, newProductTemplate];
+
+      let newData = Object.assign({}, state.data, {
+        products: newProducts
+      });
+
       return Object.assign({}, state, {
-        newProducts: [
-          newProductTemplate,
-          ...state.newProducts
-        ]
+        data: newData
       });
     }
     case REMOVE_NEW_PRODUCT: {
+      let newData = Object.assign({}, state.data, {
+        products: state.data.products.filter(product => product._id !== action.id)
+      });
       return Object.assign({}, state, {
-        newProducts: state.newProducts.filter(product => product._id !== action.id)
+        data: newData
       });
     }
     case CANCEL_REMOVING_PRODUCT: {

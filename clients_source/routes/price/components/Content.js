@@ -27,12 +27,28 @@ class Input extends Component {
     this.needToExit = this.needToExit.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
     this.blurHandler = this.blurHandler.bind(this);
+    this.createByKeyBoard = this.createByKeyBoard.bind(this);
+  }
+
+  createByKeyBoard(e) {
+    if (e.ctrlKey && e.shiftKey && e.which === 13) {
+      e.preventDefault();
+      let { showNotification, onError, onCreate } = this.props;
+      if (e.target.value === '') {
+        let message = 'Це поле не може бути порожнім';
+        showNotification('danger', message);
+        onError();
+        e.target.focus();
+      } else {
+        onCreate();
+      }
+    }
   }
 
   needToExit(e) {
     if (e.which === 27) {
       // If esc is pressed do the same that on blur event
-      this.props.onBlur();
+      this.blurHandler(e);
     }
   }
 
@@ -171,13 +187,17 @@ class Input extends Component {
       case 'number': {
         let { value } = e.target;
         if (value.length) {
+          console.log(value);
+          if (value[value.length - 1] === '.') {
+            value = value + '0';
+          }
+
           let check = Number(value);
           if (isNaN(check)) {
             let message = 'Допустимі дані тільки числового типу';
             showNotification('warning', message);
           } else {
             let isInRange = true;
-            console.log(countFrom < check);
 
             if (countFrom !== undefined && check < countFrom) {
               let message = `Значення повинне бути більше нуля ${countFrom}`;
@@ -193,9 +213,9 @@ class Input extends Component {
 
             if (isInRange) {
               if (isMainField) {
-                ch(type, value);
+                ch(type, check);
               } else {
-                ch(id, type, value);
+                ch(id, type, check);
               }
             }
           }
@@ -262,6 +282,7 @@ class Input extends Component {
           onKeyDown={e => {
             this.walkOnFields(e);
             this.needToExit(e);
+            this.createByKeyBoard(e);
           }}
           onChange={e => this.changeHandler(e)}
         />
@@ -277,6 +298,7 @@ Input.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
   hasError: PropTypes.bool.isRequired,
   makeInput: PropTypes.func,
   only: PropTypes.string,
@@ -299,6 +321,7 @@ class Content extends Component {
             type="name"
             isMainField
             ch={actions.changeMainField}
+            onCreate={actions.createNewProduct}
             onBlur={actions.removeInput}
             showNotification={actions.showNotification}
             onError={actions.inputInsertError}
@@ -311,7 +334,9 @@ class Content extends Component {
         <h1
           className="title price-title"
           onClick={() => actions.makeInput(null, 'title')}
-        >{editMode.data.name.length ? editMode.data.name : data.name}</h1>
+        >
+          {editMode.data.name.length ? editMode.data.name : data.name}
+        </h1>
       );
     } else { // If default mode
       return (
@@ -337,6 +362,7 @@ class Content extends Component {
               onBlur={actions.removeInput}
               hasError={editMode.hasError}
               ch={actions.changeMainField}
+              onCreate={actions.createNewProduct}
               only="number"
               countFrom={0}
               countTo={100}
@@ -375,6 +401,19 @@ class Content extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    let currentProducts = this.props.editMode.data.products;
+    let nextProducts = nextProps.editMode.data.products;
+    let { editMode } = this.props.view;
+
+    let isFullEditMode = editMode && nextProducts;
+    // If we receive new created product make it input
+    if (isFullEditMode && currentProducts.length + 1 === nextProducts.length) {
+      let { _id } = nextProducts[nextProducts.length - 1];
+      this.props.actions.makeInput(_id, 'name');
+    }
+  }
+
   renderProduct(data, index, origin) {
     let { view, editMode, actions } = this.props;
 
@@ -404,6 +443,7 @@ class Content extends Component {
             editMode={editMode}
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
+            onCreate={actions.createNewProduct}
             makeInput={actions.makeInput}
             showNotification={actions.showNotification}
             onError={actions.inputInsertError}
@@ -433,6 +473,7 @@ class Content extends Component {
             editMode={editMode}
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
+            onCreate={actions.createNewProduct}
             makeInput={actions.makeInput}
             showNotification={actions.showNotification}
             onError={actions.inputInsertError}
@@ -462,8 +503,10 @@ class Content extends Component {
             productsPlural={origin}
             editMode={editMode}
             only="number"
+            countFrom={0}
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
+            onCreate={actions.createNewProduct}
             makeInput={actions.makeInput}
             showNotification={actions.showNotification}
             onError={actions.inputInsertError}
@@ -574,18 +617,14 @@ class Content extends Component {
             </thead>
             <tbody className="table-body">
               {(() => {
-                return editMode.newProducts.map((product, index, origin) =>
-                  this.renderProduct(product, index, origin)
-                );
-              })()}
-              {(() => {
                 if (view.editMode) {
-                  let deltaIndex = editMode.newProducts.length;
-                  return editMode.data.products.map((product, index, origin) =>
-                    this.renderProduct(product, deltaIndex + index, origin)
+                  let copy = JSON.parse(JSON.stringify(editMode.data.products));
+                  return copy.reverse().map((product, index, origin) =>
+                    this.renderProduct(product, index, origin)
                   );
                 } else {
-                  return data.products.map((product, index, origin) =>
+                  let copy = JSON.parse(JSON.stringify(data.products));
+                  return copy.reverse().map((product, index, origin) =>
                     this.renderProduct(product, index, origin)
                   );
                 }
@@ -600,9 +639,10 @@ class Content extends Component {
   render() {
     let { data, view, editMode } = this.props;
 
-    if (Object.keys(editMode.data).length) {
-      console.log(diff(data, editMode.data));
-    }
+    let dataCopy = JSON.parse(JSON.stringify(data));
+    let editCopy = JSON.parse(JSON.stringify(editMode.data));
+
+    console.log(diff(dataCopy, editCopy));
 
     if (view.loading) {
       return <Loader />;

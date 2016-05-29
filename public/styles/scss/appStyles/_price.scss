@@ -183,10 +183,16 @@
   }
 
   .active-row {
-    background: transparentize($yellow, 0.7);
+    background: transparentize($yellow, .7);
 
     &:hover {
-      background: transparentize($yellow, 0.65);
+      background: transparentize($yellow, .6) !important;
+    }
+  }
+
+  tr {
+    &:hover {
+      background: transparentize($yellow, .85);
     }
   }
 
@@ -262,6 +268,10 @@
       .input {
         border-color: $green;
       }
+
+      &:hover {
+        background: transparentize($green, .7) !important;
+      }
     }
 
     &:hover {
@@ -274,7 +284,7 @@
     color: transparentize($grey, .5);
 
     &:hover {
-      background: transparentize($red, .95);
+      background: transparentize($red, .95) !important;
       color: transparentize($grey, .85);
 
       .cancel-removing-btn {
