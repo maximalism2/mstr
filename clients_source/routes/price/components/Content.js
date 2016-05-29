@@ -63,6 +63,8 @@ class Input extends Component {
       return;
     }
 
+    let { only } = this.props;
+
     if (e.ctrlKey && e.shiftKey) {
       e.preventDefault();
       let { data, type, editMode, productsIndex, productsPlural } = this.props;
@@ -196,7 +198,6 @@ class Input extends Component {
       case 'number': {
         let { value } = e.target;
         if (value.length) {
-          console.log(value);
 
           let check = Number(value);
           if (isNaN(check)) {
@@ -279,7 +280,7 @@ class Input extends Component {
       onError();
       e.target.focus();
     } else {
-      this.rightPad();
+      this.rightPad(e);
       onBlur();
     }
   }
@@ -423,13 +424,42 @@ class Content extends Component {
     }
   }
 
-  removeProductHandler(data) {
-    let { actions } = this.props;
+  removeProductHandler(productBeRemoved) {
+    let { actions, editMode, data } = this.props;
 
-    if (data.new) {
-      actions.removeNewProduct(data._id);
+    if (productBeRemoved.new) {
+      actions.removeNewProduct(productBeRemoved._id);
     } else {
-      actions.removeProduct(data._id);
+      if (editMode.hasError) {
+        if (editMode.id) {
+          let { id, field } = editMode;
+          let itemInStaticPrice = null;
+          console.log('data', data);
+          let itemInEditMode = editMode.data.products.filter(product => product._id === id)[0];
+          console.log('itemInEditMode ' , itemInEditMode);
+
+          if (itemInEditMode.new) {
+            // Take previous product
+            let indexOfPrevious = data.products.length - 1;
+            itemInStaticPrice = data.products[indexOfPrevious];
+            console.log(indexOfPrevious);
+          } else {
+            itemInStaticPrice = data.products.filter(product => product._id === id)[0];
+          }
+          console.log(itemInStaticPrice);
+          let value = itemInStaticPrice[field];
+          actions.inputInsertError(false);
+          actions.removeInput();
+          actions.changeProductField(id, field, value);
+        } else if (editMode.field) {
+          let { field } = editMode;
+          let value = data[field];
+          actions.removeInput();
+          actions.inputInsertError(false);
+          actions.changeMainField(field, value);
+        }
+      }
+      actions.removeProduct(productBeRemoved._id);
     }
   }
 
