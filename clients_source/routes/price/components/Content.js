@@ -434,19 +434,15 @@ class Content extends Component {
         if (editMode.id) {
           let { id, field } = editMode;
           let itemInStaticPrice = null;
-          console.log('data', data);
           let itemInEditMode = editMode.data.products.filter(product => product._id === id)[0];
-          console.log('itemInEditMode ' , itemInEditMode);
 
           if (itemInEditMode.new) {
             // Take previous product
             let indexOfPrevious = data.products.length - 1;
             itemInStaticPrice = data.products[indexOfPrevious];
-            console.log(indexOfPrevious);
           } else {
             itemInStaticPrice = data.products.filter(product => product._id === id)[0];
           }
-          console.log(itemInStaticPrice);
           let value = itemInStaticPrice[field];
           actions.inputInsertError(false);
           actions.removeInput();
