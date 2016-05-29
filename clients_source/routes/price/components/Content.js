@@ -28,6 +28,7 @@ class Input extends Component {
     this.changeHandler = this.changeHandler.bind(this);
     this.blurHandler = this.blurHandler.bind(this);
     this.createByKeyBoard = this.createByKeyBoard.bind(this);
+    this.rightPad = this.rightPad.bind(this);
   }
 
   createByKeyBoard(e) {
@@ -70,6 +71,7 @@ class Input extends Component {
           let productsFields = ["name", "unitOfMeasurement", "cost"];
           let columntIndex = productsFields.indexOf(type);
           if (columntIndex > 0) {
+            this.rightPad(e);
             this.props.makeInput(data._id, productsFields[columntIndex - 1]);
           }
           break;
@@ -80,6 +82,7 @@ class Input extends Component {
               let id = productsPlural[productsIndex - i]._id;
               let isNextRemoved = editMode.productsWillRemove.includes(id);
               if (!isNextRemoved) {
+                this.rightPad(e);
                 this.props.makeInput(id, type);
                 break;
               }
@@ -93,6 +96,7 @@ class Input extends Component {
           let productsFields = ["name", "unitOfMeasurement", "cost"];
           let columntIndex = productsFields.indexOf(type);
           if (columntIndex < productsFields.length - 1) {
+            this.rightPad(e);
             this.props.makeInput(data._id, productsFields[columntIndex + 1]);
           }
           break;
@@ -103,6 +107,7 @@ class Input extends Component {
               let id = productsPlural[productsIndex + i]._id;
               let isNextRemoved = editMode.productsWillRemove.includes(id);
               if (!isNextRemoved) {
+                this.rightPad(e);
                 this.props.makeInput(id, type)
                 break;
               }
@@ -125,6 +130,7 @@ class Input extends Component {
       let productsFields = ["name", "unitOfMeasurement", "cost"];
       let columntIndex = productsFields.indexOf(type);
       if (columntIndex < productsFields.length - 1) {
+        this.rightPad(e);
         this.props.makeInput(data._id, productsFields[columntIndex + 1]);
       } else {
         canGoToColumn = false;
@@ -137,6 +143,7 @@ class Input extends Component {
           let id = productsPlural[productsIndex + i]._id;
           let isNextRemoved = editMode.productsWillRemove.includes(id);
           if (!isNextRemoved) {
+            this.rightPad(e);
             this.props.makeInput(id, productsFields[0]);
             return;
           }
@@ -154,6 +161,7 @@ class Input extends Component {
       let productsFields = ["name", "unitOfMeasurement", "cost"];
       let columntIndex = productsFields.indexOf(type);
       if (columntIndex > 0) {
+        this.rightPad(e);
         this.props.makeInput(data._id, productsFields[columntIndex - 1]);
       } else {
         canGoToColumn = false
@@ -164,6 +172,7 @@ class Input extends Component {
           let id = productsPlural[productsIndex - i]._id;
           let isNextRemoved = editMode.productsWillRemove.includes(id);
           if (!isNextRemoved) {
+            this.rightPad(e);
             this.props.makeInput(id, productsFields[productsFields.length - 1]);
             return;
           }
@@ -188,9 +197,6 @@ class Input extends Component {
         let { value } = e.target;
         if (value.length) {
           console.log(value);
-          if (value[value.length - 1] === '.') {
-            value = value + '0';
-          }
 
           let check = Number(value);
           if (isNaN(check)) {
@@ -213,9 +219,9 @@ class Input extends Component {
 
             if (isInRange) {
               if (isMainField) {
-                ch(type, check);
+                ch(type, value);
               } else {
-                ch(id, type, check);
+                ch(id, type, value);
               }
             }
           }
@@ -238,6 +244,31 @@ class Input extends Component {
     }
   }
 
+  rightPad(e) {
+    // If value ending by dot or if value is integer add to end '.0' or '0'
+    let { isMainField, ch, data, type } = this.props;
+    let { value } = e.target;
+    let needToChange = false;
+
+    let hasDot = value.indexOf('.') !== -1;
+
+    if (value[value.length - 1] === '.') {
+      value = value + '0';
+      needToChange = true;
+    }
+    if (Number(value) % 1 === 0 && !needToChange && !hasDot) {
+      value = value + '.0';
+      needToChange = true;
+    }
+    if (needToChange) {
+      if (isMainField) {
+        ch(type, value);
+      } else {
+        ch(data._id, type, value);
+      }
+    }
+  }
+
   blurHandler(e) {
     let { showNotification, onError, onBlur } = this.props;
     let { value } = e.target;
@@ -248,6 +279,7 @@ class Input extends Component {
       onError();
       e.target.focus();
     } else {
+      this.rightPad();
       onBlur();
     }
   }

@@ -16,9 +16,31 @@ export function fetchPriceById(id) {
     const response = await read(url);
 
     if (response.ok) {
+      /**
+       * Oh crap! I need to write some crutches to normal UX with float numbers.
+       * I need to do transformation from umber to string on field cost of product
+       * and discount of price's header
+       */
+      
+      // Crutches start
+      let data = JSON.parse(await response.json());
+      data.discount = String(data.discount);
+      data.products = data.products.map(product => {
+        let isInteger = false;
+        if (product.cost % 1 === 0) {
+          isInteger = true;
+        }
+        product.cost = String(product.cost);
+        if (isInteger) {
+          product.cost = product.cost + '.0';
+        }
+        return product;
+      });
+      // Crutches end
+
       dispatch({
         type: FETCH_PRICE_BY_ID,
-        data: JSON.parse(await response.json())
+        data
       });
       dispatch({
         type: FETCHING_LOADING,
