@@ -55,3 +55,39 @@
   z-index: 200;
   background: transparent;
 }
+
+.counters-box {
+  float: left;
+
+  .counter {
+    display: inline-block;
+    line-height: 32px;
+    margin-right: 2rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .value {
+      font-weight: 700;
+    }
+
+    &.created-counter {
+      .value {
+        color: $green;
+      }
+    }
+
+    &.updated-counter {
+      .value {
+        color: $yellow;
+      }
+    }
+
+    &.removed-counter {
+      .value {
+        color: $red;
+      }
+    }
+  }
+}
