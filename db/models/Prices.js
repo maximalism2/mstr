@@ -160,7 +160,7 @@ function update(id, query) {
     let message = "";
     let notExistingField = false;
     Object.keys(query).forEach(key => {
-      if (key !== 'name' && key !== 'discount' && key !== 'products' && key !== 'updatedAt') {
+      if (['name', 'discount', 'products', 'updatedAt', 'currency'].indexOf(key) === -1) {
         message = 'In model \'Price\' field ' + key + ' is not specified.';
         notExistingField = true;
       }

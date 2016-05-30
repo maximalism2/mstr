@@ -31,87 +31,15 @@ const initialData = {
   name: '',
   discount: Number(''),
   products: [{
-    name: 'труба пупік',
+    name: '1',
     unitOfMeasurement: 'm',
     cost: 233
   },{
-    name: 'труба секонд хенд',
+    name: '2',
     unitOfMeasurement: 'm',
     cost: 120
   },{
-    name: 'труба валмарт',
-    unitOfMeasurement: 'm',
-    cost: 32.4
-  },{
-    name: 'труба секонд хенд',
-    unitOfMeasurement: 'm',
-    cost: 120
-  },{
-    name: 'труба валмарт',
-    unitOfMeasurement: 'm',
-    cost: 32.4
-  },{
-    name: 'труба секонд хенд',
-    unitOfMeasurement: 'm',
-    cost: 120
-  },{
-    name: 'труба валмарт',
-    unitOfMeasurement: 'm',
-    cost: 32.4
-  },{
-    name: 'труба секонд хенд',
-    unitOfMeasurement: 'm',
-    cost: 120
-  },{
-    name: 'труба валмарт',
-    unitOfMeasurement: 'm',
-    cost: 32.4
-  },{
-    name: 'труба секонд хенд',
-    unitOfMeasurement: 'm',
-    cost: 120
-  },{
-    name: 'труба валмарт',
-    unitOfMeasurement: 'm',
-    cost: 32.4
-  },{
-    name: 'труба секонд хенд',
-    unitOfMeasurement: 'm',
-    cost: 120
-  },{
-    name: 'труба валмарт',
-    unitOfMeasurement: 'm',
-    cost: 32.4
-  },{
-    name: 'труба секонд хенд',
-    unitOfMeasurement: 'm',
-    cost: 120
-  },{
-    name: 'труба валмарт',
-    unitOfMeasurement: 'm',
-    cost: 32.4
-  },{
-    name: 'труба секонд хенд',
-    unitOfMeasurement: 'm',
-    cost: 120
-  },{
-    name: 'труба валмарт',
-    unitOfMeasurement: 'm',
-    cost: 32.4
-  },{
-    name: 'труба секонд хенд',
-    unitOfMeasurement: 'm',
-    cost: 120
-  },{
-    name: 'труба валмарт',
-    unitOfMeasurement: 'm',
-    cost: 32.4
-  },{
-    name: 'труба секонд хенд',
-    unitOfMeasurement: 'm',
-    cost: 120
-  },{
-    name: 'труба валмарт',
+    name: '3',
     unitOfMeasurement: 'm',
     cost: 32.4
   },]

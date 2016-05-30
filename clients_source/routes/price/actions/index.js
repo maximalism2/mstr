@@ -215,6 +215,20 @@ export function updatePrice(id, data) {
       flag: true
     });
 
+    /**
+     * Oh crap! I need to write some crutches to normal UX with float numbers.
+     * I need to do transformation from umber to string on field cost of product
+     * and discount of price's header
+     */
+    
+    // Crutches start
+    data.discount = Number(data.discount);
+    data.products = data.products.map(product => {
+      product.cost = Number(product.cost);
+      return product;
+    });
+    // Crutches end
+
     let url = `${origin}/api/price/${id}/`;
     const response = await update(url, data);
 
