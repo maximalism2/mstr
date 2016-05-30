@@ -15,6 +15,9 @@ import {
 const initialPrice = {
   data: {
     name: '',
+    currency: 'UAH',
+    discount: 0,
+    updatedAt: new Date(),
     products: []
   },
   view: {

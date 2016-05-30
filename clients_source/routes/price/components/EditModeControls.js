@@ -43,7 +43,7 @@ class EditModeControls extends Component {
   }
 
   render() {
-    let { view, actions, counters } = this.props;
+    let { view, actions, counters, errorExists } = this.props;
     let { updated, created, removed } = counters;
 
     let editControlsCName = cnames({
@@ -61,7 +61,7 @@ class EditModeControls extends Component {
     let saveButtonCName = cnames({
       "button is-success on-save": true,
       "is-loading": this.props.view.updatingLoading,
-      "is-disabled": areThereAnyChanges
+      "is-disabled": areThereAnyChanges || errorExists
     });
 
     if (this.state.mounted) {
@@ -117,6 +117,7 @@ EditModeControls.propTypes = {
   animationDuration: PropTypes.number,
   data: PropTypes.object.isRequired,
   view: PropTypes.object.isRequired,
+  errorExists: PropTypes.bool.isRequired,
   counters: PropTypes.shape({
     created: PropTypes.number.isRequired,
     updated: PropTypes.number.isRequired,

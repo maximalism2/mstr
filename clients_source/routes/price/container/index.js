@@ -211,6 +211,7 @@ class PriceContainer extends Component {
         <EditModeControls
           data={price.data}
           view={price.view}
+          errorExists={price.editMode.hasError}
           anumationDuration={300}
           actions={actionsForComponents}
           counters={price.editMode.counters}

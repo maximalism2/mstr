@@ -15,8 +15,16 @@ const template = {
     max: 100,
     required: true
   },
+  currency: {                        // Currency of the price
+    type: String,
+    enum: ['UAH', 'USD', 'EUR'],
+    required: true
+  },
   products: [Schema.Types.ObjectId], // Array of products IDs
-  updatedAt: Date                    // Date of last updating (modifying)
+  updatedAt: {                       // Date of last updating (modifying)
+    type: Date,
+    default: new Date()
+  }
 };
 
 module.exports = template;

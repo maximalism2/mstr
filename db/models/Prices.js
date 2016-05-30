@@ -88,6 +88,10 @@ function create(instance) {
     instance.discount = 0;
   }
 
+  if (!instance.hasOwnProperty('currency')) {
+    instance.currency = 'UAH';
+  }
+
   if (instance.hasOwnProperty('products') && instance.products.length > 0) {
     // Clear the array of products, if it is exist
     instance.products = [];

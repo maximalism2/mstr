@@ -43,7 +43,18 @@
 
     &-value {
       font-weight: 600;
-      color: $blue;
+
+      &.UAH {
+        color: $blue;
+      }
+
+      &.USD {
+        color: $green;
+      }
+
+      &.EUR {
+        color: darken($yellow, 5%);
+      }
     }
   }
 
@@ -303,6 +314,79 @@
 
       &:hover {
         text-decoration: underline;
+      }
+    }
+  }
+
+  .currency.is-active {
+    position: relative;
+    color: transparentize(#69707a, .8);
+
+    .currency-value {
+      position: relative;
+      cursor: pointer;
+
+      &::before {
+        content: '';
+        position: absolute;
+        line-height: 24px;
+      }
+    }
+
+    .select {
+      height: 30px;
+      margin-top: -3px;
+
+      select {
+        border: 1px solid $yellow;
+        border-radius: 0;
+        background: rgba(255, 255, 255, .9);
+        height: 30px;
+        font-size: 16.8px;
+        font-weight: 600;
+        color: $blue;
+        padding-right: 6px;
+        padding-left: 23px;
+        margin-left: -27px;
+
+        &.UAH {
+          color: $blue;
+        }
+
+        &.USD {
+          color: $green;
+        }
+
+        &.EUR {
+          color: darken($yellow, 5%);
+        }
+
+        option {
+          font-weight: 600;
+
+          &.uah {
+            color: $blue;
+          }
+
+          &.usd {
+            color: $green;
+          }
+
+          &.eur {
+            color: darken($yellow, 5%);
+          }
+        }
+      }
+
+      &::after {
+        right: auto;
+        left: -18px;
+        border-width: 2px;
+        border-color: $yellow;
+      }
+
+      &:hover::after {
+        border-colot: darken($yellow, 10%);
       }
     }
   }

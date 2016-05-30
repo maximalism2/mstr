@@ -304,7 +304,14 @@ class Input extends Component {
 
   componentDidMount() {
     let DOMInput = findDOMNode(this);
-    DOMInput.setSelectionRange(0, DOMInput.value.length);
+
+    if (this.props.type === 'currency') {
+      // If it is select get dom node 'select'
+      DOMInput = DOMInput.childNodes[0];
+    } else {
+      // If type of input is 'text' - select it all
+      DOMInput.setSelectionRange(0, DOMInput.value.length);
+    }
     DOMInput.focus();
   }
 
@@ -312,16 +319,33 @@ class Input extends Component {
     let { data, type, isMainField, ch, onBlur } = this.props;
 
     if (this.props.isMainField) {
-      return (
-        <input
-          type="text"
-          className="input"
-          value={data[type]}
-          onBlur={e => this.blurHandler(e)}
-          onKeyDown={e => this.needToExit(e)}
-          onChange={e => this.changeHandler(e)}
-        />
-      );
+      if (type === 'currency') {
+        return (
+          <span className="select">
+            <select
+              className={data.currency}
+              value={data.currency}
+              onChange={e => this.changeHandler(e)}
+              onBlur={e => this.blurHandler(e)}
+            >
+              <option value="UAH" className="uah">UAH (₴)</option>
+              <option value="USD" className="usd">USD ($)</option>
+              <option value="EUR" className="eur">EUR (€)</option>
+            </select>
+          </span>
+        );
+      } else {
+        return (
+          <input
+            type="text"
+            className="input"
+            value={data[type]}
+            onBlur={e => this.blurHandler(e)}
+            onKeyDown={e => this.needToExit(e)}
+            onChange={e => this.changeHandler(e)}
+          />
+        );
+      }
     } else {
       return (
         <input
@@ -436,6 +460,107 @@ class Content extends Component {
       return (
         <p className="discount">
           Знижка: <span className="discount-value">{data.discount + "%"}</span>
+        </p>
+      );
+    }
+  }
+
+  renderCurrency() {
+    let { data, view, editMode, actions } = this.props;
+
+    let currencyValueCName = cnames({
+      "currency-value": true,
+      [editMode.data.currency]: true
+    });
+
+    let isCurrencyInput = (editMode.id === null) && (editMode.field === 'currency');
+    console.log(isCurrencyInput, editMode);
+
+    if (view.editMode && isCurrencyInput) {
+      return (
+        <p className="currency is-active">
+          Валюта:
+          <span
+            className="currency-value"
+          >
+            <Input
+              data={editMode.data}
+              type="currency"
+              isMainField
+              ch={actions.changeMainField}
+              onCreate={actions.createNewProduct}
+              onBlur={actions.removeInput}
+              showNotification={actions.showNotification}
+              onError={actions.inputInsertError}
+              hasError={editMode.hasError}
+            />
+          </span>
+        </p>
+      );
+    } else if (view.editMode && !isCurrencyInput) {
+      let currency = 'UAH (₴)';
+      let valueClassName = 'currency-value';
+      switch (editMode.data.currency) {
+        case 'USD': {
+          valueClassName += ' USD';
+          currency = 'USD ($)';
+          break;
+        }
+        case 'EUR': {
+          valueClassName += ' EUR';
+          currency = 'EUR (€)';
+          break;
+        }
+        case 'UAH': // Is default value
+        default: {
+          valueClassName += ' UAH';
+          currency = 'UAH (₴)';
+          break;
+        }
+      }
+
+      return (
+        <p className="currency">
+          Валюта: {" "}
+          <span className={valueClassName}>
+            {!isCurrencyInput && 
+              <span
+                onClick={() => actions.makeInput(null, 'currency')}
+              >
+                {currency}
+              </span>
+            }
+          </span>
+        </p>
+      );
+    } else {
+      let currency = 'UAH (₴)';
+      let valueClassName = "currency-value"
+      switch (data.currency) {
+        case 'USD': {
+          valueClassName += ' USD';
+          currency = 'USD ($)';
+          break;
+        }
+        case 'EUR': {
+          valueClassName += ' EUR';
+          currency = 'EUR (€)';
+          break;
+        }
+        case 'UAH': // Is default value
+        default: {
+          valueClassName += ' UAH';
+          currency = 'UAH (₴)';
+          break;
+        }
+      }
+
+      return (
+        <p className="currency">
+          Валюта: {" "}
+          <span className={valueClassName}>
+            {currency}
+          </span>
         </p>
       );
     }
@@ -664,10 +789,7 @@ class Content extends Component {
           {this.renderPriceTitle()}
           <div className="sub-main">
             {this.renderDiscount()}
-            <p className="currency">
-              Валюта: {" "}
-              <span className="currency-value">UAH (₴)</span>
-            </p>
+            {this.renderCurrency()}
           </div>
         </div>
         <div className="products-list content-container">
