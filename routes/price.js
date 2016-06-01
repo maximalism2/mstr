@@ -62,7 +62,7 @@ router.get('/:id/', (req, res, next) => {
       res.end();
     })
     .catch(err => {
-      res.writeHead(400);
+      res.statusCode(400);
       res.json(JSON.stringify(err));
       res.end();
     });
@@ -223,53 +223,6 @@ router.put('/:id/', (req, res, next) => {
             console.log('lengths', currentProducts.length, nextProducts.length);
             console.log('differenceBetweenProducts', differenceBetweenProducts);
             if (differenceBetweenProducts.length) {
-              { // There we creating the new products
-                let prepareProductForCreate = []
-                differenceBetweenProducts.forEach(difference => {
-                  if (difference.kind === 'A' && difference.item.kind === 'N') {
-                    let newItem = difference.item.rhs;
-                    delete newItem._id;
-                    delete newItem.new;
-                    newItem.priceOrigin = id;
-                    prepareProductForCreate.push(newItem);
-                  }
-                });
-
-                if (prepareProductForCreate.length) {
-                  let resultOfCreating = Product.createOf(prepareProductForCreate);
-
-                  if (Array.isArray(resultOfCreating)) {
-                    let newPrice = JSON.parse(JSON.stringify(priceCopy));
-
-                    let createdProductsIds = resultOfCreating.map(product => product._id);
-                    let newProductsIds = newPrice.products.concat(createdProductsIds);
-
-                    let updatingResult = Price.update(newPrice._id, {
-                      products: newProductsIds
-                    });
-
-                    if (updatingResult.error) {
-                      console.log('\n\nerror\n\n', updatingResult);
-                    } else {
-                      updatingResult.then(someRes => {
-                      });
-                    }
-                    if (needToResponse) {
-                      needToResponse = false;
-                      res.json(JSON.stringify(newPrice));
-                      res.end();
-                    }
-                  }  else if (resultOfCreating.error) {
-                    console.log('creating products error', resultOfCreating);
-                    if (needToResponse) {
-                      needToResponse = false;
-                      res.json(JSON.stringify(resultOfCreating));
-                      res.end();
-                    }
-                  }
-                }
-              }
-
               { // There we updating the products of the price
                 // Array for update products
                 let prepareProductForUpdate = [];
@@ -343,6 +296,53 @@ router.put('/:id/', (req, res, next) => {
                     }
                   }
                 });
+              }
+
+              { // There we creating the new products
+                let prepareProductForCreate = []
+                differenceBetweenProducts.forEach(difference => {
+                  if (difference.kind === 'A' && difference.item.kind === 'N') {
+                    let newItem = difference.item.rhs;
+                    delete newItem._id;
+                    delete newItem.new;
+                    newItem.priceOrigin = id;
+                    prepareProductForCreate.push(newItem);
+                  }
+                });
+
+                if (prepareProductForCreate.length) {
+                  let resultOfCreating = Product.createOf(prepareProductForCreate);
+
+                  if (Array.isArray(resultOfCreating)) {
+                    let newPrice = JSON.parse(JSON.stringify(priceCopy));
+
+                    let createdProductsIds = resultOfCreating.map(product => product._id);
+                    let newProductsIds = newPrice.products.concat(createdProductsIds);
+
+                    let updatingResult = Price.update(newPrice._id, {
+                      products: newProductsIds
+                    });
+
+                    if (updatingResult.error) {
+                      console.log('\n\nerror\n\n', updatingResult);
+                    } else {
+                      updatingResult.then(someRes => {
+                      });
+                    }
+                    if (needToResponse) {
+                      needToResponse = false;
+                      res.json(JSON.stringify(newPrice));
+                      res.end();
+                    }
+                  }  else if (resultOfCreating.error) {
+                    console.log('creating products error', resultOfCreating);
+                    if (needToResponse) {
+                      needToResponse = false;
+                      res.json(JSON.stringify(resultOfCreating));
+                      res.end();
+                    }
+                  }
+                }
               }
             }
           });
