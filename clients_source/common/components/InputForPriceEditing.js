@@ -270,10 +270,10 @@ class Input extends Component {
   }
 
   blurHandler(e) {
-    let { showNotification, onError, onBlur, only } = this.props;
+    let { showNotification, onError, onBlur, only, notRequired } = this.props;
     let { value } = e.target;
 
-    if (value.length === 0) {
+    if (value.length === 0 && !notRequired) {
       let message = 'Це поле не може бути порожнім';
       showNotification('danger', message);
       onError();
@@ -300,7 +300,9 @@ class Input extends Component {
   }
 
   render() {
-    let { data, type, isMainField, ch, onBlur, placeholder } = this.props;
+    let {
+      data, type, isMainField, ch, onBlur, placeholder, className
+    } = this.props;
 
     if (this.props.isMainField) {
       if (type === 'currency') {
@@ -322,7 +324,7 @@ class Input extends Component {
         return (
           <input
             type="text"
-            className="input"
+            className={className ? `input ${className}` : "input"}
             value={data[type]}
             placeholder={placeholder ? placeholder : null}
             onBlur={e => this.blurHandler(e)}
@@ -335,7 +337,7 @@ class Input extends Component {
       return (
         <input
           type="text"
-          className="input"
+          className={className ? `input ${className}` : "input"}
           value={data[type]}
           placeholder={placeholder ? placeholder : null}
           onBlur={e => this.blurHandler(e)}
@@ -361,6 +363,8 @@ Input.propTypes = {
   onCreate: PropTypes.func.isRequired,
   hasError: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
+  notRequired: PropTypes.bool,
+  className: PropTypes.string,
   makeInput: PropTypes.func,
   only: PropTypes.string,
   countFrom: PropTypes.number,
