@@ -300,7 +300,7 @@ class Input extends Component {
   }
 
   render() {
-    let { data, type, isMainField, ch, onBlur } = this.props;
+    let { data, type, isMainField, ch, onBlur, placeholder } = this.props;
 
     if (this.props.isMainField) {
       if (type === 'currency') {
@@ -324,6 +324,7 @@ class Input extends Component {
             type="text"
             className="input"
             value={data[type]}
+            placeholder={placeholder ? placeholder : null}
             onBlur={e => this.blurHandler(e)}
             onKeyDown={e => this.needToExit(e)}
             onChange={e => this.changeHandler(e)}
@@ -336,6 +337,7 @@ class Input extends Component {
           type="text"
           className="input"
           value={data[type]}
+          placeholder={placeholder ? placeholder : null}
           onBlur={e => this.blurHandler(e)}
           onKeyDown={e => {
             this.walkOnFields(e);
@@ -358,6 +360,7 @@ Input.propTypes = {
   showNotification: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
   hasError: PropTypes.bool.isRequired,
+  placeholder: PropTypes.string,
   makeInput: PropTypes.func,
   only: PropTypes.string,
   countFrom: PropTypes.number,
