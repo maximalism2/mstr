@@ -6,23 +6,35 @@ class Form extends Component {
     let { data, view, editMode, actions } = this.props;
     console.log(this.props.data);
 
-    return (
-      <h1 className="title price-title">
-        <Input
-          data={data}
-          type="name"
-          isMainField
-          notRequired
-          placeholder="Назва каталогу..."
-          ch={actions.changeMainField}
-          onCreate={actions.createNewProduct}
-          onBlur={actions.removeInput}
-          showNotification={actions.showNotification}
-          onError={actions.inputInsertError}
-          hasError={editMode.hasError}
-        />
-      </h1>
-    );
+    if (editMode.id === null && editMode.field === 'title') {
+      return (
+        <h1 className="title price-title">
+          <Input
+            data={data}
+            type="name"
+            isMainField
+            notRequired
+            placeholder="Назва каталогу..."
+            ch={actions.changeMainField}
+            onCreate={actions.createNewProduct}
+            onBlur={actions.removeInput}
+            showNotification={actions.showNotification}
+            onError={actions.inputInsertError}
+            hasError={editMode.hasError}
+          />
+        </h1>
+      );
+    } else {
+      return (
+        <h3
+          className="title price-title not-fieled"
+        >
+          Назва каталогу... <span className="icon">
+            <i>*</i>
+          </span>
+        </h3>
+      );
+    }
   }
 
 
