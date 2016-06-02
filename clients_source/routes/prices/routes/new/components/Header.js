@@ -10,10 +10,12 @@ class Header extends Component {
             <i className="fa fa-arrow-left"></i>
           </Link>
           <button
-            className="button is-primary"
+            className="button is-success is-pulled-right"
             onClick={() => this.props.actions.createPrice()}
           >
-            <i className="fa fa-floppy-o"></i>
+            <span className="icon">
+              <i className="fa fa-floppy-o"></i>
+            </span>
             <span>
               Створити
             </span>

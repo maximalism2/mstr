@@ -1,59 +1,96 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Header, Form } from '../components';
+import { showNotification } from '../../../../../common/notifications/actions';
 import * as actions from '../actions';
 
 class NewPriceContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.changeField = this.changeField.bind(this);
+    this.resetPriceView = this.resetPriceView.bind(this);
     this.makeInput = this.makeInput.bind(this);
-    this.addRow = this.addRow.bind(this);
-    this.removeRow = this.removeRow.bind(this);
+    this.removeInput = this.removeInput.bind(this);
+    this.inputInsertError = this.inputInsertError.bind(this);
+    this.changeProductField = this.changeProductField.bind(this);
+    this.changeMainField = this.changeMainField.bind(this);
+    this.createNewProduct = this.createNewProduct.bind(this);
+    this.removeNewProduct = this.removeNewProduct.bind(this);
     this.createPrice = this.createPrice.bind(this);
+    this.setCounters = this.setCounters.bind(this);
+    this.showNotification = this.showNotification.bind(this);
   }
 
-  changeField(field) {
-    this.props.dispatch(actions.changeField(field));
+  resetPriceView() {
+    this.props.dispatch(actions.resetPriceView());
   }
 
-  makeInput(index) {
-    this.props.dispatch(actions.makeInput(index));
+  makeInput(id, field) {
+    this.props.dispatch(actions.makeInput(id, field));
   }
 
-  addRow() {
-    this.props.dispatch(actions.addRow());
+  removeInput() {
+    this.props.dispatch(actions.removeInput());
   }
 
-  removeRow(index) {
-    this.props.dispatch(actions.removeRow(index));
+  inputInsertError(flag) {
+    this.props.dispatch(actions.inputInsertError(flag));
+  }
+
+  changeProductField(id, field, value) {
+    this.props.dispatch(actions.changeProductField(id, field, value));
+  }
+
+  changeMainField(field, value) {
+    this.props.dispatch(actions.changeMainField(field, value));
+  }
+
+  createNewProduct() {
+    this.props.dispatch(actions.createNewProduct());
+  }
+
+  removeNewProduct(id) {
+    this.props.dispatch(actions.removeNewProduct(id));
   }
 
   createPrice() {
-    let { dispatch, newPrice } = this.props;
-    console.log('create price => ', newPrice.data);
-    dispatch(actions.createPrice(newPrice.data));
+    this.props.dispatch(actions.createPrice());
+  }
+
+  setCounters(counters) {
+    this.props.dispatch(actions.setCounters(counters));
+  }
+
+  showNotification(type, message) {
+    this.props.dispatch(showNotification(type, message));
   }
 
   render() {
     let { newPrice } = this.props;
     let actionsForComponents = {
-      changeField: this.changeField,
+      resetPriceView: this.resetPriceView,
       makeInput: this.makeInput,
-      addRow: this.addRow,
-      removeRow: this.removeRow,
-      createPrice: this.createPrice
+      removeInput: this.removeInput,
+      inputInsertError: this.inputInsertError,
+      changeProductField: this.changeProductField,
+      changeMainField: this.changeMainField,
+      createNewProduct: this.createNewProduct,
+      removeNewProduct: this.removeNewProduct,
+      createPrice: this.createPrice,
+      setCounters: this.setCounters,
+      showNotification: this.showNotification
     }
 
     return (
       <div>
         <Header
+          view={newPrice.view}
           actions={actionsForComponents}
         />
         <Form
           data={newPrice.data}
           view={newPrice.view}
+          editMode={newPrice.editMode}
           actions={actionsForComponents}
         />
       </div>

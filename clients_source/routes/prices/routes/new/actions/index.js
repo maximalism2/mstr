@@ -1,57 +1,141 @@
-import {
-  CHANGE_FIELD, ADD_ROW, REMOVE_ROW, NEW_PRICE_LOADING, MAKE_INPUT
-} from '../consts';
-
 import origin from '../../../../../common/origin';
 import { create } from '../../../../../common/fetch';
 
-export function changeField(field) {
+import { RESET_PRICE_VIEW_IN_NEW } from '../consts';
+
+export function resetPriceView() {
   return {
-    type: CHANGE_FIELD,
+    type: RESET_PRICE_VIEW_IN_NEW
+  }
+}
+
+import {
+  MAKE_INPUT_IN_NEW, REMOVE_INPUT_IN_NEW,
+  CHANGE_PRODUCT_FIELD_IN_NEW, CHANGE_MAIN_FIELD_IN_NEW,
+  INPUT_INSERT_ERROR_IN_NEW,
+  CREATE_NEW_PRODUCT_IN_NEW, REMOVE_NEW_PRODUCT_IN_NEW
+} from '../consts';
+
+export function makeInput(id = null, field) {
+  return {
+    type: MAKE_INPUT_IN_NEW,
+    id,
     field
   }
-}
+};
 
-export function addRow(row) {
+export function removeInput() {
   return {
-    type: ADD_ROW,
-    row
+    type: REMOVE_INPUT_IN_NEW
   }
 }
 
-export function removeRow(index) {
+export function inputInsertError(flag = true) {
   return {
-    type: REMOVE_ROW,
-    index
-  }
-}
-
-export function loading(flag) {
-  return {
-    type: NEW_PRICE_LOADING,
+    type: INPUT_INSERT_ERROR_IN_NEW,
     flag
   }
 }
 
-export function makeInput(index) {
+export function changeProductField(id, field, value) {
   return {
-    type: MAKE_INPUT,
-    index
+    type: CHANGE_PRODUCT_FIELD_IN_NEW,
+    id,
+    field,
+    value
   }
 }
 
-export function createPrice(priceTemplate) {
-  return async dispatch => {
-    let url = origin + '/api/price/';
-    const response = await create(url, priceTemplate);
+export function changeMainField(field, value) {
+  return {
+    type: CHANGE_MAIN_FIELD_IN_NEW,
+    field,
+    value
+  }
+}
 
-    console.log('response', response);
+export function createNewProduct() {
+  return {
+    type: CREATE_NEW_PRODUCT_IN_NEW
+  }
+}
+
+export function removeNewProduct(id) {
+  return {
+    type: REMOVE_NEW_PRODUCT_IN_NEW,
+    id
+  }
+}
+
+import {
+  CREATING_LOADING,
+  PRICE_CREATING_ERROR,
+  PRICE_CREATING_SUCCESS
+} from '../consts';
+
+// export function createPrice(priceTemplate) {
+//   return async dispatch => {
+//     let url = origin + '/api/price/';
+//     const response = await create(url, priceTemplate);
+
+//     console.log('response', response);
+//     if (response.ok) {
+//       const result = await response.json();
+//       if (typeof result === 'string') {
+//         let textResult = JSON.parse(result);
+//         console.log('result', textResult);
+//       }
+//     }
+//   }
+// }
+
+export function createPrice(id, data) {
+  return async dispatch => {
+    dispatch({
+      type: CREATING_LOADING,
+      flag: true
+    });
+
+    /**
+     * Oh crap! I need to write some crutches to normal UX with float numbers.
+     * I need to do transformation from umber to string on field cost of product
+     * and discount of price's header
+     */
+
+    let url = `${origin}/api/prices/`;
+    const response = await create(url, data);
+
+
     if (response.ok) {
-      const result = await response.json();
-      if (typeof result === 'string') {
-        let textResult = JSON.parse(result);
-        console.log('result', textResult);
-      }
+      dispatch({
+        type: CREATING_LOADING,
+        flag: false
+      });
+      dispatch({
+        type: PRICE_CREATING_SUCCESS,
+        data
+      });
+    } else {
+      let result = await response.json();
+      dispatch({
+        type: CREATING_LOADING,
+        flag: false
+      });
+      dispatch({
+        type: PRICE_CREATING_ERROR,
+        message: result
+      })
     }
+  }
+}
+
+import {
+  SET_COUNTERS_IN_NEW
+} from '../consts';
+
+export function setCounters(counters) {
+  return {
+    type: SET_COUNTERS_IN_NEW,
+    counters
   }
 }

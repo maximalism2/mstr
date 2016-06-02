@@ -149,245 +149,245 @@
   box-shadow: 0px 0px 0px 100vw rgba(0,0,0,0.5);
   max-width: 960px;
   padding-bottom: 4rem;
+}
 
-  .price-title {
-    .input {
-      width: 80%;
-      // margin-top: 0 !important; // For overlapping the bulma's rule
-      // margin-bottom: 1rem;
-      font-size: 2.05rem;
-      font-weight: 600;
-      letter-spacing: 0.043rem;
-      color: #555;
-      z-index: 700;
-      margin-left: -9px;
-      margin-top: -6px;
-      margin-bottom: -6px;
-      padding-top: 5px;
-      padding-bottom: 4px;
-      height: auto;
-      border-radius: 0;
-      border-color: $yellow;
-    }
+.price-title {
+  .input {
+    width: 80%;
+    // margin-top: 0 !important; // For overlapping the bulma's rule
+    // margin-bottom: 1rem;
+    font-size: 2.05rem;
+    font-weight: 600;
+    letter-spacing: 0.043rem;
+    color: #555;
+    z-index: 700;
+    margin-left: -9px;
+    margin-top: -6px;
+    margin-bottom: -6px;
+    padding-top: 5px;
+    padding-bottom: 4px;
+    height: auto;
+    border-radius: 0;
+    border-color: $yellow;
   }
+}
 
-  .updated-at {
-    opacity: .2;
-    transition: .3s;
+.updated-at {
+  opacity: .2;
+  transition: .3s;
+}
+
+.discount {
+  .input {
+    margin-top: -2px;
+    margin-bottom: -6px;
+    margin-left: 0;
+    font-size: 1.2rem;
+    z-index: 700;
+    font-weight: 600;
+    color: $green;
+    width: 20%;
+    height: auto;
+    border-radius: 0;
+    border-color: $yellow;
+    background: transparent;
   }
+}
 
-  .discount {
-    .input {
-      margin-top: -2px;
-      margin-bottom: -6px;
-      margin-left: 0;
-      font-size: 1.2rem;
-      z-index: 700;
-      font-weight: 600;
-      color: $green;
-      width: 20%;
-      height: auto;
-      border-radius: 0;
-      border-color: $yellow;
-      background: transparent;
-    }
+.active-row {
+  background: transparentize($yellow, .7);
+
+  &:hover {
+    background: transparentize($yellow, .6) !important;
   }
+}
 
-  .active-row {
-    background: transparentize($yellow, .7);
-
-    &:hover {
-      background: transparentize($yellow, .6) !important;
-    }
+tr {
+  &:hover {
+    background: transparentize($yellow, .85);
   }
+}
 
+.table-body {
   tr {
+    .controls {
+      position: relative;
+      float: left;
+
+      .remove-button {
+        position: absolute;
+        top: 0;
+        left: -40px;
+        width: 30px;
+        height: 30px;
+        color: transparent;
+        transition: .1s;
+        cursor: pointer;
+
+        i.fa:hover {
+          color: $red;
+        }
+      }
+    }
+
     &:hover {
-      background: transparentize($yellow, .85);
+      .remove-button {
+        color: transparentize($red, .8);
+
+        &:hover {
+          color: $red;
+        }
+      }
     }
   }
+}
 
-  .table-body {
-    tr {
-      .controls {
-        position: relative;
-        float: left;
 
-        .remove-button {
-          position: absolute;
-          top: 0;
-          left: -40px;
-          width: 30px;
-          height: 30px;
-          color: transparent;
-          transition: .1s;
+.table-header {
+  tr {
+    .controls {
+      position: relative;
+      float: left;
+
+      .add-button {
+        position: absolute;
+        top: 0;
+        left: -40px;
+        width: 30px;
+        height: 30px;
+        color: transparentize($green, .5);
+        transition: .1s;
+
+        i.fa {
+          font-size: 20px; // Fix visual conflicts
           cursor: pointer;
 
-          i.fa:hover {
-            color: $red;
-          }
-        }
-      }
-
-      &:hover {
-        .remove-button {
-          color: transparentize($red, .8);
-
           &:hover {
-            color: $red;
+            color: $green;
           }
         }
       }
     }
   }
+}
 
+.new-product {
+  background: transparentize($green, .87);
 
-  .table-header {
-    tr {
-      .controls {
-        position: relative;
-        float: left;
+  &.active-row {
+    background: transparentize($green, .75);
 
-        .add-button {
-          position: absolute;
-          top: 0;
-          left: -40px;
-          width: 30px;
-          height: 30px;
-          color: transparentize($green, .5);
-          transition: .1s;
-
-          i.fa {
-            font-size: 20px; // Fix visual conflicts
-            cursor: pointer;
-
-            &:hover {
-              color: $green;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .new-product {
-    background: transparentize($green, .87);
-
-    &.active-row {
-      background: transparentize($green, .75);
-
-      .input {
-        border-color: $green;
-      }
-
-      &:hover {
-        background: transparentize($green, .7) !important;
-      }
+    .input {
+      border-color: $green;
     }
 
     &:hover {
-      background: transparentize($green, .75);
+      background: transparentize($green, .7) !important;
     }
   }
 
-  .will-be-removed {
-    background: transparentize($red, .98);
-    color: transparentize($grey, .5);
+  &:hover {
+    background: transparentize($green, .75);
+  }
+}
 
-    &:hover {
-      background: transparentize($red, .95) !important;
-      color: transparentize($grey, .85);
+.will-be-removed {
+  background: transparentize($red, .98);
+  color: transparentize($grey, .5);
 
-      .cancel-removing-btn {
-        display: inline-block;
-      }
-    }
+  &:hover {
+    background: transparentize($red, .95) !important;
+    color: transparentize($grey, .85);
 
     .cancel-removing-btn {
-      display: none;
-      background: transparent;
-      border: 0;
-      position: absolute;
-      top: 1px;
-      right: calc(100% - 174px);
-      color: darken($red, 5%);
-
-      &:hover {
-        text-decoration: underline;
-      }
+      display: inline-block;
     }
   }
 
-  .currency.is-active {
-    position: relative;
-    color: transparentize(#69707a, .8);
+  .cancel-removing-btn {
+    display: none;
+    background: transparent;
+    border: 0;
+    position: absolute;
+    top: 1px;
+    right: calc(100% - 174px);
+    color: darken($red, 5%);
 
-    .currency-value {
-      position: relative;
-      cursor: pointer;
-
-      &::before {
-        content: '';
-        position: absolute;
-        line-height: 24px;
-      }
+    &:hover {
+      text-decoration: underline;
     }
+  }
+}
 
-    .select {
+.currency.is-active {
+  position: relative;
+  color: transparentize(#69707a, .8);
+
+  .currency-value {
+    position: relative;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      line-height: 24px;
+    }
+  }
+
+  .select {
+    height: 30px;
+    margin-top: -3px;
+
+    select {
+      border: 1px solid $yellow;
+      border-radius: 0;
+      background: rgba(255, 255, 255, .9);
       height: 30px;
-      margin-top: -3px;
+      font-size: 16.8px;
+      font-weight: 600;
+      color: $blue;
+      padding-right: 6px;
+      padding-left: 23px;
+      margin-left: -27px;
 
-      select {
-        border: 1px solid $yellow;
-        border-radius: 0;
-        background: rgba(255, 255, 255, .9);
-        height: 30px;
-        font-size: 16.8px;
-        font-weight: 600;
+      &.UAH {
         color: $blue;
-        padding-right: 6px;
-        padding-left: 23px;
-        margin-left: -27px;
+      }
 
-        &.UAH {
+      &.USD {
+        color: $green;
+      }
+
+      &.EUR {
+        color: darken($yellow, 5%);
+      }
+
+      option {
+        font-weight: 600;
+
+        &.uah {
           color: $blue;
         }
 
-        &.USD {
+        &.usd {
           color: $green;
         }
 
-        &.EUR {
+        &.eur {
           color: darken($yellow, 5%);
         }
-
-        option {
-          font-weight: 600;
-
-          &.uah {
-            color: $blue;
-          }
-
-          &.usd {
-            color: $green;
-          }
-
-          &.eur {
-            color: darken($yellow, 5%);
-          }
-        }
       }
+    }
 
-      &::after {
-        right: auto;
-        left: -18px;
-        border-width: 2px;
-        border-color: $yellow;
-      }
+    &::after {
+      right: auto;
+      left: -18px;
+      border-width: 2px;
+      border-color: $yellow;
+    }
 
-      &:hover::after {
-        border-colot: darken($yellow, 10%);
-      }
+    &:hover::after {
+      border-colot: darken($yellow, 10%);
     }
   }
 }
