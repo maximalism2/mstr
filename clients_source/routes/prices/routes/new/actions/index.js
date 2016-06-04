@@ -89,6 +89,7 @@ export function createPrice(data) {
      // Crutches start
      data = JSON.parse(JSON.stringify(data));
      data.discount = Number(data.discount);
+     delete data._id;
      data.products = data.products.map(product => {
       delete product._id;
       product.cost = Number(product.cost);
@@ -105,7 +106,7 @@ export function createPrice(data) {
       });
       dispatch({
         type: PRICE_CREATING_SUCCESS,
-        data
+        data: JSON.parse(await response.json())
       });
     } else {
       let result = await response.json();

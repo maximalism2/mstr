@@ -66,6 +66,17 @@ class NewPriceContainer extends Component {
     this.props.dispatch(showNotification(type, message));
   }
 
+  componentWillReceiveProps(nextProps) {
+    let currentView = this.props.newPrice.view;
+    let nextView = nextProps.newPrice.view;
+
+    if (!currentView.creatingSuccess && nextView.creatingSuccess) {
+      let message = "Каталог успішно створений";
+      this.showNotification('success', message);
+      this.props.history.push(`/price/${nextProps.newPrice.data._id}/`);
+    }
+  }
+
   render() {
     let { newPrice } = this.props;
     let actionsForComponents = {

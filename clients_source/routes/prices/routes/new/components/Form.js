@@ -30,6 +30,7 @@ class Form extends Component {
       let productWithInput = currentProducts.filter(product => {
         return product._id === currEditMode.id
       })[0];
+      this.isProductFullyFieled(productWithInput);
     }
   }
 

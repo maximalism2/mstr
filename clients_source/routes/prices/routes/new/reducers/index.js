@@ -16,6 +16,7 @@ const initialPrice = {
     name: '',
     currency: 'UAH',
     discount: 0,
+    _id: '',
     products: []
   },
   view: {
@@ -80,6 +81,9 @@ function data(state = initialPrice.data, action) {
         products: state.products.filter(product => product._id !== action.id)
       });
     }
+    case PRICE_CREATING_SUCCESS: {
+      return Object.assign({}, state, action.data);
+    }
     default: {
       return state;
     }
@@ -95,7 +99,7 @@ function view(state = initialPrice.view, action) {
     }
     case PRICE_CREATING_SUCCESS: {
       return Object.assign({}, state, {
-        updatingSuccess: true
+        creatingSuccess: true
       });
     }
     case RESET_PRICE_VIEW_IN_NEW: {
