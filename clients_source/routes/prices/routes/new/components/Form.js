@@ -3,6 +3,14 @@ import Input from '../../../../../common/components/InputForPriceEditing';
 import cnames from 'classnames';
 
 class Form extends Component {
+  constructor() {
+    super();
+
+    this.isProductFullyFieled = this.isProductFullyFieled.bind(this);
+    this.removeProductHandler = this.removeProductHandler.bind(this);
+    this.createProductHandler = this.createProductHandler.bind(this);
+  }
+
   componentWillReceiveProps(nextProps) {
     let currentProducts = this.props.data.products;
     let nextProducts = nextProps.data.products;
@@ -19,18 +27,24 @@ class Form extends Component {
     let willBeInputRemoved = (!nextEditMode.id && !nextEditMode.field);
     if (isInputOnProduct && willBeInputRemoved) {
       // Check are all fields fieled
-      let fields = ['name', 'unitOfMeasurement', 'cost'];
       let productWithInput = currentProducts.filter(product => {
         return product._id === currEditMode.id
       })[0];
-      let emptyFieldExists = false;
-      fields.forEach(field => {
-        if (!productWithInput[field] && !emptyFieldExists) {
-          this.props.actions.makeInput(productWithInput._id, field);
-          emptyFieldExists = true;
-        }
-      });
     }
+  }
+
+  isProductFullyFieled(product) {
+    console.log('checking');
+    let fields = ['name', 'unitOfMeasurement', 'cost'];
+    let emptyFieldExists = false;
+    fields.forEach(field => {
+      if (!product[field] && !emptyFieldExists) {
+        console.log('is empty', field, product._id);
+        this.props.actions.makeInput(product._id, field);
+        emptyFieldExists = true;
+      }
+    });
+    return !emptyFieldExists;
   }
 
   renderPriceTitle() {
@@ -46,7 +60,7 @@ class Form extends Component {
             notRequired
             placeholder="Назва каталогу..."
             ch={actions.changeMainField}
-            onCreate={actions.createNewProduct}
+            onCreate={this.createProductHandler}
             onBlur={actions.removeInput}
             showNotification={actions.showNotification}
             onError={actions.inputInsertError}
@@ -90,7 +104,7 @@ class Form extends Component {
               onBlur={actions.removeInput}
               hasError={editMode.hasError}
               ch={actions.changeMainField}
-              onCreate={actions.createNewProduct}
+              onCreate={this.createProductHandler}
               only="number"
               notRequired
               countFrom={0}
@@ -137,7 +151,7 @@ class Form extends Component {
               isMainField
               notRequired
               ch={actions.changeMainField}
-              onCreate={actions.createNewProduct}
+              onCreate={this.createProductHandler}
               onBlur={actions.removeInput}
               showNotification={actions.showNotification}
               onError={actions.inputInsertError}
@@ -210,7 +224,7 @@ class Form extends Component {
             editMode={editMode}
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
-            onCreate={actions.createNewProduct}
+            onCreate={this.createProductHandler}
             makeInput={actions.makeInput}
             showNotification={actions.showNotification}
             onError={actions.inputInsertError}
@@ -225,7 +239,9 @@ class Form extends Component {
         className="unit-column"
         onClick={() => canBeInput ? actions.makeInput(data._id, 'unitOfMeasurement') : null}
       >
-        {data.unitOfMeasurement}
+        {data.unitOfMeasurement
+          ? data.unitOfMeasurement
+          : <span className="not-fieled">Одиниці вим.</span>}
       </td>
     );
 
@@ -240,7 +256,7 @@ class Form extends Component {
             editMode={editMode}
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
-            onCreate={actions.createNewProduct}
+            onCreate={this.createProductHandler}
             makeInput={actions.makeInput}
             showNotification={actions.showNotification}
             onError={actions.inputInsertError}
@@ -254,7 +270,7 @@ class Form extends Component {
       <td
         className="cost-column"
         onClick={() => canBeInput ? actions.makeInput(data._id, 'cost') : null}
-      >{data.cost}</td>
+      >{data.cost ? data.cost : <span className="not-fieled">Ціна</span>}</td>
     );
 
     if (editMode.id === data._id && editMode.field === 'cost') {
@@ -273,7 +289,7 @@ class Form extends Component {
             countFrom={0}
             onBlur={actions.removeInput}
             ch={actions.changeProductField}
-            onCreate={actions.createNewProduct}
+            onCreate={this.createProductHandler}
             makeInput={actions.makeInput}
             showNotification={actions.showNotification}
             onError={actions.inputInsertError}
@@ -319,6 +335,23 @@ class Form extends Component {
     actions.removeNewProduct(productBeRemoved._id);
   }
 
+  createProductHandler() {
+    let { data, editMode, actions } = this.props;
+
+    if (editMode.id && editMode.field) {
+      let productWithInput = data.products.filter(product => {
+        return product._id === editMode.id;
+      })[0];
+      if (this.isProductFullyFieled(productWithInput)) {
+        actions.createNewProduct();
+      } else {
+        return;
+      }
+    } else {
+      actions.createNewProduct();
+    }
+  }
+
   render() {
     let { data, view, editMode, actions } = this.props;
     let { products } = data;
@@ -349,7 +382,7 @@ class Form extends Component {
                   <div className="controls">
                     <div
                       className="add-button"
-                      onClick={() => !editMode.hasError ? actions.createNewProduct() : null}
+                      onClick={() => !editMode.hasError ? this.createProductHandler() : null}
                     >
                       <i className="fa fa-plus" title="Додати пункт (Ctrl + Enter)"></i>
                     </div>
