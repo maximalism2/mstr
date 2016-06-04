@@ -104,7 +104,7 @@ class AppContainer extends Component {
           <div className="container">
             <div className="content has-text-centered">
               <p>
-                mstr.ws by <a href="http://fb.com/maxym.vyznyuk">Max Vyznyuk</a>.
+                mstr.ws is made by <a href="http://fb.com/maxym.vyznyuk">Max Vyznyuk</a>.
               </p>
             </div>
           </div>
