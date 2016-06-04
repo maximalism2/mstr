@@ -12,7 +12,10 @@ router.post('/', (req, res, next) => {
   const template = JSON.parse(JSON.stringify(req.body));
   // Make copy of products (in the future they can be deleted)
   const copyOfProductsTemplates = JSON.parse(JSON.stringify(template.products));
+  template.products = [];
   const result = Price.create(template);
+
+  console.log('\n\n Will create new price \n');
 
   if (result.error) {
     res.json(JSON.stringify(result));
@@ -22,13 +25,19 @@ router.post('/', (req, res, next) => {
     result.then(data => {
       // Make the new array of products, but now we add the required property
       let productsTemplates = copyOfProductsTemplates.map(item => {
-        // originPrice, which is _id of created price
-        return Object.assign({}, item, {
-          priceOrigin: data._id
-        });
+        // priceOrigin, which is _id of created price
+        if (item._id) {
+          delete item._id;
+        }
+        item.priceOrigin = data._id;
+        return item;
       });
 
+      console.log('\nproducts',  productsTemplates);
+
       const resultOfProducts = Product.createOf(productsTemplates);
+
+      console.log('\nResult of products creating', resultOfProducts);
 
       if (Array.isArray(resultOfProducts)) {
         let newPrice = JSON.parse(JSON.stringify(data));
