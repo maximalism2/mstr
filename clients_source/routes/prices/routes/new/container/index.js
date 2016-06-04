@@ -54,7 +54,8 @@ class NewPriceContainer extends Component {
   }
 
   createPrice() {
-    this.props.dispatch(actions.createPrice());
+    let { data } = this.props.newPrice;
+    this.props.dispatch(actions.createPrice(data));
   }
 
   setCounters(counters) {
@@ -85,6 +86,7 @@ class NewPriceContainer extends Component {
       <div>
         <Header
           view={newPrice.view}
+          data={newPrice.data}
           actions={actionsForComponents}
         />
         <Form

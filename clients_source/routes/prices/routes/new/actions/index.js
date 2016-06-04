@@ -73,23 +73,7 @@ import {
   PRICE_CREATING_SUCCESS
 } from '../consts';
 
-// export function createPrice(priceTemplate) {
-//   return async dispatch => {
-//     let url = origin + '/api/price/';
-//     const response = await create(url, priceTemplate);
-
-//     console.log('response', response);
-//     if (response.ok) {
-//       const result = await response.json();
-//       if (typeof result === 'string') {
-//         let textResult = JSON.parse(result);
-//         console.log('result', textResult);
-//       }
-//     }
-//   }
-// }
-
-export function createPrice(id, data) {
+export function createPrice(data) {
   return async dispatch => {
     dispatch({
       type: CREATING_LOADING,
@@ -102,9 +86,17 @@ export function createPrice(id, data) {
      * and discount of price's header
      */
 
-    let url = `${origin}/api/prices/`;
-    const response = await create(url, data);
+     // Crutches start
+     data = JSON.parse(JSON.stringify(data));
+     data.discount = Number(data.discount);
+     data.products = data.products.map(product => {
+      delete product._id;
+      product.cost = Number(product.cost);
+      return product;
+     });
 
+    let url = `${origin}/api/price/`;
+    const response = await create(url, data);
 
     if (response.ok) {
       dispatch({

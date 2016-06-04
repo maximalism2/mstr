@@ -67,11 +67,16 @@ class Input extends Component {
           if (productsIndex > 0) {
             for (let i = 1; i <= productsIndex; i++) {
               let id = productsPlural[productsIndex - i]._id;
-              let isNextRemoved = editMode.productsWillRemove.includes(id);
-              if (!isNextRemoved) {
-                if (isNumberField) {
-                  this.rightPad(e);
+              if (editMode.productsWillRemove) {
+                let isNextRemoved = editMode.productsWillRemove.includes(id);
+                if (!isNextRemoved) {
+                  if (isNumberField) {
+                    this.rightPad(e);
+                  }
+                  this.props.makeInput(id, type);
+                  break;
                 }
+              } else {
                 this.props.makeInput(id, type);
                 break;
               }
@@ -96,12 +101,17 @@ class Input extends Component {
           if (productsPlural[productsIndex + 1]) {
             for (let i = 1; i < (productsPlural.length - productsIndex); i++) {
               let id = productsPlural[productsIndex + i]._id;
-              let isNextRemoved = editMode.productsWillRemove.includes(id);
-              if (!isNextRemoved) {
-                if (isNumberField) {
-                  this.rightPad(e);
+              if (editMode.productsWillRemove) {
+                let isNextRemoved = editMode.productsWillRemove.includes(id);
+                if (!isNextRemoved) {
+                  if (isNumberField) {
+                    this.rightPad(e);
+                  }
+                  this.props.makeInput(id, type);
+                  break;
                 }
-                this.props.makeInput(id, type)
+              } else {
+                this.props.makeInput(id, type);
                 break;
               }
             }
@@ -136,11 +146,16 @@ class Input extends Component {
       if (productsPlural[productsIndex + 1] && !canGoToColumn) {
         for (let i = 1; i < (productsPlural.length - productsIndex); i++) {
           let id = productsPlural[productsIndex + i]._id;
-          let isNextRemoved = editMode.productsWillRemove.includes(id);
-          if (!isNextRemoved) {
-            if (isNumberField) {
-              this.rightPad(e);
+          if (editMode.productsWillRemove) {
+            let isNextRemoved = editMode.productsWillRemove.includes(id);
+            if (!isNextRemoved) {
+              if (isNumberField) {
+                this.rightPad(e);
+              }
+              this.props.makeInput(id, productsFields[0]);
+              return;
             }
+          } else {
             this.props.makeInput(id, productsFields[0]);
             return;
           }
@@ -169,11 +184,16 @@ class Input extends Component {
       if (productsIndex > 0 && !canGoToColumn) {
         for (let i = 1; i <= productsIndex; i++) {
           let id = productsPlural[productsIndex - i]._id;
-          let isNextRemoved = editMode.productsWillRemove.includes(id);
-          if (!isNextRemoved) {
-            if (isNumberField) {
-              this.rightPad(e);
+          if (editMode.productsWillRemove) {
+            let isNextRemoved = editMode.productsWillRemove.includes(id);
+            if (!isNextRemoved) {
+              if (isNumberField) {
+                this.rightPad(e);
+              }
+              this.props.makeInput(id, productsFields[productsFields.length - 1]);
+              return;
             }
+          } else {
             this.props.makeInput(id, productsFields[productsFields.length - 1]);
             return;
           }

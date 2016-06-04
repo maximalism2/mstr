@@ -37,7 +37,7 @@ const initialPrice = {
 function data(state = initialPrice.data, action) {
   switch (action.type) {
     case CHANGE_MAIN_FIELD_IN_NEW: {
-      return Object.assign({}, state.data, {
+      return Object.assign({}, state, {
         [action.field]: action.value
       });
     }
@@ -54,6 +54,30 @@ function data(state = initialPrice.data, action) {
       });
       return Object.assign({}, state, {
         products: newProducts
+      });
+    }
+    case CREATE_NEW_PRODUCT_IN_NEW: {
+      let currentProducts = state.products;
+      let firstProduct = currentProducts[currentProducts.length - 1];
+      let newProductTemplate = {
+        _id: Math.round(Math.random() * 1000000),
+        name: '',
+        unitOfMeasurement: '',
+        cost: ''
+      }
+      if (firstProduct !== undefined) {
+        newProductTemplate.name = firstProduct.name;
+        newProductTemplate.unitOfMeasurement = firstProduct.unitOfMeasurement;
+        newProductTemplate.cost = firstProduct.cost;
+      }
+
+      return Object.assign({}, state, {
+        products: [...state.products, newProductTemplate]
+      });
+    }
+    case REMOVE_NEW_PRODUCT_IN_NEW: {
+      return Object.assign({}, state, {
+        products: state.products.filter(product => product._id !== action.id)
       });
     }
     default: {
@@ -100,40 +124,6 @@ function editMode(state = initialPrice.editMode, action) {
     case INPUT_INSERT_ERROR_IN_NEW: {
       return Object.assign({}, state, {
         hasError: action.flag
-      });
-    }
-    case CREATE_NEW_PRODUCT_IN_NEW: {
-      let currentProducts = state.data.products;
-      let firstProduct = currentProducts[currentProducts.length - 1];
-      let newProductTemplate = {
-        _id: Math.round(Math.random() * 1000000),
-        name: '',
-        unitOfMeasurement: '',
-        cost: '',
-        new: true
-      }
-      if (firstProduct !== undefined) {
-        newProductTemplate.name = firstProduct.name;
-        newProductTemplate.unitOfMeasurement = firstProduct.unitOfMeasurement;
-        newProductTemplate.cost = firstProduct.cost;
-      }
-
-      let newProducts = [...state.data.products, newProductTemplate];
-
-      let newData = Object.assign({}, state.data, {
-        products: newProducts
-      });
-
-      return Object.assign({}, state, {
-        data: newData
-      });
-    }
-    case REMOVE_NEW_PRODUCT_IN_NEW: {
-      let newData = Object.assign({}, state.data, {
-        products: state.data.products.filter(product => product._id !== action.id)
-      });
-      return Object.assign({}, state, {
-        data: newData
       });
     }
     case RESET_PRICE_VIEW_IN_NEW: {

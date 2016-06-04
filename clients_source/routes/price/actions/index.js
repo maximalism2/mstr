@@ -21,7 +21,7 @@ export function fetchPriceById(id) {
        * I need to do transformation from umber to string on field cost of product
        * and discount of price's header
        */
-      
+
       // Crutches start
       let data = JSON.parse(await response.json());
       data.discount = String(data.discount);

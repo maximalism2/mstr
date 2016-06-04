@@ -12,3 +12,39 @@
 .icon.is-required {
   color: $danger;
 }
+
+.table-body.empty {
+  border: 0;
+
+  tr {
+    &:hover {
+      background: transparent;
+    }
+  }
+}
+
+.no-products {
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.table-body.body-of-new-price:not(.empty) {
+  tr {
+    &.active-row {
+      background: transparentize($green, .75);
+
+      .input {
+        border-color: $green;
+      }
+
+      &:hover {
+        background: transparentize($green, .7) !important;
+      }
+    }
+
+    &:hover {
+      background: transparentize($green, .87);
+    }
+  }
+}

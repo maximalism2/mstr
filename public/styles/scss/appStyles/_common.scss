@@ -163,11 +163,13 @@ button.button {
   td {
     border-bottom-color: rgba(0,0,0,.05)
   }
+
+  .editing {
+    padding: 0;
+  }
 }
 
 .editing { // For editing cells
-  padding: 0;
-
   .input {
     height: 36px;
     padding-top: 1px;
