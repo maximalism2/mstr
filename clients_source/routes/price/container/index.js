@@ -173,7 +173,10 @@ class PriceContainer extends Component {
 
   componentDidMount() {
     let { id } = this.props.params;
-    this.props.dispatch(actions.fetchPriceById(id));
+    let { data } = this.props.price;
+    if (!data._id || data._id !== id) {
+      this.props.dispatch(actions.fetchPriceById(id));
+    }
   }
 
   componentWillUnmount() {

@@ -12,6 +12,10 @@ import {
   SET_COUNTERS
 } from '../consts';
 
+import {
+  PRICE_CREATING_SUCCESS
+} from '../../prices/routes/new/consts';
+
 const initialPrice = {
   data: {
     name: '',
@@ -50,6 +54,9 @@ function data(state = initialPrice.data, action) {
       return Object.assign({}, state, action.data);
     }
     case PRICE_UPDATING_SUCCESS: {
+      return Object.assign({}, state, action.data);
+    }
+    case PRICE_CREATING_SUCCESS: {
       return Object.assign({}, state, action.data);
     }
     default: {

@@ -13,7 +13,8 @@ import {
   MAKE_INPUT_IN_NEW, REMOVE_INPUT_IN_NEW,
   CHANGE_PRODUCT_FIELD_IN_NEW, CHANGE_MAIN_FIELD_IN_NEW,
   INPUT_INSERT_ERROR_IN_NEW,
-  CREATE_NEW_PRODUCT_IN_NEW, REMOVE_NEW_PRODUCT_IN_NEW
+  CREATE_NEW_PRODUCT_IN_NEW, REMOVE_NEW_PRODUCT_IN_NEW,
+  RESET_NEW_PRICE_VIEW
 } from '../consts';
 
 export function makeInput(id = null, field) {
@@ -119,16 +120,5 @@ export function createPrice(data) {
         message: result
       })
     }
-  }
-}
-
-import {
-  SET_COUNTERS_IN_NEW
-} from '../consts';
-
-export function setCounters(counters) {
-  return {
-    type: SET_COUNTERS_IN_NEW,
-    counters
   }
 }

@@ -7,8 +7,7 @@ import {
   CREATING_LOADING,
   PRICE_CREATING_ERROR,
   PRICE_CREATING_SUCCESS,
-  RESET_PRICE_VIEW_IN_NEW,
-  SET_COUNTERS_IN_NEW
+  RESET_PRICE_VIEW_IN_NEW
 } from '../consts';
 
 const initialPrice = {
@@ -28,9 +27,6 @@ const initialPrice = {
     id: null,
     field: '',
     hasError: false,
-    counters: {
-      created: 0
-    }
   }
 }
 
@@ -131,14 +127,7 @@ function editMode(state = initialPrice.editMode, action) {
       });
     }
     case RESET_PRICE_VIEW_IN_NEW: {
-      return Object.assign({}, state, {
-        hasError: false
-      });
-    }
-    case SET_COUNTERS_IN_NEW: {
-      return Object.assign({}, state, {
-        counters: action.counters
-      });
+      return Object.assign({}, state, initialPrice.editMode);
     }
     default: {
       return state;
