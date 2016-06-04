@@ -3,3 +3,12 @@
     border-color: $green;
   }
 }
+
+.title.price-title.not-fieled,
+.not-fieled {
+  color: $grey;
+}
+
+.icon.is-required {
+  color: $danger;
+}
