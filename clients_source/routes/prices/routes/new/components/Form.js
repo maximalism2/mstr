@@ -309,6 +309,7 @@ class Form extends Component {
       "empty": !data.products.length,
       "has-error": editMode.hasError
     })
+
     return (
       <div className="container">
         <div className="price-content container new-price">

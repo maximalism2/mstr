@@ -5,21 +5,26 @@ class Input extends Component {
   constructor() {
     super();
 
+    this.state = {
+      showedNotification: []
+    };
+
     this.walkOnFields = this.walkOnFields.bind(this);
     this.needToExit = this.needToExit.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
     this.blurHandler = this.blurHandler.bind(this);
     this.createByKeyBoard = this.createByKeyBoard.bind(this);
     this.rightPad = this.rightPad.bind(this);
+    this.showNotification = this.showNotification.bind(this);
   }
 
   createByKeyBoard(e) {
     if (e.ctrlKey && e.shiftKey && e.which === 13) {
       e.preventDefault();
-      let { showNotification, onError, onCreate } = this.props;
+      let { onError, onCreate } = this.props;
       if (e.target.value === '') {
         let message = 'Це поле не може бути порожнім';
-        showNotification('danger', message);
+        this.showNotification('danger', message);
         onError();
         e.target.focus();
       } else {
@@ -27,6 +32,33 @@ class Input extends Component {
       }
     }
   }
+
+  showNotification(type, message) {
+    let { showNotification } = this.props;
+    let { showedNotification } = this.state;
+    if (!showedNotification.includes(message)) {
+      showNotification(type, message);
+      this.setState({
+        showedNotification: [
+          ...showedNotification,
+          message
+        ]
+      });
+      setTimeout(() => {
+        if (this.updater.isMounted(this)) {
+          this.setState({
+            showedNotification: this.state.showedNotification.filter(note => {
+              note !== message
+            })
+          });
+        }
+      }, 10000);
+    } else {
+      return;
+    }
+  }
+
+
 
   needToExit(e) {
     if (e.which === 27) {
@@ -204,7 +236,7 @@ class Input extends Component {
 
   changeHandler(e) {
     let {
-      data, type, only, showNotification, isMainField, ch, hasError, onError,
+      data, type, only, isMainField, ch, hasError, onError,
       countFrom, countTo
     } = this.props;
     let id = data._id;
@@ -221,19 +253,19 @@ class Input extends Component {
           let check = Number(value);
           if (isNaN(check)) {
             let message = 'Допустимі дані тільки числового типу';
-            showNotification('warning', message);
+            this.showNotification('warning', message);
           } else {
             let isInRange = true;
 
             if (countFrom !== undefined && check < countFrom) {
               let message = `Значення повинне бути більше нуля ${countFrom}`;
-              showNotification('warning', message);
+              this.showNotification('warning', message);
               isInRange = false;
             }
 
             if (countTo !== undefined && check > countTo) {
               let message = `Значення повинне бути менше ніж ${countTo}`;
-              showNotification('warning', message);
+              this.showNotification('warning', message);
               isInRange = false;
             }
 
@@ -290,12 +322,12 @@ class Input extends Component {
   }
 
   blurHandler(e) {
-    let { showNotification, onError, onBlur, only, notRequired } = this.props;
+    let { onError, onBlur, only, notRequired } = this.props;
     let { value } = e.target;
 
     if (value.length === 0 && !notRequired) {
       let message = 'Це поле не може бути порожнім';
-      showNotification('danger', message);
+      this.showNotification('danger', message);
       onError();
       e.target.focus();
     } else {

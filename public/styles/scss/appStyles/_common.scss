@@ -2,6 +2,13 @@ html {
   background: lighten($bg-color, 1%);
 }
 
+html,
+body,
+#root,
+.app {
+  height: calc(100% - 5px);
+}
+
 .main-container {
   margin-top: 30px;
 }
@@ -33,15 +40,29 @@ html {
 
   }
 
-  .footer {
+  .app-container {
+    min-height: 100%;
+    margin-bottom: -55px;
+
+    &::after {
+      content: "";
+      display: block;
+      height: 70px;
+    }
+  }
+
+
+  .app-footer {
     background: white;
+    height: 70px;
     padding-top: 20px;
-    padding-bottom: 25px;
+    padding-bottom: 5px;
+    margin-top: -5px;
 
     .container {
       max-width: 960px;
       border-top: 1px solid #eee;
-      padding-top:25px;
+      padding-top:20px;
     }
   }
 }
@@ -171,17 +192,19 @@ button.button {
 
 .editing { // For editing cells
   .input {
-    height: 36px;
+    height: 37px;
     padding-top: 1px;
     padding-bottom: 1px;
     border-radius: 0;
     border-color: $yellow;
+    margin-top: -1px;
     margin-left: -9px;
     padding-left: 18px;
   }
 
   &:last-child {
     .input {
+      height: 38px;
       box-sizing: content-box;
       padding-bottom: 0;
       padding-right: 0;
@@ -196,5 +219,11 @@ button.button {
       padding-left: 9px;
       width: calc(100% - 7px);
     }
+  }
+}
+
+.table-body.has-error {
+  .input {
+    border-color: $red !important;
   }
 }
