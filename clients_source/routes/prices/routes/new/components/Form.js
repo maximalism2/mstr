@@ -12,6 +12,25 @@ class Form extends Component {
       let { _id } = nextProducts[nextProducts.length - 1];
       this.props.actions.makeInput(_id, 'name');
     }
+
+    let currEditMode = this.props.editMode;
+    let nextEditMode = nextProps.editMode;
+    let isInputOnProduct = (currEditMode.id && currEditMode.field);
+    let willBeInputRemoved = (!nextEditMode.id && !nextEditMode.field);
+    if (isInputOnProduct && willBeInputRemoved) {
+      // Check are all fields fieled
+      let fields = ['name', 'unitOfMeasurement', 'cost'];
+      let productWithInput = currentProducts.filter(product => {
+        return product._id === currEditMode.id
+      })[0];
+      let emptyFieldExists = false;
+      fields.forEach(field => {
+        if (!productWithInput[field] && !emptyFieldExists) {
+          this.props.actions.makeInput(productWithInput._id, field);
+          emptyFieldExists = true;
+        }
+      });
+    }
   }
 
   renderPriceTitle() {
@@ -330,7 +349,7 @@ class Form extends Component {
                   <div className="controls">
                     <div
                       className="add-button"
-                      onClick={() => actions.createNewProduct()}
+                      onClick={() => !editMode.hasError ? actions.createNewProduct() : null}
                     >
                       <i className="fa fa-plus" title="Додати пункт (Ctrl + Enter)"></i>
                     </div>
