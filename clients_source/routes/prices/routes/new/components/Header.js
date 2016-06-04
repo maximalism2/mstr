@@ -7,11 +7,11 @@ class Header extends Component {
     let { data, actions } = this.props;
 
     let dataIsNotPulled = !data.name.length || !data.products.length;
-
     if (data.products.length === 1) {
-      dataIsNotPulled = data.products[0].name === '';
-      dataIsNotPulled = data.products[0].unitOfMeasurement === '';
-      dataIsNotPulled = data.products[0].cost === '' || 0;
+      dataIsNotPulled = data.products[0].name === '' ||
+       data.products[0].unitOfMeasurement === '' ||
+       data.products[0].cost === '' ||
+       !data.name.length;
     }
 
     let createButtonCNames = cnames({

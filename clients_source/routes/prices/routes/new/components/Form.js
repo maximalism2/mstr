@@ -295,40 +295,19 @@ class Form extends Component {
     let { actions, editMode, data } = this.props;
 
     if (editMode.hasError) {
-      if (editMode.id) {
-        let { id, field } = editMode;
-        let itemInStaticPrice = null;
-        let itemInEditMode = editMode.data.products.filter(product => product._id === id)[0];
-
-        if (itemInEditMode.new) {
-          // Take previous product
-          let indexOfPrevious = data.products.length - 1;
-          itemInStaticPrice = data.products[indexOfPrevious];
-        } else {
-          itemInStaticPrice = data.products.filter(product => product._id === id)[0];
-        }
-        let value = itemInStaticPrice[field];
-        actions.inputInsertError(false);
-        actions.removeInput();
-        actions.changeProductField(id, field, value);
-      } else if (editMode.field) {
-        let { field } = editMode;
-        let value = data[field];
-        actions.removeInput();
-        actions.inputInsertError(false);
-        actions.changeMainField(field, value);
-      }
+      actions.inputInsertError(false);
     }
     actions.removeNewProduct(productBeRemoved._id);
   }
 
   render() {
-    let { data, view, actions } = this.props;
+    let { data, view, editMode, actions } = this.props;
     let { products } = data;
 
     let tbodyCNames = cnames({
       "table-body body-of-new-price": true,
-      "empty": !data.products.length
+      "empty": !data.products.length,
+      "has-error": editMode.hasError
     })
     return (
       <div className="container">

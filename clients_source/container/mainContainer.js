@@ -102,8 +102,7 @@ class AppContainer extends Component {
           <div className="container">
             <div className="content has-text-centered">
               <p>
-                <strong>Mstr</strong> by <a href="http://fb.com/maxym.vyznyuk">Max Vyznyuk</a>. The website content
-                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC ANS 4.0</a>.
+                mstr.ws by <a href="http://fb.com/maxym.vyznyuk">Max Vyznyuk</a>.
               </p>
             </div>
           </div>
