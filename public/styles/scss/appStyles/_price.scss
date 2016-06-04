@@ -154,6 +154,55 @@
     opacity: .2;
     transition: .3s;
   }
+
+  .new-product {
+    background: transparentize($green, .87);
+
+    &.active-row {
+      background: transparentize($green, .75);
+
+      .input {
+        border-color: $green;
+      }
+
+      &:hover {
+        background: transparentize($green, .7) !important;
+      }
+    }
+
+    &:hover {
+      background: transparentize($green, .75);
+    }
+  }
+
+  .will-be-removed {
+    background: transparentize($red, .98);
+    color: transparentize($grey, .5);
+    user-select: none;
+
+    &:hover {
+      background: transparentize($red, .95) !important;
+      color: transparentize($grey, .85);
+
+      .cancel-removing-btn {
+        display: inline-block;
+      }
+    }
+
+    .cancel-removing-btn {
+      display: none;
+      background: transparent;
+      border: 0;
+      position: absolute;
+      top: 1px;
+      right: calc(100% - 174px);
+      color: darken($red, 5%);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
 .price-title {
@@ -267,54 +316,6 @@ tr {
           }
         }
       }
-    }
-  }
-}
-
-.new-product {
-  background: transparentize($green, .87);
-
-  &.active-row {
-    background: transparentize($green, .75);
-
-    .input {
-      border-color: $green;
-    }
-
-    &:hover {
-      background: transparentize($green, .7) !important;
-    }
-  }
-
-  &:hover {
-    background: transparentize($green, .75);
-  }
-}
-
-.will-be-removed {
-  background: transparentize($red, .98);
-  color: transparentize($grey, .5);
-
-  &:hover {
-    background: transparentize($red, .95) !important;
-    color: transparentize($grey, .85);
-
-    .cancel-removing-btn {
-      display: inline-block;
-    }
-  }
-
-  .cancel-removing-btn {
-    display: none;
-    background: transparent;
-    border: 0;
-    position: absolute;
-    top: 1px;
-    right: calc(100% - 174px);
-    color: darken($red, 5%);
-
-    &:hover {
-      text-decoration: underline;
     }
   }
 }
