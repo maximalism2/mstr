@@ -35,12 +35,10 @@ class Form extends Component {
   }
 
   isProductFullyFieled(product) {
-    console.log('checking');
     let fields = ['name', 'unitOfMeasurement', 'cost'];
     let emptyFieldExists = false;
     fields.forEach(field => {
       if (!product[field] && !emptyFieldExists) {
-        console.log('is empty', field, product._id);
         this.props.actions.makeInput(product._id, field);
         emptyFieldExists = true;
       }
