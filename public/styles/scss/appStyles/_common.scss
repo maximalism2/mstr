@@ -5,6 +5,7 @@ html {
 html,
 body,
 #root,
+#root > div,
 .app {
   height: calc(100% - 5px);
 }
