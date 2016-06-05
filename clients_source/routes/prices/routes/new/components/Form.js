@@ -35,6 +35,9 @@ class Form extends Component {
   }
 
   isProductFullyFieled(product) {
+    if (!product) {
+      return true;
+    }
     let fields = ['name', 'unitOfMeasurement', 'cost'];
     let emptyFieldExists = false;
     fields.forEach(field => {
