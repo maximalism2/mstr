@@ -101,6 +101,25 @@ body,
   }
 }
 
+.info-icon {
+  color: $grey-light;
+  display: block;
+  margin: auto;
+  cursor: pointer;
+  width: 24px;
+  line-height: 32px;
+  margin-bottom: -32px;
+  transition: .1s;
+
+  &:hover {
+    color: $grey;
+  }
+
+  &:active {
+    color: $grey-dark;
+  }
+}
+
 .button.is-primary.is-outlined {
   &:hover,
   &:focus {

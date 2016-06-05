@@ -23,10 +23,17 @@ class Header extends Component {
 
     return (
       <div className="header-wrapper">
-        <header className="price-list-header new-header">
-          <Link to="/prices/" className="button is-link icon-link">
+        <header className="price-list-header new-header is-clearfix">
+          <Link to="/prices/" className="button is-link icon-link is-pulled-left">
             <i className="fa fa-arrow-left"></i>
           </Link>
+
+          <i
+            className="fa fa-info-circle info-icon"
+            aria-hidden="true"
+            onClick={() => console.log('show hint')}
+          ></i>
+
           <button
             className={createButtonCNames}
             onClick={() => actions.createPrice()}
