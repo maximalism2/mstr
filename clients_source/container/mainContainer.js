@@ -36,6 +36,11 @@ class AppContainer extends Component {
       stroke: '#1fc8db',
       strokeWidth: '40'
     }
+
+    // this.props.route.getComponent(require, (p1, p2) => {
+    //   console.log(p1, p2);
+    // });
+
     return (
       <div className="app">
         <div className="app-container">

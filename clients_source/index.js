@@ -26,8 +26,9 @@ var routes = {
     getChildRoutes(location, callback) {
       require.ensure([], function(require) {
         callback(null, [
-          require('./routes/prices'),
-          require('./routes/price/')
+          require('./routes/prices/'),
+          require('./routes/price/'),
+          require('./routes/orders/')
           // And so one
         ]);
       });
