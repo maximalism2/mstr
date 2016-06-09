@@ -1,8 +1,6 @@
-module.exports = {
+import OrdersContainer from './container';
+
+export default {
   path: 'orders/',
-  getComponent(location, cb) {
-    require.ensure([], require => {
-      cb(null, require('./container/'));
-    })
-  }
+  component: OrdersContainer,
 }

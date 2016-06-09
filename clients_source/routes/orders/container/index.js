@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-class Orders extends Component {
+class OrdersContainer extends Component {
   render() {
     return (
       <div className="orders-list">
@@ -17,4 +17,4 @@ function select(state) {
   }
 }
 
-export default connect(select)(Orders);
+export default connect(select)(OrdersContainer);

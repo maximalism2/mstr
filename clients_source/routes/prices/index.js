@@ -1,19 +1,9 @@
-/*****  For routes *****/
-/****/ import PricesContainer from './container';
-/****/
-/****/
-/****/
-/******* end *********/
+import PricesContainer from './container';
 
 module.exports = {
-  path: 'prices',
-  // component: PricesContainer,
+  path: 'prices/',
+  component: PricesContainer,
   childRoutes: [
     require('./routes/new/')
-  ],
-  getComponent(location, cb) {
-    require.ensure([], require => {
-      cb(null, require('./container/'));
-    })
-  }
+  ]
 }
