@@ -205,6 +205,8 @@ class PriceContainer extends Component {
       updateCounters: this.updateCounters
     }
 
+    console.log('something');
+
     return (
       <div className="prices content">
         <Header

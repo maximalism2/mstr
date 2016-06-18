@@ -472,6 +472,8 @@ class Content extends Component {
   render() {
     let { view } = this.props;
 
+    console.log('view ----', view);
+
     if (view.loading) {
       return <Loader />;
     } else if (view.error) {
