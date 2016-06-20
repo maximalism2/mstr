@@ -10,7 +10,7 @@ module.exports = {
   // component: PriceContainer,
   getComponent(location, cb) {
     require.ensure([], require => {
-      cb(null, require('./container/'));
+      cb(null, require('./container/').default);
     })
   }
 }

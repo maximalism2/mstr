@@ -212,6 +212,10 @@ tr {
 
 .table-header {
   tr {
+    th {
+      border-bottom-width: 1px !important;
+    }
+
     .controls {
       position: relative;
       float: left;
