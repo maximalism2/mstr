@@ -11,7 +11,7 @@ class LoginContainer extends Component {
     let svgLogoStyle = {
       fill: 'none',
       stroke: '#1fc8db',
-      strokeWidth: '50'
+      strokeWidth: '20'
     }
 
     let boundActions = bindActionCreators(actions, dispatch)
