@@ -14,7 +14,7 @@ class LoginContainer extends Component {
       strokeWidth: '20'
     }
 
-    let boundActions = bindActionCreators(actions, dispatch)
+    let boundActions = bindActionCreators(actions, dispatch);
 
     return (
       <div className="login-page">
