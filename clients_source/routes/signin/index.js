@@ -1,5 +1,5 @@
 module.exports = {
-  path: 'price/:id/',
+  path: '/',
   // component: PriceContainer,
   getComponent(location, cb) {
     require.ensure([], require => {

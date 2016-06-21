@@ -7,6 +7,9 @@ import { CHANGE_MAIN_FIELD, CHANGE_PRODUCT_FIELD } from '../routes/price/consts/
 import {
   CHANGE_MAIN_FIELD_IN_NEW, CHANGE_PRODUCT_FIELD_IN_NEW
 } from '../routes/prices/routes/new/consts';
+import {
+  CHANGE_LOGIN_FORM_FIELD
+} from '../routes/signin/consts';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 
@@ -21,7 +24,8 @@ if (NODE_ENV === 'development') {
       && action.type !== CHANGE_MAIN_FIELD
       && action.type !== CHANGE_PRODUCT_FIELD
       && action.type !== CHANGE_MAIN_FIELD_IN_NEW
-      && action.type !== CHANGE_PRODUCT_FIELD_IN_NEW;
+      && action.type !== CHANGE_PRODUCT_FIELD_IN_NEW
+      && action.type !== CHANGE_LOGIN_FORM_FIELD;
       return res;
     },
     collapsed: true,

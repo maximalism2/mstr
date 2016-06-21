@@ -1,0 +1,55 @@
+.login-page {
+  padding: .1px;
+  margin-bottom: -5px;
+
+  &::before {
+    content: '';
+    display: block;
+    height: 5px;
+    background: linear-gradient(to right,#d9eaf9 0,#1fc8db 30%,#24e6ac 70%,#eaf7ff 100%);
+  }
+
+  .title {
+    color: $text;
+    text-align: center;
+    margin-top: 3rem;
+  }
+  
+  .site-name {
+    color: $turquoise;
+  }
+
+  .site-logo {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    margin-top: 5px;
+    vertical-align: bottom;
+  }
+}
+
+.signing-box {
+  margin: 4vh auto;
+  padding: 2rem;
+  border: 1px solid #fafafa;
+  border-radius: 3px;
+  width: 430px;
+  background: #fefeff;
+
+
+  .input {
+    margin-bottom: .7rem;
+    width: 70%;
+  }
+
+  .button-box {
+    display: block;
+    margin: auto;
+  }
+
+  .divider {
+    line-height: 32px;
+    display: inline-block;
+    margin: 0 .3rem;
+  }
+}

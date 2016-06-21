@@ -18,9 +18,8 @@ var routes = {
   childRoutes: [{
     path: '/',
     getComponent(location, callback) {
-      console.log('get component');
       require.ensure([], function(require) {
-        callback(null, require('./container/mainContainer').default)
+        callback(null, require('./container/mainContainer').default);
       });
     },
     getChildRoutes(location, callback) {
@@ -33,6 +32,20 @@ var routes = {
         ]);
       });
     }
+  },{
+    path: '/login',
+    getComponent(location, callback) {
+      require.ensure([], require => {
+        callback(null, require('./routes/signin/container/').default);
+      });
+    }
+  // },{
+  //   path: '/signup',
+  //   getComponent(location, callback) {
+  //     require.ensure([], require => {
+  //       callback(null, require('./routes/signup').default);
+  //     });
+  //   }
   }]
 }
 
