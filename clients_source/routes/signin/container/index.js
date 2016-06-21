@@ -20,12 +20,16 @@ class LoginContainer extends Component {
       <div className="login-page">
         <h1 className="title is-3">
           Увійдіть в особистий кабінет на {" "}
-          <span className="site-name">mstr.ws<i className="site-logo">
+          <span className="site-name">mstr.ws</span>
+        </h1>
+        <div className="login-box has-text-centered signing-box">
+          <i className="site-logo">
             <svg
-               viewBox="0 0 1500 1500"
-               id="mainIco"
-               className="main-logo"
-               style={{objectFit: 'contain'}}>
+              viewBox="0 0 1500 1500"
+              id="mainIco"
+              className="main-logo"
+              style={{objectFit: 'contain'}}
+            >
               <path
                  d="m 758.40909,23.238525 c -25.24881,0 -46.37266,17.513981 -51.9375,41.0625 C 609.93152,74.189989 523.10013,111.2979 456.62784,166.45727 c -6.20266,-2.52094 -12.98585,-3.90625 -20.09375,-3.90625 c -29.49182,0 -53.40625,23.91443 -53.40625,53.40625 c 0,8.31961 1.9187,16.19924 5.3125,23.21875 c -41.11491,57.15271 -64.84375,124.52844 -64.84375,196.6875 c 0,6.29908 0.17383,12.55837 0.53125,18.78125 l -0.53125,0 l 0,123.84375 c -28.10129,15.64186 -43.8125,33.05773 -43.8125,51.40625 c 0,67.9194 214.69315,122.96875 479.5,122.96875 c 264.80681,0 479.46871,-55.04935 479.46871,-122.96875 c 0,-18.71678 -16.3349,-36.45627 -45.5,-52.34375 l 0,-122.90625 l -0.5625,0 c 0.3576,-6.22118 0.5625,-12.48357 0.5625,-18.78125 c 0,-71.29406 -23.1968,-137.91572 -63.4062,-194.625 c 4.0599,-7.53114 6.375,-16.12546 6.375,-25.28125 c 0,-29.49182 -23.9145,-53.40625 -53.4063,-53.40625 c -7.7476,0 -15.1053,1.6573 -21.75,4.625 C 994.4832,111.62344 907.30209,74.232543 810.34659,64.301025 c -5.56484,-23.548519 -26.68869,-41.0625 -51.9375,-41.0625 z"
                  id="path4356"
@@ -39,9 +43,7 @@ class LoginContainer extends Component {
                  id="path4787"
                  style={svgLogoStyle} />
             </svg>
-          </i></span>
-        </h1>
-        <div className="login-box has-text-centered signing-box">
+          </i>
           <LoginForm
             actions={boundActions}
             login={login}

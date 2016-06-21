@@ -18,28 +18,29 @@
   .site-name {
     color: $turquoise;
   }
-
-  .site-logo {
-    display: inline-block;
-    height: 30px;
-    width: 30px;
-    margin-top: 5px;
-    vertical-align: bottom;
-  }
 }
 
 .signing-box {
-  margin: 4vh auto;
-  padding: 2rem;
+  margin: 20vh auto 10vh;
+  padding: 1.5rem;
   border: 1px solid #fafafa;
   border-radius: 3px;
-  width: 430px;
-  background: #fefeff;
+  width: 330px;
+  background: rgb(254, 254, 255);
+  position: relative;
+
+  .site-logo {
+    position: absolute;
+    top: -150px;
+    right: -20px;
+    height: 200px;
+    width: 200px;
+    z-index: -2;
+  }
 
 
   .input {
-    margin-bottom: .7rem;
-    width: 70%;
+    margin-bottom: 1.2rem;
   }
 
   .button-box {
