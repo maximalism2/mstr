@@ -52,7 +52,6 @@ export function read(url) {
  * @return {Promise}
  */
 export function create(url, body = {}) {
-  console.log('body', body);
   return fetch(url, {
     ...defaultParams,
     method: 'post',
