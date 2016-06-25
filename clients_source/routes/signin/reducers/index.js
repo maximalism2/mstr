@@ -12,7 +12,7 @@ import { combineReducers } from 'redux';
 
 const initialLoginState = {
   data: {
-    login: '',
+    username: '',
     password: ''
   },
   view: {
@@ -23,7 +23,7 @@ const initialLoginState = {
         error: false,
         message: ''
       },
-      login: {
+      username: {
         error: false,
         message: ''
       },

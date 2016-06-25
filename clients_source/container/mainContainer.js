@@ -83,7 +83,7 @@ class AppContainer extends Component {
               </span>
 
               <div className="nav-right nav-menu">
-                <a href="" className="nav-item">
+                <a href="/api/logout" className="nav-item">
                   <i className="fa fa-cog"></i>
                 </a>
               </div>

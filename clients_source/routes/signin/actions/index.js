@@ -29,6 +29,7 @@ export const login = data => async dispatch => {
   dispatch(loginingLoading(true));
 
   let url = `${origin}/api/login/`;
+  console.log('data', data);
   const response = await create(url, data);
 
   if (response.ok) {
@@ -41,6 +42,10 @@ export const login = data => async dispatch => {
     dispatch(loginingError(await response.json()));
   }
 }
+
+// export const register = data => async dispatch => {
+//   dispatch)
+// }
 
 export const toRegister = () => ({
   type: TO_REGISTER

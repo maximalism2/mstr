@@ -11,32 +11,33 @@ class LoginForm extends Component {
   submitHandler(e) {
     e.preventDefault();
 
-    let { login, password } = e.target.elements
+    let { username, password } = e.target.elements
 
-    let loginHasError = this.hasError({
-      field: 'login',
-      value: login.value
+    let usernameHasError = this.hasError({
+      field: 'username',
+      value: username.value
     });
     let passwordHasError = this.hasError({
       field: 'password',
       value: password.value
     });
 
-    if (loginHasError || passwordHasError) {
+    if (usernameHasError || passwordHasError) {
       return;
     } else {
       this.props.actions.login({
-        login: login.value,
+        username: username.value,
         password: password.value
       });
     }
   }
 
   hasError(check) {
+    let { actions } = this.props;
     switch (check.field) {
-      case 'login': {
+      case 'username': {
         if (!check.value.length) {
-          this.props.actions.validationError('login', 'Це поле повинне бути заповнене');
+          validationError('username', 'Це поле повинне бути заповнене');
           return true;
         } else {
           return false;
@@ -44,7 +45,7 @@ class LoginForm extends Component {
       }
       case 'password': {
         if (!check.value.length) {
-          this.props.actions.validationError('password', 'Це поле повинне бути заповнене');
+          actions.validationError('password', 'Це поле повинне бути заповнене');
           return true;
         } else {
           return false;
@@ -65,15 +66,15 @@ class LoginForm extends Component {
         <div className="inputs-box">
           <input
             type="text"
-            name="login"
+            name="username"
             className="input"
             placeholder="email або номер телефону"
-            value={login.data.login}
+            value={login.data.username}
             onChange={e => actions.changeLoginFormField({
-              login: e.target.value
+              username: e.target.value
             })}
             onBlur={e => this.hasError({
-              field: 'login',
+              field: 'username',
               value: e.target.value
             })}
           />

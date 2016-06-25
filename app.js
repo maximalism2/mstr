@@ -5,11 +5,20 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var pathToRegexp = require('path-to-regexp');
-var compression = require('compression')
+var compression = require('compression');
+var passport = require('passport');
+var passportInit = require('./setup/passport');
+var isAuthenticated = require('./middlewares/isAuthenticated');
 
 var routes = require('./routes/index');
 var price = require('./routes/price');
+var controllers = {
+  login: require('./controllers/login'),
+  register: require('./controllers/register'),
+  logout: require('./controllers/logout')
+}
 
 var app = express();
 
@@ -20,15 +29,27 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.svg')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded());
+app.use(session({secret: 'SECRET'}));
 app.use(compression());
+
+// Passport:
+app.use(passport.initialize());
+app.use(passport.session());
+passportInit();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
+app.all('/api/price', isAuthenticated);
 app.use('/api/price', price);
+app.post('/api/login', controllers.login);
+app.get('/api/logout', controllers.logout);
+app.use('/api/register', controllers.register);
+app.use('/api/logout', controllers.logout);
 app.use('/', routes);
 
 // catch 404 and forward to error handler
