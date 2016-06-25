@@ -17,7 +17,7 @@ var createStoreWithMiddleware = applyMiddleware(
   thunkMiddleware
 )(createStore);
 
-if (NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development') {
   const loggerMiddleware = createLogger({
     predicate: (getState, action) => {
       let res = action.type !== CHANGE_FIELD

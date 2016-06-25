@@ -7,7 +7,7 @@
   },
   "private": false,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "MSTR_ENV=production babel-node ./bin/www",
     "debug": "DEBUG=maestro:* npm start",
     "build": "NODE_ENV=production gulp",
     "dev-client": "NODE_ENV=development gulp hot",
@@ -15,6 +15,8 @@
     "test-travis": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec ./test/* && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "dependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-register": "^6.9.0",
     "body-parser": "^1.13.3",
     "bulma": "0.0.26",
     "classnames": "^2.2.5",

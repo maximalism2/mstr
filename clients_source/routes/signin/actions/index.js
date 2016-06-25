@@ -28,7 +28,7 @@ export const loginingError = error => ({
 export const login = data => async dispatch => {
   dispatch(loginingLoading(true));
 
-  let url = `${origin}/api/login/`;
+  let url = `${origin}/api/register/`;
   console.log('data', data);
   const response = await create(url, data);
 
