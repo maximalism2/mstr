@@ -38,5 +38,6 @@ function readById(id, willReturnChunks) {
 }
 
 module.exports = {
-  readById: readById
+  readById: readById,
+  renderFullPage: require('./renderFullPage')
 }

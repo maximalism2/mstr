@@ -1,6 +1,6 @@
 var origin = 'http://localhost:3000';
 
-if (NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   origin = '';
 }
 

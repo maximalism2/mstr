@@ -4,7 +4,7 @@ import reactDOMServer from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import routes from './routes';
+import createRoutes from './routes';
 
 // import AppContainer from './container/mainContainer';
 if (process.env.MSTR_ENV !== 'production') {
@@ -13,14 +13,19 @@ if (process.env.MSTR_ENV !== 'production') {
 
 import configureStore from './store/';
 
-const store = configureStore();
+let initialState = {};
+if (typeof window !== 'undefined') {
+  initialState = JSON.parse(JSON.stringify(decodeURI(window.__initialAppState__)));
+}
+
+const store = configureStore(initialState);
 const history = /*syncHistoryWithStore(*/browserHistory/*, store)*/;
 
 
 
 var App = () => (
   <Provider store={store}>
-    <Router history={history} routes={routes} />
+    {createRoutes(history)}
   </Provider>
 );
 

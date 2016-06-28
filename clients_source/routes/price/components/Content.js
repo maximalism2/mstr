@@ -472,7 +472,13 @@ class Content extends Component {
   render() {
     let { view } = this.props;
 
-    if (view.loading) {
+    let isOnServeSide = false;
+
+    if (process.env.MSTR_ENV === 'production') {
+      isOnServeSide = true;
+    }
+
+    if (view.loading || isOnServeSide) {
       return <Loader />;
     } else if (view.error) {
       return <Error />;
