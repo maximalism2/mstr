@@ -27,15 +27,8 @@ router.get('/*+/', function(req, res, next) {
 
   let routes = createRoutes(history);
   let location = history.createLocation(req.url);
-  console.log('\n\n\n');
-  console.log(routes);
-  console.log('\n\n\n');
-  console.log(location);
-  console.log('\n\n\n');
 
   match({ routes, location, history }, (error, redirectLocation, renderProps) => {
-    console.log('something');
-    console.log(error, redirectLocation, renderProps);
     if (redirectLocation) {
       res.redirect(301, redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
