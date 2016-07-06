@@ -6,10 +6,7 @@ module.exports = function(req, res, next) {
   var custBody = [];
   req.on('data', (data) => {
     var bodyOfRequest = JSON.parse(data.toString('utf8'));
-    console.log(req.body);
     req.body = bodyOfRequest;
-    console.log(req.body);
-
     passport.authenticate('local', 
       function(err, user, info) {
         console.info('user:', user, info);

@@ -15,6 +15,7 @@ if (process.env.MSTR_ENV === 'production') {
           <Route path="price/" component={require('./price/container').default} />
           <Route path="price/:priceID/" component={require('./price/container').default} />
           <Route path="orders/" component={require('./orders/container').default} />
+          <Route path="login/" component={require('./signin/container').default} />
         </Route>
         <IndexRoute component={require('../container/mainContainer').default} />
       </Router>

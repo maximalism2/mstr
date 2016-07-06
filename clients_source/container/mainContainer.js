@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import Notifications from '../common/notifications/components';
 import { deleteNotification } from '../common/notifications/actions';
+import { logout } from '../common/actions/signing';
 
 let ErrorLink = () => (
   <h1 className="title">
