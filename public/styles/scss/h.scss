@@ -1,32 +1,149 @@
-@import '../../../node_modules/bulma/bulma.sass';
-
-.main-container {
-  margin-top: 30px;
+@import "../../../node_modules/bulma/sass/utilities/variables.sass";
+$white-transparentize: rgba(255,255,255,.95);
+.container {
+  max-width: 1100px;
 }
 
-.main-title {
-  // text-align: center;
+.title {
+  color: $grey-dark;
+}
 
-  small {
-    font-size: $size-5;
-    color: $grey-light;
+.site-header {
+  .hero {
+    background: url(/images/building-joy-planning-plans.jpg) no-repeat 50% 50%;
+    background-size: cover;
   }
 }
 
-.login-input {
-  margin: $size-6 0;
+.hello-card {
+  border: 0;
+  min-width: 45%;
+  padding: 1rem;
+  border-radius: 5px;
+  background: $white-transparentize;
+
+  .title {
+    font-size: 2.3rem;
+    text-align: center;
+    margin-bottom: .3rem;
+  }
 }
 
-.sign-up-link {
-  background: transparent;
+.hero-header {
+  background: $white-transparentize;
+
+  .main-logo {
+    width: 40px;
+    height: 60px;
+    margin-right: .3rem;
+  }
+
+  .site-name {
+    font-size: 2rem;
+    color: $turquoise;
+  }
+
+  .nav-item.is-medium {
+    font-size: 1.15rem;
+
+    &:hover {
+      color: $turquoise;
+    }
+  }
 }
 
-.footer {
-  // text-align: center;
+.main-register-form {
+  .control {
+    margin: 1rem 0;
+  }
+
+  .button {
+    display: block;
+    margin: auto;
+  }
 }
 
-.signing-controlls {
-  .header-item:first-child {
-    padding-right: 0;
+.site-stats {
+  font-size: 1.2rem;
+  background: white;
+  padding: 1rem 0;
+
+  .level {
+    padding: 2rem 0;
+
+    .title {
+      font-size: 2.5rem;
+      margin-bottom: .3rem;
+    }
+
+    .heading {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.browser-mockup {
+  border-top: 2em solid rgba(230, 230, 230, 0.7);
+  position: relative;
+  border-radius: 3px 3px 0 0;
+  z-index: 10;
+}
+
+.browser-mockup:before {
+  display: block;
+  position: absolute;
+  content: '';
+  top: -1.25em;
+  left: 1em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background-color: #aaa;
+  box-shadow: 0 0 0 2px #aaa, 1.5em 0 0 2px #aaa, 3em 0 0 2px #aaa;
+}
+
+.about-ui {
+  padding: 1rem 0;
+  perspective: 2600px;
+
+  & > .title {
+    margin: 2.5rem 0 1.5rem;
+    font-size: 2.4rem;
+    text-align: center;
+  }
+}
+
+.nav-on-ui {
+  text-align: center;
+}
+
+.ui-screen {
+  .browser-mockup {
+    margin: 2rem auto;
+    width: 60%;
+    max-width: 700px;
+    transition: 1s;
+
+    &:hover {
+      transform: translateX(-34%) rotateY(40deg);
+      
+      &::after {
+        transform: rotateX(65deg);
+        z-index: -4;
+      }
+    }
+
+    &::after {
+      display: block;
+      content: '';
+      width: 110%;
+      height: 50px;
+      background: radial-gradient(ellipse at center,rgba(100, 100, 100, .5) 16%, transparent 65%);
+      margin-left: -5%;
+      margin-top: -10px;
+      transform: rotateX(60deg);
+      transition: 1s;
+      z-index: -4;
+    }
   }
 }

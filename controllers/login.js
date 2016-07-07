@@ -7,7 +7,7 @@ module.exports = function(req, res, next) {
   req.on('data', (data) => {
     var bodyOfRequest = JSON.parse(data.toString('utf8'));
     req.body = bodyOfRequest;
-    passport.authenticate('local', 
+    passport.authenticate('local',
       function(err, user, info) {
         console.info('user:', user, info);
         return err
