@@ -10,7 +10,7 @@ var config = {
   output: {
     path: path.resolve(__dirname, 'public/js'),
     filename: '[name].js',
-    publicPath: '/js/'
+    publicPath: '/static/js/'
   },
   resolve: {
     extensions: ['', '.jsx', '.js', '.json'],

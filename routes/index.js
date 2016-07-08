@@ -24,7 +24,7 @@ import createRoutes from '../clients_source/routes';
 
 router.get('/', function(req, res, next) {
   console.log('send index.html')
-  res.sendFile(path.resolve(__dirname, '../public/index.html'));
+  res.sendFile(path.resolve(__dirname, '../public/templates/index.html'));
 });
 
 router.get('*', function(req, res, next) {

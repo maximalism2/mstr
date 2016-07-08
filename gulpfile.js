@@ -123,19 +123,10 @@ gulp.task('webpack-dev-server', (cb) => {
         bypass: function(req, res, proxyOptions) {
           if (req.headers.accept.indexOf('html') !== -1) {
             console.log('Skipping proxy for browser request. /*');
-            return '/index.html';
+            return '/htmlsrc/index.html';
           }
         }
       },
-      '/home*': {
-        secure: false,
-        bypass: function(req, res, proxyOptions) {
-          if (req.headers.accept.indexOf('html') !== -1) {
-            console.log('Skipping proxy for browser request. /home*');
-            return '/home.html';
-          }
-        }
-      }
     }
   }).listen((process.env.PORT || 8000), 'localhost', function (err, result) {
     if (err) {
