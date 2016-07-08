@@ -22,6 +22,11 @@ import createRoutes from '../clients_source/routes';
 
 /* GET home page. */
 
+router.get('/', function(req, res, next) {
+  console.log('send index.html')
+  res.sendFile(path.resolve(__dirname, '../public/index.html'));
+});
+
 router.get('*', function(req, res, next) {
   let history = useRouterHistory(useQueries(createMemoryHistory))();
   const store = configureStore();
@@ -29,11 +34,6 @@ router.get('*', function(req, res, next) {
   let userAuthenticated = req.isAuthenticated();
   console.log('\n\n\n')
   console.log('req.isAuthenticated()', userAuthenticated, req.url);
-  if (req.url === '/') {
-    if (!userAuthenticated) {
-      res.sendFile(path.resolve(__dirname, '../public/htmlsrc/home.html'));
-    }
-  }
 
   if (userAuthenticated || (req.url === '/login/' || req.url === '/registration/')) {
     let routes = createRoutes(history);

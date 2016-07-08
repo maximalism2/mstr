@@ -104,6 +104,7 @@ $white-transparentize: rgba(255,255,255,.95);
 
 .about-ui {
   padding: 1rem 0;
+  -moz-perspective: 2600px;
   perspective: 2600px;
 
   & > .title {
