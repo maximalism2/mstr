@@ -21,35 +21,46 @@ import {
 import createRoutes from '../clients_source/routes';
 
 /* GET home page. */
-router.get('/*+/', function(req, res, next) {
+
+router.get('*', function(req, res, next) {
   let history = useRouterHistory(useQueries(createMemoryHistory))();
   const store = configureStore();
 
-  let routes = createRoutes(history);
-  let location = history.createLocation(req.url);
-
-  match({ routes, location, history }, (error, redirectLocation, renderProps) => {
-    if (redirectLocation) {
-      res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-    } else if (error) {
-      res.status(500).send(error.message);
-    } else if (renderProps == null) {
-      // res.send(404, 'Not found')
-    } else {
-      let reduxState = encodeURI(JSON.stringify(store.getState()));
-      let html = renderToString(
-        <Provider store={store}>
-          { <RouterContext {...renderProps}/> }
-        </Provider>
-      );
-      res.send(renderFullPage(html, reduxState));
+  let userAuthenticated = req.isAuthenticated();
+  console.log('\n\n\n')
+  console.log('req.isAuthenticated()', userAuthenticated, req.url);
+  if (req.url === '/') {
+    if (!userAuthenticated) {
+      res.sendFile(path.resolve(__dirname, '../public/htmlsrc/home.html'));
     }
-  })
+  }
 
-  console.log('\n\n\n');
-  console.log('mathing in /')
-  // let pathToIndex = path.resolve(__dirname, '../public/index.html');
-  // res.sendFile(pathToIndex);
+  if (userAuthenticated || (req.url === '/login/' || req.url === '/registration/')) {
+    let routes = createRoutes(history);
+    let location = history.createLocation(req.url);
+
+    match({ routes, location, history }, (error, redirectLocation, renderProps) => {
+      if (redirectLocation) {
+        res.redirect(301, redirectLocation.pathname + redirectLocation.search);
+      } else if (error) {
+        res.status(500).send(error.message);
+      } else if (renderProps == null) {
+        // res.send(404, 'Not found')
+      } else {
+        let reduxState = encodeURI(JSON.stringify(store.getState()));
+        let html = renderToString(
+          <Provider store={store}>
+            { <RouterContext {...renderProps}/> }
+          </Provider>
+        );
+        console.log('here it will be send response');
+        res.send(renderFullPage(html, reduxState));
+      }
+    })
+  } else {
+    res.redirect('/');
+    // res.sendFile(path.resolve(__dirname, '../public/htmlsrc/home.html'));
+  }
 });
 
 module.exports = router;

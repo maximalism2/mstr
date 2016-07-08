@@ -44,7 +44,6 @@ passportInit();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
-app.all('/api/price', isAuthenticated);
 app.use('/api/price', price);
 app.post('/api/login', controllers.login);
 app.get('/api/logout', controllers.logout);
@@ -55,11 +54,12 @@ app.use('/', routes);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 
-  // var err = new Error('Not Found');
-  // err.status = 404;
+  var err = new Error('Not Found');
+  err.status = 404;
+  res.status(404).sendFile(path.resolve(__dirname, './public/htmlsrc/home.html'));
   // next(err);
-  let pathToIndex = path.resolve(__dirname, '../public/index.html');
-  res.sendFile(pathToIndex);
+  // let pathToIndex = path.resolve(__dirname, '../public/index.html');
+  // res.sendFile(pathToIndex);
 });
 
 // development error handler
