@@ -1,6 +1,7 @@
 'use strict';
 var express = require('express');
 var router = express.Router();
+var querystring = require('querystring');
 var Price = require('../db/models/Prices');
 var Product = require('../db/models/Products');
 var Types = require('mongoose').Types;
@@ -9,9 +10,21 @@ var diff = require('deep-diff').diff;
 
 router.post('/', (req, res, next) => {
   // Make copy of request body
-  const template = JSON.parse(JSON.stringify(req.body));
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk;
+  });
+
+  req.on('end', () => {
+    console.log('body', JSON.parse(body.toString('utf8')).products);
+    res.send({"ok": true});
+  })
+  /*const template = JSON.parse(JSON.stringify(chunk.toString('utf8')));
   // Make copy of products (in the future they can be deleted)
+  console.log(template)
+  console.log('template created')
   const copyOfProductsTemplates = JSON.parse(JSON.stringify(template.products));
+  console.log('copy created')
   template.products = [];
   const result = Price.create(template);
 
@@ -57,7 +70,7 @@ router.post('/', (req, res, next) => {
         res.end();
       }
     });
-  }
+  }*/
 });
 
 router.get('/:id/', (req, res, next) => {
