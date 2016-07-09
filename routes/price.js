@@ -9,68 +9,64 @@ var helpers = require('./helpers/');
 var diff = require('deep-diff').diff;
 
 router.post('/', (req, res, next) => {
-  // Make copy of request body
-  let body = '';
-  req.on('data', chunk => {
-    body += chunk;
-  });
-
-  req.on('end', () => {
-    console.log('body', JSON.parse(body.toString('utf8')).products);
-    res.send({"ok": true});
-  })
-  /*const template = JSON.parse(JSON.stringify(chunk.toString('utf8')));
-  // Make copy of products (in the future they can be deleted)
-  console.log(template)
-  console.log('template created')
-  const copyOfProductsTemplates = JSON.parse(JSON.stringify(template.products));
-  console.log('copy created')
-  template.products = [];
-  const result = Price.create(template);
-
-  console.log('\n\n Will create new price \n');
-
-  if (result.error) {
-    res.json(JSON.stringify(result));
-    res.end();
-  } else {
-
-    result.then(data => {
-      // Make the new array of products, but now we add the required property
-      let productsTemplates = copyOfProductsTemplates.map(item => {
-        // priceOrigin, which is _id of created price
-        if (item._id) {
-          delete item._id;
-        }
-        item.priceOrigin = data._id;
-        return item;
-      });
-
-      console.log('\nproducts',  productsTemplates);
-
-      const resultOfProducts = Product.createOf(productsTemplates);
-
-      console.log('\nResult of products creating', resultOfProducts);
-
-      if (Array.isArray(resultOfProducts)) {
-        let newPrice = JSON.parse(JSON.stringify(data));
-        newPrice.products = resultOfProducts;
-        let productsIds = resultOfProducts.map(product => product._id);
-        let updatingResult = Price.update(newPrice._id, { products: productsIds });
-        if (updatingResult.error) {
-          console.log('\n\nerror\n\n', updatingResult);
-        } else {
-          updatingResult.then(someRes => {
-          })
-        }
-        res.json(JSON.stringify(newPrice));
-        res.end();
-      }  else if (resultOfProducts instanceof Object && resultOfProducts.error) {
-        res.json(JSON.stringify(resultOfProducts));
-        res.end();
-      }
+  if (req.session.passport && req.session.passport.user) { // If user logined
+    // Make copy of request body
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
     });
-  }*/
+
+    req.on('end', () => {
+      const template = JSON.parse(body.toString('utf8'));
+      // Make copy of products (in the future they can be deleted)
+      const copyOfProductsTemplates = JSON.parse(JSON.stringify(template.products));
+      template.products = [];
+      const result = Price.create(template);
+
+      if (result.error) {
+        res.json(JSON.stringify(result));
+        res.end();
+      } else {
+
+        result.then(data => {
+          // Make the new array of products, but now we add the required property
+          let productsTemplates = copyOfProductsTemplates.map(item => {
+            // priceOrigin, which is _id of created price
+            if (item._id) {
+              delete item._id;
+            }
+            item.priceOrigin = data._id;
+            return item;
+          });
+
+          const resultOfProducts = Product.createOf(productsTemplates);
+
+          if (Array.isArray(resultOfProducts)) {
+            let newPrice = JSON.parse(JSON.stringify(data));
+            newPrice.products = resultOfProducts;
+            let productsIds = resultOfProducts.map(product => product._id);
+            let updatingResult = Price.update(newPrice._id, { products: productsIds });
+            if (updatingResult.error) {
+              console.log('\n\nerror\n\n', updatingResult);
+            } else {
+              updatingResult.then(someRes => {
+              })
+            }
+            res.json(JSON.stringify(newPrice));
+            res.end();
+          }  else if (resultOfProducts instanceof Object && resultOfProducts.error) {
+            res.json(JSON.stringify(resultOfProducts));
+            res.end();
+          }
+        });
+      }
+    })
+  } else { // If it is unlogined user
+    res.status(401).send({
+      error: true,
+      message: 'User should be logined'
+    });
+  }
 });
 
 router.get('/:id/', (req, res, next) => {

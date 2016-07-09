@@ -7,8 +7,12 @@ import {
   CREATING_LOADING,
   PRICE_CREATING_ERROR,
   PRICE_CREATING_SUCCESS,
-  RESET_PRICE_VIEW_IN_NEW
+  RESET_PRICE_VIEW_IN_NEW,
+  SHOW_LINK_TO_LOGIN
 } from '../consts';
+import {
+  DELETE_NOTIFICATION
+} from '../../../../../common/notifications/consts';
 
 const initialPrice = {
   data: {
@@ -21,7 +25,8 @@ const initialPrice = {
   view: {
     creatingLoading: false,
     creatingSuccess: false,
-    creatingError: false
+    creatingError: false,
+    needToShowLoginLink: false
   },
   editMode: {
     id: null,
@@ -95,11 +100,30 @@ function view(state = initialPrice.view, action) {
     }
     case PRICE_CREATING_SUCCESS: {
       return Object.assign({}, state, {
-        creatingSuccess: true
+        creatingSuccess: true,
+        creatingError: false
       });
     }
     case RESET_PRICE_VIEW_IN_NEW: {
       return Object.assign({}, state, initialPrice.view);
+    }
+    case DELETE_NOTIFICATION: {
+      return Object.assign({}, state, {
+        creatingError: false
+      });
+    }
+    case PRICE_CREATING_ERROR: {
+      return Object.assign({}, state, {
+        creatingError: {
+          status: action.status,
+          message: action.message
+        }
+      });
+    }
+    case SHOW_LINK_TO_LOGIN: {
+      return Object.assign({}, state, {
+        needToShowLoginLink: true
+      });
     }
     default: {
       return state;

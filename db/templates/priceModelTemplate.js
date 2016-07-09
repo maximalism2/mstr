@@ -20,6 +20,10 @@ const template = {
     enum: ['UAH', 'USD', 'EUR'],
     required: true
   },
+  ownerId: {
+    type: Schema.Types.ObjectId,
+    required: true
+  },
   products: [Schema.Types.ObjectId], // Array of products IDs
   updatedAt: {                       // Date of last updating (modifying)
     type: Date,

@@ -1,6 +1,17 @@
-@import '../../../node_modules/bulma/bulma.sass';
+// @import '../../../node_modules/bulma/bulma.sass';
+@import '../../../node_modules/bulma/sass/utilities/utilities';
+
 $bg-color: #fcfcff;
 $trans-dur: .5s;
+$size-normal: 14px;
+
+body {
+  font-size: $size-normal;
+}
+
+span {
+  font-weight: inherit;
+}
 
 @import './appStyles/common';
 @import './appStyles/spinner';

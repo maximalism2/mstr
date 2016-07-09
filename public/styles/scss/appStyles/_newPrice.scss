@@ -25,9 +25,12 @@
 }
 
 .no-products {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-align: center;
-  font-weight: 700;
+
+  .not-fieled {
+    font-weight: 700;
+  }
 }
 
 .table-body.body-of-new-price:not(.empty) {
@@ -47,5 +50,33 @@
     &:hover {
       background: transparentize($green, .87);
     }
+  }
+}
+
+.prices .message-to-login {
+  margin-bottom: -30px;
+  z-index: 1;
+  position: relative;
+  margin-top: 1rem;
+
+  .message-body {
+    color: $red;
+
+    a {
+      color: darken($red, 15%);
+      border-color: darken($red, 15%);
+
+      &:hover {
+        color: darken($red, 30%);
+        border-color: darken($red, 30%);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 830px) {
+  .products-list {
+    width: calc(100% - 30px);
+    float: right;
   }
 }

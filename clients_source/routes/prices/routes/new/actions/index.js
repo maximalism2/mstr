@@ -99,6 +99,7 @@ export function createPrice(data) {
 
     let url = `${origin}/api/price/`;
     const response = await create(url, data);
+    console.log(response);
 
     if (response.ok) {
       dispatch({
@@ -110,15 +111,37 @@ export function createPrice(data) {
         data: JSON.parse(await response.json())
       });
     } else {
-      let result = await response.json();
+      let message = '';
+      let { status } = response;
+      switch (status) {
+        case 401: {
+          message = 'Щоб створити каталог потрібно авторизуватися.';
+          break;
+        }
+        case 408: {
+          message = 'Перевищено час очікування.';
+          break;
+        }
+        default: {
+          message = 'Невідома помилка, спробуйте будь ласка пізніше.';
+          break;
+        }
+      }
       dispatch({
         type: CREATING_LOADING,
         flag: false
       });
       dispatch({
         type: PRICE_CREATING_ERROR,
-        message: result
-      })
+        message,
+        status: status
+      });
     }
   }
 }
+
+import { SHOW_LINK_TO_LOGIN } from '../consts';
+
+export const showLinkToLogin = () => ({
+  type: SHOW_LINK_TO_LOGIN
+});

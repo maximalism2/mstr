@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Header, Form } from '../components';
+import { Header, Form, LinkToLogin } from '../components';
 import { showNotification } from '../../../../../common/notifications/actions';
 import * as actions from '../actions';
 
@@ -19,6 +19,7 @@ class NewPriceContainer extends Component {
     this.createPrice = this.createPrice.bind(this);
     this.setCounters = this.setCounters.bind(this);
     this.showNotification = this.showNotification.bind(this);
+    this.showLinkToLogin = this.showLinkToLogin.bind(this);
   }
 
   resetPriceView() {
@@ -66,6 +67,10 @@ class NewPriceContainer extends Component {
     this.props.dispatch(showNotification(type, message));
   }
 
+  showLinkToLogin() {
+    this.props.dispatch(actions.showLinkToLogin());
+  }
+
   componentWillReceiveProps(nextProps) {
     let currentView = this.props.newPrice.view;
     let nextView = nextProps.newPrice.view;
@@ -75,10 +80,18 @@ class NewPriceContainer extends Component {
       this.showNotification('success', message);
       this.props.history.push(`/price/${nextProps.newPrice.data._id}/`);
     }
+
+    if (!currentView.creatingError && typeof nextView.creatingError.status === 'number') {
+      this.showNotification('danger', nextView.creatingError.message);
+
+      if (nextView.creatingError.status === 401) {
+        this.showLinkToLogin();
+      }
+    }
   }
 
   render() {
-    let { newPrice } = this.props;
+    let { newPrice, dispatch } = this.props;
     let actionsForComponents = {
       resetPriceView: this.resetPriceView,
       makeInput: this.makeInput,
@@ -90,7 +103,8 @@ class NewPriceContainer extends Component {
       removeNewProduct: this.removeNewProduct,
       createPrice: this.createPrice,
       setCounters: this.setCounters,
-      showNotification: this.showNotification
+      showNotification: this.showNotification,
+      showLinkToLogin: this.showLinkToLogin
     }
 
     return (
@@ -100,6 +114,9 @@ class NewPriceContainer extends Component {
           data={newPrice.data}
           actions={actionsForComponents}
         />
+        {newPrice.view.needToShowLoginLink &&
+          <LinkToLogin />
+        }
         <Form
           data={newPrice.data}
           view={newPrice.view}
