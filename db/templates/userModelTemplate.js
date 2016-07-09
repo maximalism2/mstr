@@ -1,5 +1,5 @@
 /**
- * Template for document "Product" in database
+ * Template for document "User" in database
  */
 
 const template = {

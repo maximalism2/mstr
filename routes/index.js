@@ -24,7 +24,11 @@ import createRoutes from '../clients_source/routes';
 
 router.get('/', function(req, res, next) {
   console.log('send index.html')
-  res.sendFile(path.resolve(__dirname, '../public/templates/index.html'));
+  if (req.isAuthenticated()) {
+    res.sendFile(path.resolve(__dirname, '../public/home.html'));
+  } else {
+    res.sendFile(path.resolve(__dirname, '../public/templates/index.html'));
+  }
 });
 
 router.get('*', function(req, res, next) {
@@ -36,27 +40,28 @@ router.get('*', function(req, res, next) {
   console.log('req.isAuthenticated()', userAuthenticated, req.url);
 
   if (userAuthenticated || (req.url === '/login/' || req.url === '/registration/')) {
-    let routes = createRoutes(history);
-    let location = history.createLocation(req.url);
+    res.sendFile(path.resolve(__dirname, '../public/home.html'));
+    // let routes = createRoutes(history);
+    // let location = history.createLocation(req.url);
 
-    match({ routes, location, history }, (error, redirectLocation, renderProps) => {
-      if (redirectLocation) {
-        res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-      } else if (error) {
-        res.status(500).send(error.message);
-      } else if (renderProps == null) {
-        // res.send(404, 'Not found')
-      } else {
-        let reduxState = encodeURI(JSON.stringify(store.getState()));
-        let html = renderToString(
-          <Provider store={store}>
-            { <RouterContext {...renderProps}/> }
-          </Provider>
-        );
-        console.log('here it will be send response');
-        res.send(renderFullPage(html, reduxState));
-      }
-    })
+    // match({ routes, location, history }, (error, redirectLocation, renderProps) => {
+    //   if (redirectLocation) {
+    //     res.redirect(301, redirectLocation.pathname + redirectLocation.search);
+    //   } else if (error) {
+    //     res.status(500).send(error.message);
+    //   } else if (renderProps == null) {
+    //     // res.send(404, 'Not found')
+    //   } else {
+    //     let reduxState = encodeURI(JSON.stringify(store.getState()));
+    //     let html = renderToString(
+    //       <Provider store={store}>
+    //         { <RouterContext {...renderProps}/> }
+    //       </Provider>
+    //     );
+    //     console.log('here it will be send response');
+    //     res.send(renderFullPage(html, reduxState));
+    //   }
+    // })
   } else {
     res.redirect('/');
     // res.sendFile(path.resolve(__dirname, '../public/htmlsrc/home.html'));

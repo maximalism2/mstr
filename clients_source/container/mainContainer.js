@@ -85,7 +85,13 @@ class AppContainer extends Component {
 
               <div className="nav-right nav-menu">
                 <a href="/api/logout" className="nav-item">
-                  <i className="fa fa-cog"></i>
+                  <img 
+                    src="https://market.ionic.io/img/user-default.png"
+                    // src="https://www.fanspole.com/assets/default_user-c283cfbc3d432e22b1d2f1eef515d0b9.png"
+                    className="avatar-smallest"
+                  />
+                  <span className="dropdown-caret">
+                  </span>
                 </a>
               </div>
             </div>

@@ -17,8 +17,13 @@ router.post('/', (req, res, next) => {
     });
 
     req.on('end', () => {
-      const template = JSON.parse(body.toString('utf8'));
+      let prepared = JSON.parse(body.toString('utf8'));
       // Make copy of products (in the future they can be deleted)
+      const template = {
+        ...prepared,
+        ownerId: Types.ObjectId(req.session.passport.user)
+      }
+      console.log(template);
       const copyOfProductsTemplates = JSON.parse(JSON.stringify(template.products));
       template.products = [];
       const result = Price.create(template);
