@@ -37,6 +37,7 @@ export const login = data => async dispatch => {
     dispatch({
       type: LOGIN
     });
+    location.href = location.origin;
   } else {
     dispatch(loginingLoading(false));
     dispatch(loginingError(await response.json()));
