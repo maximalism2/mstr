@@ -14,9 +14,24 @@ const template = {
     type: String,
     required: true
   },
+  biography: {
+    type: String,
+    validate: {
+      validator: function(v) {
+        return v.length <= 2000;
+      },
+      message: 'biography must be shorter than 2000 characters!'
+    },
+  },
   phoneNumber: {
     type: String,
-    required: true
+    required: true,
+    validate: {
+      validator: function(v) {
+        return /\+38\d{3}-\d{3}-\d{4}/.test(v);
+      },
+      message: '{VALUE} is not a valid phone number'
+    }
   }
   avatar: {
     fullSize: {
