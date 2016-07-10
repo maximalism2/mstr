@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import cnames from 'classnames';
 import Notifications from '../common/notifications/components';
 import { deleteNotification } from '../common/notifications/actions';
 import { logout } from '../common/actions/signing';
+import * as actions from '../common/actions/common';
 
 let ErrorLink = () => (
   <h1 className="title">
@@ -32,15 +35,15 @@ class AppContainer extends Component {
   }
 
   render() {
+    let { dropdownMenuOpened } = this.props.commonView;
+
     let svgLogoStyle = {
       fill: 'none',
       stroke: '#1fc8db',
       strokeWidth: '40'
     }
 
-    // this.props.route.getComponent(require, (p1, p2) => {
-    //   console.log(p1, p2);
-    // });
+    let boundActions = bindActionCreators(actions, this.props.dispatch);
 
     return (
       <div className="app">
@@ -85,7 +88,10 @@ class AppContainer extends Component {
 
               <div className="nav-right nav-menu">
                 <div className="nav-item dropdown-menu">
-                  <div className="dropdown-selector">
+                  <div
+                    className="dropdown-selector"
+                    onClick={() => boundActions.toggleDropdownMenu()}
+                  >
                     <img 
                       src="https://market.ionic.io/img/user-default.png"
                       // src="https://www.fanspole.com/assets/default_user-c283cfbc3d432e22b1d2f1eef515d0b9.png"
@@ -94,12 +100,21 @@ class AppContainer extends Component {
                     <span className="dropdown-caret">
                     </span>
                   </div>
-                  <div className="dropdown-overlay hidden"></div>
-                  <div className="dropdown-body hidden">
-                    <a className="dropdown-item">Item1</a>
-                    <a className="dropdown-item">Item2</a>
-                    <a className="dropdown-item">Item3</a>
-                    <a className="dropdown-item">Item4</a>
+                  <div
+                    className={cnames({
+                      "dropdown-overlay": true,
+                      "hidden": !dropdownMenuOpened
+                    })}
+                    onClick={() => boundActions.toggleDropdownMenu()}
+                  ></div>
+                  <div className={cnames({
+                    "dropdown-body": true,
+                    "hidden": !dropdownMenuOpened
+                  })}>
+                    <a className="dropdown-item">Мій профіль</a>
+                    <a className="dropdown-item">Допомога</a>
+                    <div className="divider"></div>
+                    <a href="/api/logout/" className="dropdown-item">Вийти</a>
                   </div>
                 </div>
               </div>
@@ -140,13 +155,15 @@ AppContainer.contextTypes = {
 }
 
 AppContainer.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.element,
+  dispatch: PropTypes.func.isRequired,
 }
 
 function select(state) {
   return {
     routing: state.routing,
-    notifications: state.notifications
+    notifications: state.notifications,
+    commonView: state.commonView
   }
 }
 
