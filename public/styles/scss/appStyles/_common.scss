@@ -251,7 +251,7 @@ button.button {
   width: 0;
   height: 0;
   margin-top: 3px;
-  vertical-align: -2px;
+  vertical-align: 5px;
   content: "";
   border: 4px solid rgba(150, 150, 150, .8);
   border-right-color: transparent;
@@ -264,4 +264,55 @@ button.button {
   height: 25px;
   margin-right: 5px;
   border-radius: $radius;
+}
+
+.nav .nav-item {
+  &:hover {
+    color: $blue;
+
+    .dropdown-caret {
+      border-top-color: $blue;
+    }
+  }
+}
+
+.dropdown-menu {
+  position: relative;
+
+  .hidden {
+    display: none;
+  }
+
+  .dropdown-selector {
+    cursor: pointer;
+  }
+
+  .dropdown-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    cursor: crosshair;
+  }
+
+  .dropdown-body {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    box-shadow: 0 0 5px rgba(0,0,0,.3);
+
+    .dropdown-item {
+      min-width: 150px;
+      padding: 4px 12px;
+      text-align: left;
+      display: block;
+
+      &:hover {
+        background: $blue;
+        color: white;
+      }
+    }
+  }
 }

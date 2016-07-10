@@ -84,15 +84,24 @@ class AppContainer extends Component {
               </span>
 
               <div className="nav-right nav-menu">
-                <a href="/api/logout" className="nav-item">
-                  <img 
-                    src="https://market.ionic.io/img/user-default.png"
-                    // src="https://www.fanspole.com/assets/default_user-c283cfbc3d432e22b1d2f1eef515d0b9.png"
-                    className="avatar-smallest"
-                  />
-                  <span className="dropdown-caret">
-                  </span>
-                </a>
+                <div className="nav-item dropdown-menu">
+                  <div className="dropdown-selector">
+                    <img 
+                      src="https://market.ionic.io/img/user-default.png"
+                      // src="https://www.fanspole.com/assets/default_user-c283cfbc3d432e22b1d2f1eef515d0b9.png"
+                      className="avatar-smallest"
+                    />
+                    <span className="dropdown-caret">
+                    </span>
+                  </div>
+                  <div className="dropdown-overlay hidden"></div>
+                  <div className="dropdown-body hidden">
+                    <a className="dropdown-item">Item1</a>
+                    <a className="dropdown-item">Item2</a>
+                    <a className="dropdown-item">Item3</a>
+                    <a className="dropdown-item">Item4</a>
+                  </div>
+                </div>
               </div>
             </div>
           </header>
