@@ -48,6 +48,21 @@ if (process.env.MSTR_ENV === 'production') {
           callback(null, require('./signin/container/').default);
         });
       }
+    },{
+      path: '/register',
+      getComponent(location, callback) {
+        require.ensure([], require => {
+          callback(null, require('./signup/container/').default);
+        });
+      },
+      getChildRoutes(location, callback) {
+        require.ensure([], require => {
+          callback(null, [
+            // require('./signup/routes/as-customer/').default,
+            // require('./signup/routes/as-company/').default
+          ]);
+        })
+      }
     }]
   }
 
