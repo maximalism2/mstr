@@ -42,7 +42,6 @@ class SignUpContainer extends Component {
 
   renderCompanyDesc() {
     let { registration } = this.props;
-    console.log('registration_2', registration)
     if (registration.side === 'customer') {
       return (
         <div className="as-company">
@@ -76,7 +75,6 @@ class SignUpContainer extends Component {
 
   componentWillMount() {
     let { pathname } = this.props.location;
-    console.log('pathname', pathname);
     if (/^\/registration\/as\-company(\/|)$/.test(pathname)) {
       this.props.dispatch(actions.chooseSide('company'));
     } else if (/^\/registration\/as\-master(\/|)$/.test(pathname)) {
@@ -86,7 +84,6 @@ class SignUpContainer extends Component {
 
   renderCustomerDesc() {
     let { registration } = this.props;
-    console.log('registration', registration)
     if (registration.side === 'company') {
       return (
         <div className="as-customer">
@@ -96,7 +93,7 @@ class SignUpContainer extends Component {
       );
     } else if (/^\/registration\/as\-company(\/|)$/.test(this.props.location.pathname)) {
       return null;
-    } else /*if (/^\/registration\/$/.test(registration.location.pathname))*/ {
+    } else {
       return (
         <div className="as-customer">
           <p className="part-title">як <strong>майстер</strong></p>
