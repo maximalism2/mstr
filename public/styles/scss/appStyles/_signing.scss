@@ -56,33 +56,112 @@
   }
 }
 
+$transparent-white: rgba(255, 255, 255, .95);
+
 .motivation-to-register {
   max-width: 700px;
   margin: 3rem auto 1rem;
   text-align: center;
   font-size: 1.6rem;
+  position: fixed;
+  z-index: 400;
+  left: calc(50% - 350px);
+  right: calc(50% - 350px);
+  text-shadow: 0 0 15px $transparent-white;
 }
 
-.registration-form-box {
-  height: 300px;
 
-  &::before,
-  &::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    height: 100vh;
-    width: 300vw;
-    z-index: -1;
-  }
+.registration-form-box {
+  max-width: 750px;
+  margin: 11rem auto 0;
+  box-sizing: content-box;
+  padding: 1.5rem 3rem;
+  background: $transparent-white;
+  border-radius: $radius;
 
   &::before {
-    left: -130vw;
-    background: linear-gradient(90deg,#1fc8db 0,transparent 50%);
+    content: '';
+    display: block;
+    width: 100vw;
+    height: 220px;
+    position: fixed;
+    top: 5px;
+    left: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, $transparent-white 0%, transparent 100%);
   }
 
   &::after {
-    right: -130vw;
-    background: linear-gradient(-90deg, #24e6ac 0%, transparent 50%);;
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.register-page {
+  background: url(/*/static*//images/registration.jpg) no-repeat 50%;
+  background-size: cover;
+  height: 100vh;
+}
+
+.as-customer,
+.as-company {
+  text-align: center;
+}
+
+.choose-title {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.part-title {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.as-company,
+.as-customer {
+  float: left;
+  width: 42%;
+  margin-top: 50px;
+}
+
+.divider {
+  float: left;
+}
+
+.choose-desc {
+  min-height: 80px;
+  margin: .5rem 0 1rem;
+}
+
+
+.as-company,
+.as-customer {
+  .choose-desc {
+    text-align: left;
+  }
+}
+
+$choose-margin: 7%;
+.as-customer {
+  margin-right: $choose-margin;
+}
+
+.as-company {
+  margin-left: $choose-margin
+}
+
+.as-company-button,
+.as-customer-button {
+  margin: auto;
+}
+
+.button.as-company-button {
+  background: #24e6ac;
+
+  &:hover {
+    background: darken(#24e6ac, 10%);
   }
 }

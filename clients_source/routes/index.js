@@ -16,6 +16,7 @@ if (process.env.MSTR_ENV === 'production') {
           <Route path="price/:priceID/" component={require('./price/container').default} />
           <Route path="orders/" component={require('./orders/container').default} />
           <Route path="login/" component={require('./signin/container').default} />
+          <Route path="registration/" component={require('./signin/container').default} />
         </Route>
         <IndexRoute component={require('../container/mainContainer').default} />
       </Router>
@@ -49,7 +50,7 @@ if (process.env.MSTR_ENV === 'production') {
         });
       }
     },{
-      path: '/register',
+      path: '/registration',
       getComponent(location, callback) {
         require.ensure([], require => {
           callback(null, require('./signup/container/').default);
