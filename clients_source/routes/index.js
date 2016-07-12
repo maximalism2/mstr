@@ -59,7 +59,7 @@ if (process.env.MSTR_ENV === 'production') {
       getChildRoutes(location, callback) {
         require.ensure([], require => {
           callback(null, [
-            // require('./signup/routes/as-customer/').default,
+            require('./signup/routes/as-customer/').default,
             // require('./signup/routes/as-company/').default
           ]);
         })
