@@ -96,6 +96,11 @@ $transparent-white: rgba(255, 255, 255, .95);
     display: block;
     clear: both;
   }
+
+  .divider {
+    float: left;
+  }
+
 }
 
 .register-page {
@@ -125,10 +130,6 @@ $transparent-white: rgba(255, 255, 255, .95);
   float: left;
   width: 42%;
   margin-top: 50px;
-}
-
-.divider {
-  float: left;
 }
 
 .choose-desc {
