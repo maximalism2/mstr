@@ -6,6 +6,7 @@ import notifications from '../common/notifications/reducers';
 import loginReducers from '../routes/signin/reducers';
 import commonView from '../common/reducers/common';
 import registration from '../routes/signup/reducers';
+import customerRegistration from '../routes/signup/routes/as-customer/reducers';
 
 const rootReducer = combineReducers({
   prices,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   notifications,
   commonView,
   login: loginReducers,
-  registration
+  registration,
+  customerRegistration
 });
 
 export default rootReducer;

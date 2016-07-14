@@ -102,7 +102,7 @@ $transparent-white: rgba(255, 255, 255, .95);
 }
 
 .register-page {
-  background: url(/static/images/registration.jpg) no-repeat 50%;
+  background: url(/*/static*//images/registration.jpg) no-repeat 50%;
   background-size: cover;
   height: 100vh;
 }
@@ -126,6 +126,8 @@ $transparent-white: rgba(255, 255, 255, .95);
   color: $red;
   position: fixed;
   top: 10px;
+  width: 340px;
+  text-align: center;
 }
 
 .in-development {

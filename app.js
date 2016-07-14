@@ -17,7 +17,8 @@ var price = require('./routes/price');
 var controllers = {
   login: require('./controllers/login'),
   register: require('./controllers/register'),
-  logout: require('./controllers/logout')
+  logout: require('./controllers/logout'),
+  checker: require('./controllers/checker')
 }
 
 var app = express();
@@ -48,6 +49,7 @@ app.use('/api/price', price);
 app.post('/api/login', controllers.login);
 app.get('/api/logout', controllers.logout);
 app.use('/api/register', controllers.register);
+app.post('/api/check', controllers.checker);
 app.use('/api/logout', controllers.logout);
 app.use('/', routes);
 
