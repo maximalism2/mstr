@@ -29,11 +29,9 @@ const initialRegisterFormAsCustomer =  {
 function data(state = initialRegisterFormAsCustomer.data, action) {
   switch (action.type) {
     case CHANGE_FILED_AS_CUSTOMER: {
-      /**
-       * TODO
-       * need to create change field reducer and other smaller reducers
-       */
-      return  state;
+      return Object.assign({}, state, {
+        [action.field]: action.value
+      });
     }
     default: {
       return state;

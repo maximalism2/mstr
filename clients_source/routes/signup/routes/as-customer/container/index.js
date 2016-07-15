@@ -46,7 +46,7 @@ class AsCustomerContainer extends Component {
   }
 
   changeHandler(field, value) {
-    console.log(field, value);
+    this.props.dispatch(actions.changeField(field, value));
   }
 
   usernameBlurhandler(e) {

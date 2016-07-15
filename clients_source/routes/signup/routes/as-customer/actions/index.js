@@ -27,9 +27,9 @@ export const isValueUnique = (field, value) => async dispatch => {
   }
 }
 
-export const changeField = (fieldId, value) => ({
+export const changeField = (field, value) => ({
   type: CHANGE_FILED_AS_CUSTOMER,
-  fieldId,
+  field,
   value
 });
 
