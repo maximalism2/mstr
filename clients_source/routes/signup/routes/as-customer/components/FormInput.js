@@ -5,6 +5,7 @@ class TextInput extends Component {
     let {
       type, name, value, placeholder, validationError, onChange, onBlur
     } = this.props;
+
     return (
       <div className="controls">
         <input
@@ -12,7 +13,7 @@ class TextInput extends Component {
           name={name}
           className="input username-input"
           onBlur={e => onBlur ? onBlur(e) : null}
-          onChange={e => onChange(e)}
+          onChange={e => onChange(name, e.target.value)}
           placeholder={placeholder}
           value={value}
         />
