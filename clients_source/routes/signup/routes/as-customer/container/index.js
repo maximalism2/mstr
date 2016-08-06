@@ -53,6 +53,12 @@ class AsCustomerContainer extends Component {
     console.log(e.target.value.length);
   }
 
+  submitHandler(e) {
+    e.preventDefault();
+    let { dispatch, customerRegistration } = this.props;
+    dispatch(actions.register(customerRegistration.data));
+  }
+
   render() {
     let form = this.props.customerRegistration;
 
@@ -66,7 +72,7 @@ class AsCustomerContainer extends Component {
           to="/registration/"
           className="cancel-registration-btn"
         >⨉</Link>
-        <form action="/api/registration/">
+        <form action="/api/registration/" onSubmit={e =>this.submitHandler(e)}>
           <TextInput
             type="text"
             name="username"
@@ -77,19 +83,25 @@ class AsCustomerContainer extends Component {
             onBlur={this.usernameBlurhandler}
           />
           <div className="controls">
-            <input
+            <TextInput
               type="email"
               name="email"
-              className="input email-input"
-              placeholder="Електронна адреса"
+              placeholder="Електронна пошта"
+              value={form.data.email}
+              onChange={this.changeHandler}
+              validationError={emailError}
+              // onBlur={this.usernameBlurhandler}
             />
           </div>
           <div className="controls">
-            <input
+            <TextInput
               type="password"
               name="password"
-              className="input password-input"
               placeholder="Пароль"
+              value={form.data.password}
+              onChange={this.changeHandler}
+              validationError={passwordError}
+              // onBlur={this.usernameBlurhandler}
             />
           </div>
           <div className="controls">

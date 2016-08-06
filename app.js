@@ -14,6 +14,7 @@ var isAuthenticated = require('./middlewares/isAuthenticated');
 
 var routes = require('./routes/index');
 var price = require('./routes/price');
+var user = require('./routes/user');
 var controllers = {
   login: require('./controllers/login'),
   register: require('./controllers/register'),
@@ -46,6 +47,7 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
 app.use('/api/price', price);
+app.use('/api/user', user)
 app.post('/api/login', controllers.login);
 app.get('/api/logout', controllers.logout);
 app.use('/api/register', controllers.register);

@@ -2,7 +2,10 @@ import {
   IS_VALUE_UNIQUE, UNIQUENESS_ERROR, CHECKING_LOADING_IN_CUSTOMER_FIELD,
   CHANGE_FILED_AS_CUSTOMER,
   VALIDATION_ERROR,
-  VALIDATION_SUCCESS
+  VALIDATION_SUCCESS,
+  REGISTRATION_REQUEST,
+  REGISTRATION_FAIL,
+  REGISTERED
 } from '../consts'
 import { create } from '../../../../../common/fetch';
 import origin from '../../../../../common/origin';
@@ -25,6 +28,17 @@ export const isValueUnique = (field, value) => async dispatch => {
   } else {
     console.error(await response.json());
   }
+}
+
+export const register = data => async dispatch => {
+  dispatch({
+    type: REGISTRATION_REQUEST
+  });
+
+  let url = `${origin}/api/register/`;
+  const response = await create(url, data);
+
+  console.log(response);
 }
 
 export const changeField = (field, value) => ({

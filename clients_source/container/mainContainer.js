@@ -7,10 +7,11 @@ import Notifications from '../common/notifications/components';
 import { deleteNotification } from '../common/notifications/actions';
 import { logout } from '../common/actions/signing';
 import * as actions from '../common/actions/common';
+import * as profileActions from '../common/actions/profile';
 
 let ErrorLink = () => (
   <h1 className="title">
-    Щось пішло не так
+    Щось пішло не так 
     <Link to="/prices/">сюди.</Link>
   </h1>
 );
@@ -87,14 +88,21 @@ class AppContainer extends Component {
               </span>
 
               <div className="nav-right nav-menu">
+                <div className="nav-item">
+                  <button
+                    className="button is-warning is-outlined"
+                    onClick={() => this.props.dispatch(profileActions.fetchUserdata())}
+                  >
+                    Отримати дані користувача
+                  </button>
+                </div>
                 <div className="nav-item dropdown-menu">
                   <div
                     className="dropdown-selector"
                     onClick={() => boundActions.toggleDropdownMenu()}
                   >
-                    <img 
+                    <img
                       src="https://market.ionic.io/img/user-default.png"
-                      // src="https://www.fanspole.com/assets/default_user-c283cfbc3d432e22b1d2f1eef515d0b9.png"
                       className="avatar-smallest"
                     />
                     <span className="dropdown-caret">
@@ -156,12 +164,14 @@ AppContainer.contextTypes = {
 
 AppContainer.propTypes = {
   children: PropTypes.element,
+  profile: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
 }
 
 function select(state) {
   return {
     routing: state.routing,
+    profile: state.profile,
     notifications: state.notifications,
     commonView: state.commonView
   }

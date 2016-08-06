@@ -12,3 +12,7 @@ export const fieldsIds = {
   email: 'customerEmail',
   password: 'customerPassword'
 };
+
+export const REGISTRATION_REQUEST = 'REGISTRATION_REQUEST';
+export const REGISTRATION_FAIL = 'REGISTRATION_FAIL';
+export const REGISTERED = 'REGISTERED';

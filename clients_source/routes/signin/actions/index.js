@@ -44,10 +44,6 @@ export const login = data => async dispatch => {
   }
 }
 
-// export const register = data => async dispatch => {
-//   dispatch)
-// }
-
 export const toRegister = () => ({
   type: TO_REGISTER
 });

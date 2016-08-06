@@ -17,6 +17,8 @@ if (process.env.MSTR_ENV === 'production') {
           <Route path="orders/" component={require('./orders/container').default} />
           <Route path="login/" component={require('./signin/container').default} />
           <Route path="registration/" component={require('./signin/container').default} />
+          <Route path="registration/as-customer/" component={require('./signin/container').default} />
+          <Route path="registration/as-company/" component={require('./signin/container').default} />
         </Route>
         <IndexRoute component={require('../container/mainContainer').default} />
       </Router>

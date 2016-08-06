@@ -9,7 +9,6 @@ module.exports = function(req, res, next) {
     req.body = bodyOfRequest;
     passport.authenticate('local',
       function(err, user, info) {
-        console.info('user:', user, info);
         return err
           ? next(err)
           : user
